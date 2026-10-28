@@ -2,7 +2,7 @@
  * Stand-in for the host "grok/canvas" (and "grok-canvas") module.
  * Dark Grok page tokens, plus the blocks these two views import.
  */
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useState, type CSSProperties, type ReactNode } from "react";
 
 export { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 export type { CSSProperties, ReactNode } from "react";
@@ -93,11 +93,36 @@ export function useGrokTheme(): GrokTheme {
   return DARK;
 }
 
+const HallSkin = createContext(false);
+
+const RUNE = "'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif";
+const BODY = "'Alegreya', 'Palatino Linotype', Palatino, Georgia, serif";
+const INK = { hi: "#f3e6c8", mid: "#d8c49c", lo: "#b3a084", amber: "#e8b04f" };
+const HALL_KINDS = ["#f0a640", "#7fb2d9", "#9fcf6e", "#c79bf0", "#e8685a", "#cdbf9f"];
+
+function hallPill(on: boolean): CSSProperties {
+  return {
+    fontFamily: BODY,
+    fontSize: "14px",
+    lineHeight: "20px",
+    minHeight: 36,
+    padding: "6px 12px",
+    borderRadius: 4,
+    cursor: "pointer",
+    border: `1px solid ${on ? "#ffb25e" : "#7a5a36"}`,
+    background: on ? "linear-gradient(180deg, #b45c1f 0%, #6e3110 100%)" : "linear-gradient(180deg, #3d2e20 0%, #22180f 100%)",
+    color: on ? "#fff3dc" : INK.mid,
+    boxShadow: on ? "0 0 10px rgba(255,140,50,0.45), inset 0 1px 0 rgba(255,220,170,0.35)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)",
+    textShadow: "0 1px 1px rgba(0,0,0,0.7)",
+  };
+}
+
 export function Page({
   title,
   summary,
   width = "column",
   lang,
+  skin,
   children,
 }: {
   title: string;
@@ -105,20 +130,25 @@ export function Page({
   sources?: readonly string[];
   width?: "column" | "wide" | "full";
   lang?: string;
+  /** Wood-and-iron Valheim skin. The compact view paints its own frame and leaves this off. */
+  skin?: "valheim";
   children?: ReactNode;
 }) {
+  const hall = skin === "valheim";
   const maxWidth = width === "full" ? "none" : width === "wide" ? "1280px" : "700px";
-  const pad = width === "full" ? "20px 16px 56px" : "28px 20px 64px";
+  const pad = width === "full" ? (hall ? "16px 12px 40px" : "20px 16px 56px") : "28px 20px 64px";
   return (
-    <main lang={lang} style={{ maxWidth, margin: "0 auto", padding: pad, width: "100%" }}>
-      <h1 style={{ ...font.heading1, fontWeight: DARK.weight.semibold, margin: "0 0 8px" }}>{title}</h1>
-      {summary ? (
-        <p style={{ ...font.body1, color: DARK.text.secondary, margin: "0 0 28px", maxWidth: "78ch" }}>{summary}</p>
-      ) : (
-        <div style={{ height: 16 }} />
-      )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>{children}</div>
-    </main>
+    <HallSkin.Provider value={hall}>
+      <main lang={lang} style={{ maxWidth, margin: "0 auto", padding: pad, width: "100%", color: hall ? INK.hi : undefined, fontFamily: hall ? BODY : undefined }}>
+        <h1 style={{ ...font.heading1, fontFamily: hall ? RUNE : undefined, fontWeight: 700, letterSpacing: hall ? "0.04em" : font.heading1.letterSpacing, color: hall ? INK.hi : undefined, margin: "0 0 8px", textShadow: hall ? "0 2px 2px #000" : undefined }}>{title}</h1>
+        {summary ? (
+          <p style={{ ...font.body1, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.secondary, margin: "0 0 20px", maxWidth: "78ch" }}>{summary}</p>
+        ) : (
+          <div style={{ height: 16 }} />
+        )}
+        <div style={{ display: "flex", flexDirection: "column", gap: hall ? 22 : 36 }}>{children}</div>
+      </main>
+    </HallSkin.Provider>
   );
 }
 
@@ -136,12 +166,16 @@ export function Section({
   defaultOpen?: boolean;
   children?: ReactNode;
 }) {
+  const hall = useContext(HallSkin);
   const [open, setOpen] = useState(!collapsible || defaultOpen);
   const headingStyle: CSSProperties = {
     ...font.heading2,
-    fontWeight: DARK.weight.semibold,
+    fontFamily: hall ? RUNE : undefined,
+    fontWeight: 700,
+    letterSpacing: hall ? "0.04em" : font.heading2.letterSpacing,
     margin: 0,
-    color: DARK.text.primary,
+    color: hall ? INK.hi : DARK.text.primary,
+    textShadow: hall ? "0 1px 2px #000" : undefined,
   };
   return (
     <section>
@@ -166,7 +200,7 @@ export function Section({
             cursor: "pointer",
           }}
         >
-          <span aria-hidden="true" style={{ color: DARK.text.tertiary, width: 16 }}>{open ? "▾" : "▸"}</span>
+          <span aria-hidden="true" style={{ color: hall ? INK.amber : DARK.text.tertiary, width: 16 }}>{open ? "▾" : "▸"}</span>
           {heading}
         </button>
       ) : heading ? (
@@ -178,7 +212,8 @@ export function Section({
 }
 
 export function Text({ children }: { children?: ReactNode }) {
-  return <p style={{ ...font.body1, color: DARK.text.secondary, margin: 0 }}>{children}</p>;
+  const hall = useContext(HallSkin);
+  return <p style={{ ...font.body1, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.secondary, margin: 0 }}>{children}</p>;
 }
 
 export function Input({
@@ -194,22 +229,27 @@ export function Input({
   placeholder?: string;
   type?: "text" | "number";
 }) {
+  const hall = useContext(HallSkin);
   return (
     <label style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
-      {label ? <span style={{ ...font.subtext, color: DARK.text.tertiary }}>{label}</span> : null}
+      {label ? <span style={{ ...font.subtext, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.tertiary }}>{label}</span> : null}
       <input
+        className={hall ? "vh-in" : undefined}
         type={type}
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         style={{
           ...font.body1,
+          fontFamily: hall ? BODY : undefined,
+          fontSize: "16px",
           width: "100%",
-          padding: "10px 12px",
-          borderRadius: DARK.radius.md,
-          border: `1px solid ${DARK.border.default}`,
-          background: DARK.fill.secondary,
-          color: DARK.text.primary,
+          padding: hall ? "8px 10px" : "10px 12px",
+          borderRadius: hall ? 4 : DARK.radius.md,
+          border: hall ? "1px solid #7a5a36" : `1px solid ${DARK.border.default}`,
+          background: hall ? "#120d09" : DARK.fill.secondary,
+          color: hall ? INK.hi : DARK.text.primary,
+          boxShadow: hall ? "inset 0 2px 4px rgba(0,0,0,0.8)" : undefined,
           outline: "none",
         }}
       />
@@ -226,6 +266,7 @@ export function Segmented<T extends string>({
   value: T;
   onChange: (value: T) => void;
 }) {
+  const hall = useContext(HallSkin);
   const items = options.map((option) =>
     typeof option === "string" ? { value: option, label: option } : option,
   );
@@ -240,7 +281,7 @@ export function Segmented<T extends string>({
             role="radio"
             aria-checked={on}
             onClick={() => onChange(option.value)}
-            style={{
+            style={hall ? hallPill(on) : {
               ...font.subtext,
               minHeight: 36,
               padding: "6px 12px",
@@ -261,18 +302,21 @@ export function Segmented<T extends string>({
 }
 
 export function Legend({ names }: { names: readonly string[]; comparison?: readonly number[]; dots?: boolean }) {
-  const colors = DARK.dataviz.categorical;
+  const hall = useContext(HallSkin);
+  const colors = hall ? HALL_KINDS : DARK.dataviz.categorical;
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 14px" }}>
       {names.map((name, i) => (
-        <span key={name} style={{ ...font.label, color: DARK.text.secondary, display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <span key={name} style={{ ...font.label, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.secondary, display: "inline-flex", alignItems: "center", gap: 6 }}>
           <span
             aria-hidden="true"
             style={{
               width: 10,
               height: 10,
               borderRadius: 2,
-              background: colors[i % colors.length],
+              background: hall ? "#2e2015" : colors[i % colors.length],
+              border: hall ? `2px solid ${colors[i % colors.length]}` : undefined,
+              boxSizing: "border-box",
               display: "inline-block",
               flex: "0 0 auto",
             }}
@@ -295,12 +339,13 @@ export function Table({
   emphasis?: number;
   align?: readonly ("auto" | "start" | "end")[];
 }) {
+  const hall = useContext(HallSkin);
   const cell = (value: TableCell) => {
     if (value != null && typeof value === "object" && "text" in value) return value.text;
     return value;
   };
   return (
-    <div style={{ width: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch", border: `1px solid ${DARK.border.default}`, borderRadius: DARK.radius.md }}>
+    <div className={hall ? "vh-scroll" : undefined} style={{ width: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch", border: hall ? "1px solid #5c4329" : `1px solid ${DARK.border.default}`, borderRadius: hall ? 6 : DARK.radius.md, background: hall ? "rgba(12,9,6,0.55)" : undefined, scrollbarColor: hall ? "#7a5a36 transparent" : undefined }}>
       <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 320 }}>
         <thead>
           <tr>
@@ -309,12 +354,13 @@ export function Table({
                 key={column}
                 style={{
                   ...font.subtext,
-                  fontWeight: DARK.weight.medium,
+                  fontFamily: hall ? RUNE : undefined,
+                  fontWeight: 700,
                   textAlign: "left",
-                  color: DARK.text.tertiary,
+                  color: hall ? INK.amber : DARK.text.tertiary,
                   padding: "8px 10px",
-                  borderBottom: `1px solid ${DARK.border.default}`,
-                  background: DARK.bg.subtle,
+                  borderBottom: hall ? "1px solid #6e5232" : `1px solid ${DARK.border.default}`,
+                  background: hall ? "#1b130c" : DARK.bg.subtle,
                   whiteSpace: "nowrap",
                 }}
               >
@@ -331,11 +377,12 @@ export function Table({
                   key={c}
                   style={{
                     ...font.table,
+                    fontFamily: hall ? BODY : undefined,
                     textAlign: "left",
                     verticalAlign: "top",
-                    color: DARK.text.primary,
+                    color: hall ? INK.hi : DARK.text.primary,
                     padding: "8px 10px",
-                    borderBottom: `1px solid ${DARK.border.subtle}`,
+                    borderBottom: hall ? "1px solid #3a2a1c" : `1px solid ${DARK.border.subtle}`,
                     overflowWrap: "anywhere",
                   }}
                 >
@@ -359,13 +406,14 @@ export function Callout({
   tone?: "info" | "success" | "warning" | "danger";
   children?: ReactNode;
 }) {
+  const hall = useContext(HallSkin);
   if (!lead && !children) return null;
   const ink = tone === "info" ? DARK.text.accent : tone === "success" ? DARK.text.success : tone === "warning" ? DARK.text.warning : tone === "danger" ? DARK.text.danger : DARK.text.primary;
   const wash = tone === "info" ? DARK.fill.accentSubtle : tone === "success" ? DARK.fill.successSubtle : tone === "warning" ? DARK.fill.warningSubtle : tone === "danger" ? DARK.fill.dangerSubtle : DARK.fill.secondary;
   return (
-    <aside style={{ padding: "12px 14px", borderRadius: DARK.radius.md, background: wash, border: `1px solid ${DARK.border.default}` }}>
-      {lead ? <div style={{ ...font.body1, fontWeight: DARK.weight.semibold, color: ink, marginBottom: children ? 4 : 0 }}>{lead}</div> : null}
-      {children ? <div style={{ ...font.body2, color: DARK.text.secondary }}>{children}</div> : null}
+    <aside style={hall ? { padding: "12px 14px", borderRadius: 6, background: "linear-gradient(180deg, #3d2e20 0%, #22180f 100%)", border: "1px solid #7a5a36", boxShadow: "inset 0 1px 0 rgba(255,225,170,0.12)" } : { padding: "12px 14px", borderRadius: DARK.radius.md, background: wash, border: `1px solid ${DARK.border.default}` }}>
+      {lead ? <div style={{ ...font.body1, fontFamily: hall ? RUNE : undefined, fontWeight: 700, color: hall ? INK.amber : ink, marginBottom: children ? 4 : 0 }}>{lead}</div> : null}
+      {children ? <div style={{ ...font.body2, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.secondary }}>{children}</div> : null}
     </aside>
   );
 }
