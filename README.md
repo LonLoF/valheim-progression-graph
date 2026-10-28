@@ -1,6 +1,6 @@
 # Valheim progression graph
 
-Interactive reference for Valheim creatures, materials, food, gear, stations and traders, grouped by the biome where you can first get them. Dataset **2026-10-28 v8** (1098 entries).
+Interactive reference for Valheim creatures, materials, food, gear, stations, structures and traders, grouped by the biome where you can first get them. Dataset **2026-10-28 v9** (1167 entries, including 69 structures). Each entry’s detail panel includes a short summary, stats, and a Valheim Wiki link when one exists.
 
 - [Full graph](https://lonlof.github.io/valheim-progression-graph/) — every biome at once, in the same wood-and-iron frame. Tap an entry to see where it comes from (solid lines) and what it leads to (dashed lines).
 - [Compact view](https://lonlof.github.io/valheim-progression-graph/compact/) — one biome at a time. Swipe or use the arrows to change biome.

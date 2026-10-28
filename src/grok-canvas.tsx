@@ -98,7 +98,7 @@ const HallSkin = createContext(false);
 const RUNE = "'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif";
 const BODY = "'Alegreya', 'Palatino Linotype', Palatino, Georgia, serif";
 const INK = { hi: "#f3e6c8", mid: "#d8c49c", lo: "#b3a084", amber: "#e8b04f" };
-const HALL_KINDS = ["#f0a640", "#7fb2d9", "#9fcf6e", "#c79bf0", "#e8685a", "#cdbf9f"];
+const HALL_KINDS = ["#f0a640", "#7fb2d9", "#9fcf6e", "#c79bf0", "#e8685a", "#cdbf9f", "#e6d3a3", "#8fb59a"];
 
 function hallPill(on: boolean): CSSProperties {
   return {
