@@ -4,6 +4,7 @@ import {
   D, type N, b, ok, LANES, LANE_SUB, GROUPS, GL, SUB_EN,
   isCre, isBuilt, HAMMER, COINS, TRIDX, KINDS, UPS, EK, EXV,
   DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, COUNTS, KINDC, isStructEdge, xl,
+  walkChain, type ChainHop,
 } from "../graph";
 import { DetailExtras } from "../details";
 
@@ -34,6 +35,42 @@ const catOf = (i: number): string => {
 };
 const CAT: string[] = D.map((_r: N, i: number) => catOf(i));
 type Rel = { i: number; label: string; k: string };
+const CHAIN_KEY = "vh-compact-depth";
+const readWholeChain = (): boolean => {
+  try { return globalThis.localStorage?.getItem(CHAIN_KEY) === "all"; } catch { return false; }
+};
+const stepTitle = (d: number): string => (d === 1 ? "1 step" : `${d} steps`);
+const groupIds = (groups: [string, Rel[]][]): Set<number> => {
+  const s = new Set<number>();
+  groups.forEach(([, list]) => list.forEach((x) => s.add(x.i)));
+  return s;
+};
+// Steps past the next link, plus any direct neighbour the detailed list does not already show.
+const furtherGroups = (hops: ChainHop[], shown: Set<number>): [string, Rel[]][] => {
+  const byDist = new Map<number, ChainHop[]>();
+  hops.forEach((h) => {
+    if (h.dist === 1 && shown.has(h.i)) return;
+    const list = byDist.get(h.dist);
+    if (list) list.push(h); else byDist.set(h.dist, [h]);
+  });
+  const out: [string, Rel[]][] = [];
+  [...byDist.keys()].sort((a, b) => a - b).forEach((d) => {
+    const at = byDist.get(d) as ChainHop[];
+    const lanes = new Set<number>();
+    at.forEach((h) => lanes.add(D[h.i].l));
+    const asRel = (h: ChainHop): Rel => ({ i: h.i, label: "", k: h.k });
+    if (at.length > 8 && lanes.size > 1) {
+      LANES.forEach((_name: string, li: number) => {
+        const list = at.filter((h) => D[h.i].l === li).sort((a, b) => a.i - b.i).map(asRel);
+        if (list.length) out.push([`${stepTitle(d)} · ${LANES[li]}`, list]);
+      });
+    } else {
+      const list = at.slice().sort((a, b) => D[a.i].l - D[b.i].l || a.i - b.i).map(asRel);
+      out.push([stepTitle(d), list]);
+    }
+  });
+  return out;
+};
 
 // ᚠ Valheim skin: a self-painted dark wood hall with its own ink, so it reads the same on light and dark hosts.
 const RUNE = "'Cinzel', 'Norse', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, serif";
@@ -66,9 +103,11 @@ export default function App() {
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<number | null>(null);
   const [hist, setHist] = useState<number[]>([]);
+  const [whole, setWhole] = useState(readWholeChain);
   const [vh, setVh] = useState(700);
   const [w, setW] = useState(1000);
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const touch = useRef<number | null>(null);
   const cat = CATC;
   const KC: Record<string, string> = KINDC;
@@ -81,9 +120,16 @@ export default function App() {
     return () => window.removeEventListener("resize", upd);
   }, []);
   useEffect(() => {
+    try { localStorage.setItem(CHAIN_KEY, whole ? "all" : "1"); } catch { /* private mode */ }
+  }, [whole]);
+  useEffect(() => {
+    if (panelRef.current) panelRef.current.scrollTop = 0;
+  }, [sel, whole]);
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName || "";
       if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (tag === "BUTTON" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) return;
       if (e.key === "ArrowRight") setLane((l: number) => Math.min(8, l + 1));
       if (e.key === "ArrowLeft") setLane((l: number) => Math.max(0, l - 1));
       if (e.key === "Escape") setSel(null);
@@ -93,9 +139,13 @@ export default function App() {
   }, []);
 
   const wide = w >= 820;
-  const boxH = Math.max(360, vh - (wide ? 262 : 282));
+  const boxH = Math.max(360, vh - (wide ? 318 : 356));
   const ql = q.trim().toLowerCase();
   const inLane = useMemo(() => D.map((_r: N, i: number) => i).filter((i: number) => D[i].l === lane), [lane]);
+  const upChain = useMemo(() => (whole && sel !== null ? walkChain(sel, "up") : []), [whole, sel]);
+  const downChain = useMemo(() => (whole && sel !== null ? walkChain(sel, "down") : []), [whole, sel]);
+  const upSet = useMemo(() => (sel === null ? new Set<number>() : whole ? new Set<number>(upChain.map((h: ChainHop) => h.i)) : new Set<number>(UPS[sel])), [sel, whole, upChain]);
+  const downSet = useMemo(() => (sel === null ? new Set<number>() : whole ? new Set<number>(downChain.map((h: ChainHop) => h.i)) : new Set<number>(DOWNS[sel])), [sel, whole, downChain]);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const base = ql ? D.map((_r: N, i: number) => i).filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : inLane;
   const present = CATS.filter((c: Cat) => base.some((i: number) => CAT[i] === c[0]));
@@ -119,6 +169,7 @@ export default function App() {
   const muted = { ...theme.font.label, fontFamily: BODY, color: INK.lo };
   const pm = { ...theme.font.label, fontFamily: BODY, color: "#5a4128" };
   const pill = (on: boolean) => ({ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 10px", borderRadius: 4, whiteSpace: "nowrap" as const, border: `1px solid ${on ? "#ffb25e" : "#7a5a36"}`, background: on ? "linear-gradient(180deg, #b45c1f 0%, #6e3110 100%)" : "linear-gradient(180deg, #3d2e20 0%, #22180f 100%)", color: on ? "#fff3dc" : INK.mid, boxShadow: on ? "0 0 10px rgba(255,140,50,0.45), inset 0 1px 0 rgba(255,220,170,0.35)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", textShadow: "0 1px 1px rgba(0,0,0,0.7)", userSelect: "none" as const });
+  const chainBtn = (on: boolean) => ({ ...pill(on), margin: 0, minHeight: 36, padding: "8px 12px", lineHeight: "18px", fontWeight: on ? 700 : 400, appearance: "none" as const, WebkitAppearance: "none" as const });
   const runeRule = (ink: string, glyphs: string) => (
     <div style={{ display: "flex", alignItems: "center", gap: 8, color: ink, fontFamily: RUNIC, fontSize: 11, lineHeight: "14px", letterSpacing: 5 }}>
       <span style={{ flex: 1, height: 1, background: `linear-gradient(90deg, transparent, ${ink})` }} />
@@ -178,22 +229,29 @@ export default function App() {
       {x.label ? <span style={{ color: "#cdb98f" }}>{x.label}</span> : null}{D[x.i].n}{D[x.i].l !== lane ? <span style={{ color: "#cdb98f" }}>· {LANES[D[x.i].l]}</span> : null}
     </div>
   );
+  const relGroups = (groups: [string, Rel[]][], withCount: boolean) => groups.map(([t, list]: [string, Rel[]]) => (
+    <div key={t} style={{ marginBottom: 8 }}>
+      <div style={{ ...pm, marginBottom: 3 }}>{t}{withCount || list.length > 6 ? ` (${list.length})` : ""}</div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{list.map((x: Rel, n: number) => relChip(x, n))}</div>
+    </div>
+  ));
   const relBlock = (title: string, groups: [string, Rel[]][]) => (
     <div style={{ flex: "1 1 260px", minWidth: 0 }}>
       <div style={{ fontFamily: RUNE, fontSize: "15px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.04em", color: "#6a3211", marginBottom: 4, borderBottom: "1px solid rgba(106,50,17,0.35)", paddingBottom: 2 }}>{title}</div>
       {groups.length === 0 && <div style={pm}>—</div>}
-      {groups.map(([t, list]: [string, Rel[]]) => (
-        <div key={t} style={{ marginBottom: 8 }}>
-          <div style={{ ...pm, marginBottom: 3 }}>{t}{list.length > 6 ? ` (${list.length})` : ""}</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{list.map((x: Rel, n: number) => relChip(x, n))}</div>
-        </div>
-      ))}
+      {relGroups(groups, false)}
+    </div>
+  );
+  const chainBlock = (title: string, groups: [string, Rel[]][], empty: string) => (
+    <div style={{ flex: "1 1 260px", minWidth: 0 }}>
+      <div style={{ fontFamily: RUNE, fontSize: "15px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.04em", color: "#6a3211", marginBottom: 4, borderBottom: "1px solid rgba(106,50,17,0.35)", paddingBottom: 2 }}>{title}</div>
+      {groups.length === 0 ? <div style={pm}>{empty}</div> : relGroups(groups, true)}
     </div>
   );
 
   const focus = () => {
     if (sel === null) return (
-      <div style={{ ...theme.font.body2, fontFamily: BODY, fontStyle: "italic", color: "#4a3520", padding: 14 }}>Tap an item to see only what it comes from and what it leads to. Tap any linked item to jump to it; Back retraces your steps.</div>
+      <div style={{ ...theme.font.body2, fontFamily: BODY, fontStyle: "italic", color: "#4a3520", padding: 14 }}>Tap an item to see what it comes from and what it leads to. Direct links stops at the next connection; Whole chain follows every step. Tap any linked item to jump to it; Back retraces your steps.</div>
     );
     const r = D[sel];
     const { from, to } = rels(sel);
@@ -210,6 +268,7 @@ export default function App() {
           <div>
             <div style={{ fontFamily: RUNE, fontSize: "20px", lineHeight: "26px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}{r.v === 0 ? " ?" : ""}</div>
             <div style={pm}>{LANES[r.l]} · {GL[r.t]}{r.sub ? ` · ${SUB_EN[r.sub] || r.sub}` : ""}{r.eats.length ? " · tameable" : ""} · {r.v === 2 ? "verified (valheim.tools)" : r.v === 1 ? "valheim.source.gs" : "unverified"}</div>
+            {whole && <div style={{ fontFamily: RUNE, fontSize: "13px", lineHeight: "18px", fontWeight: 700, letterSpacing: "0.03em", color: "#6a3211", marginTop: 4 }}>Whole chain · {upChain.length} upstream · {downChain.length} downstream</div>}
           </div>
           <div style={{ display: "flex", gap: 6 }}>
             <div onClick={back} style={pill(false)}>← Back</div>
@@ -228,6 +287,12 @@ export default function App() {
           {relBlock("← Comes from", from)}
           {relBlock("Leads to →", to)}
         </div>
+        {whole && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 6 }}>
+            {chainBlock("Upstream chain", furtherGroups(upChain, groupIds(from)), from.length ? "Nothing else upstream." : "No upstream links.")}
+            {chainBlock("Downstream chain", furtherGroups(downChain, groupIds(to)), to.length ? "Nothing else downstream." : "No downstream links.")}
+          </div>
+        )}
       </div>
     );
   };
@@ -237,7 +302,7 @@ export default function App() {
     const secs: [Cat, number[]][] = CATS.map((c: Cat): [Cat, number[]] => [c, items.filter((i: number) => CAT[i] === c[0])]).filter((x: [Cat, number[]]) => x[1].length > 0);
     const chip = (i: number) => {
       const on = sel === i;
-      const rel = sel !== null && (UPS[sel].indexOf(i) >= 0 || DOWNS[sel].indexOf(i) >= 0);
+      const rel = upSet.has(i) || downSet.has(i);
       return (
         <div key={i} onClick={() => (on ? setSel(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
           {D[i].n}{D[i].v === 0 ? " ?" : ""}{ql && D[i].l !== lane ? <span style={{ color: "#bfa983" }}> · {LANES[D[i].l]}</span> : null}
@@ -256,16 +321,19 @@ export default function App() {
         {secs.map(([c, list]: [Cat, number[]], idx: number) => {
           const color = c[0] === "str" ? "#d7c4a3" : cat[CATS.indexOf(c) % cat.length];
           const isOpen = forced || (open[c[0]] !== undefined ? open[c[0]] : (wide || idx < 3));
+          const linked = list.filter((i: number) => i === sel || upSet.has(i) || downSet.has(i));
+          const shown = isOpen ? list : linked;
           return (
             <div key={c[0]}>
               <div onClick={() => setOpen((o: Record<string, boolean>) => ({ ...o, [c[0]]: !isOpen }))} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", padding: "6px 2px", borderBottom: "1px solid rgba(160,120,70,0.35)", userSelect: "none" as const }}>
                 <span style={{ width: 4, height: 16, borderRadius: 1, background: color, boxShadow: `0 0 6px ${color}88`, flex: "0 0 auto" }} />
                 <span>{c[1]}</span>
                 <span style={{ fontFamily: RUNE, fontSize: "14px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.03em", color: INK.hi, textShadow: "0 1px 2px #000", flex: 1 }}>{c[2]}</span>
+                {!isOpen && linked.length > 0 && <span style={{ ...muted, color: INK.amber }}>{linked.length} linked</span>}
                 <span style={{ ...theme.font.label, fontFamily: BODY, color: INK.amber, padding: "0 7px", borderRadius: 3, background: "#1b130c", border: "1px solid #6e5232" }}>{list.length}</span>
                 <span style={{ ...muted, color: INK.amber, width: 12, textAlign: "center" as const }}>{isOpen ? "▾" : "▸"}</span>
               </div>
-              {isOpen && <div style={{ display: "flex", flexWrap: "wrap", gap: 5, padding: "7px 0 7px 10px", borderLeft: `2px solid ${color}66`, marginLeft: 1 }}>{list.map(chip)}</div>}
+              {shown.length > 0 && <div style={{ display: "flex", flexWrap: "wrap", gap: 5, padding: "7px 0 7px 10px", borderLeft: `2px solid ${color}66`, marginLeft: 1 }}>{shown.map(chip)}</div>}
             </div>
           );
         })}
@@ -308,12 +376,18 @@ export default function App() {
           <div onClick={() => setTypes([])} style={pill(types.length === 0)}>All</div>
           {present.map((c: Cat) => <div key={c[0]} onClick={() => toggleType(c[0])} style={pill(types.indexOf(c[0]) >= 0)}>{c[1]} {c[3]}</div>)}
         </div>
+        <div role="radiogroup" aria-label="How far to follow links" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }} onTouchStart={(e: { stopPropagation: () => void }) => e.stopPropagation()} onTouchEnd={(e: { stopPropagation: () => void }) => e.stopPropagation()}>
+          <span style={{ ...muted, color: INK.mid }}>Links</span>
+          <button type="button" role="radio" aria-checked={!whole} onClick={() => setWhole(false)} style={chainBtn(!whole)}>Direct links</button>
+          <button type="button" role="radio" aria-checked={whole} onClick={() => setWhole(true)} style={chainBtn(whole)}>Whole chain</button>
+          <span style={{ ...muted, flex: "1 1 180px" }}>{whole ? "Every step required, and everything it unlocks." : "Only the next connection."}</span>
+        </div>
         <div style={{ display: "flex", flexDirection: wide ? "row" : "column", gap: 8, height: boxH }}>
           {(wide || sel === null) && (
             <div className="vh-scroll" style={{ ...card, flex: wide ? "0 0 44%" : "1 1 auto", overflowY: "auto", padding: 10, minHeight: 0 }}>{grid()}</div>
           )}
           {(wide || sel !== null) && (
-            <div className="vh-scroll" style={{ ...parch, flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}>{focus()}</div>
+            <div ref={panelRef} className="vh-scroll" style={{ ...parch, flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}>{focus()}</div>
           )}
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
