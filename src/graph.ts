@@ -294,6 +294,35 @@ export function closure(start: number, g: number[][]): Set<number> {
   while (st.length) { const n = st.pop() as number; if (!seen.has(n) && n !== start) { seen.add(n); g[n].forEach((x) => st.push(x)); } }
   return seen;
 }
+
+/** One hop on the shortest path toward or away from the selected entry. */
+export type ChainHop = { i: number; k: string; dist: number };
+
+/**
+ * Every entry reachable through UPS (everything required) or DOWNS (everything
+ * it unlocks), nearest hop first. Each entry is recorded once. `seen` stops
+ * cycles, so the walk is bounded by the dataset size.
+ * The reachable set matches `closure` for the same direction.
+ */
+export function walkChain(start: number, dir: "up" | "down"): ChainHop[] {
+  if (!ok(start)) return [];
+  const g = dir === "up" ? UPS : DOWNS;
+  const seen = new Set<number>([start]);
+  const out: ChainHop[] = [];
+  const q: { i: number; dist: number }[] = [];
+  const enqueue = (i: number, from: number, dist: number) => {
+    if (!ok(i) || seen.has(i)) return;
+    seen.add(i);
+    out.push({ i, k: EK.get(dir === "up" ? i + ">" + from : from + ">" + i) || "o", dist });
+    q.push({ i, dist });
+  };
+  (g[start] || []).forEach((n) => enqueue(n, start, 1));
+  for (let h = 0; h < q.length; h++) {
+    const cur = q[h];
+    (g[cur.i] || []).forEach((n) => enqueue(n, cur.i, cur.dist + 1));
+  }
+  return out;
+}
 export const COUNTS = LANES.map((_x, li) => D.filter((r) => r.l === li).length);
 
 const whereOf = (w?: string[]): string => (w || []).join("; ");
