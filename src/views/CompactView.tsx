@@ -7,6 +7,7 @@ import {
   walkChain, type ChainHop, splitUpgradeLabel,
 } from "../graph";
 import { DetailExtras } from "../details";
+import { handleSearchKey } from "../keys";
 
 type Cat = [string, string, string, string];
 const CATS: Cat[] = [["cre", "🐺", "Creatures & Bosses", "Creatures"], ["str", "🏰", "Structures", "Structures"], ["trd", "🪙", "Traders", "Traders"], ["raw", "🪨", "Raw materials (gathered / mined / wood)", "Raw"], ["drp", "🦴", "Creature drops & trophies", "Drops"], ["ref", "⚗️", "Refined & crafted materials", "Refined"], ["food", "🍖", "Food, Meads & Fish", "Food"], ["wpn", "⚔️", "Weapons & Shields", "Weapons"], ["ammo", "🏹", "Ammo & Bait", "Ammo"], ["arm", "🛡️", "Armor & Accessories", "Armor"], ["tool", "🔨", "Tools", "Tools"], ["stn", "⚒️", "Stations & upgrades", "Stations"], ["bld", "🏠", "Building, boats & storage", "Building"], ["val", "💎", "Valuables", "Valuables"], ["misc", "📦", "Misc (keys, chests, saddles…)", "Misc"]];
@@ -110,6 +111,10 @@ export default function App() {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const touch = useRef<number | null>(null);
+  const qRef = useRef(q);
+  const resultIdsRef = useRef<number[]>([]);
+  const openRef = useRef<(i: number) => void>(() => {});
+  qRef.current = q;
   const cat = CATC;
   const KC: Record<string, string> = KINDC;
   const B = BIOME[lane];
@@ -128,12 +133,18 @@ export default function App() {
   }, [sel, whole]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (handleSearchKey(e, {
+        getQuery: () => qRef.current,
+        clearQuery: () => setQ(""),
+        closePanel: () => setSel(null),
+        openIndex: (i: number) => openRef.current(i),
+        getResultIds: () => resultIdsRef.current,
+      })) return;
       const tag = (e.target as HTMLElement | null)?.tagName || "";
       if (tag === "INPUT" || tag === "TEXTAREA") return;
       if (tag === "BUTTON" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) return;
       if (e.key === "ArrowRight") setLane((l: number) => Math.min(8, l + 1));
       if (e.key === "ArrowLeft") setLane((l: number) => Math.max(0, l - 1));
-      if (e.key === "Escape") setSel(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -151,6 +162,13 @@ export default function App() {
   const base = ql ? D.map((_r: N, i: number) => i).filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : inLane;
   const present = CATS.filter((c: Cat) => base.some((i: number) => CAT[i] === c[0]));
   const items = base.filter((i: number) => !types.length || types.indexOf(CAT[i]) >= 0);
+  const forced = types.length > 0 || ql !== "";
+  const sections: [Cat, number[]][] = CATS.map((c: Cat): [Cat, number[]] => [c, items.filter((i: number) => CAT[i] === c[0])]).filter((x: [Cat, number[]]) => x[1].length > 0);
+  const catOpen = (key: string, idx: number): boolean => forced || (open[key] !== undefined ? open[key] : (wide || idx < 3));
+  resultIdsRef.current = sections.flatMap(([c, list]: [Cat, number[]], idx: number) => {
+    const shown = catOpen(c[0], idx) ? list : list.filter((i: number) => i === sel || upSet.has(i) || downSet.has(i));
+    return ql ? shown.filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : shown;
+  });
 
   const go = (i: number) => {
     if (!ok(i)) return;
@@ -158,6 +176,7 @@ export default function App() {
     setSel(i);
     setLane(D[i].l);
   };
+  openRef.current = go;
   const back = () => {
     if (!hist.length) { setSel(null); return; }
     const p = hist[hist.length - 1];
@@ -235,14 +254,14 @@ export default function App() {
   };
 
   const relChip = (x: Rel, n: number) => (
-    <div key={x.i + "-" + n} onClick={() => go(x.i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${KC[x.k]}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
+    <button type="button" key={x.i + "-" + n} className="vh-btn vh-chip" onClick={() => go(x.i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${KC[x.k]}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
       {x.label ? <span style={{ color: "#cdb98f" }}>{x.label}</span> : null}<span>{D[x.i].n}{x.level ? ` (${x.level})` : ""}</span>{D[x.i].l !== lane ? <span style={{ color: "#cdb98f" }}>· {LANES[D[x.i].l]}</span> : null}
-    </div>
+    </button>
   );
   const relGroups = (groups: [string, Rel[]][], withCount: boolean) => groups.map(([t, list]: [string, Rel[]]) => (
     <div key={t} style={{ marginBottom: 8 }}>
       <div style={{ ...pm, marginBottom: 3 }}>{t}{withCount || list.length > 6 ? ` (${list.length})` : ""}</div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{list.map((x: Rel, n: number) => relChip(x, n))}</div>
+      <ul className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{list.map((x: Rel, n: number) => <li key={x.i + "-" + n}>{relChip(x, n)}</li>)}</ul>
     </div>
   ));
   const relBlock = (title: string, groups: [string, Rel[]][]) => (
@@ -273,16 +292,16 @@ export default function App() {
     });
     const vv = r.src.find((t: string) => t[0] === "v");
     return (
-      <div style={{ padding: 12 }}>
+      <div data-vh-panel="" style={{ padding: 12 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
           <div>
-            <div style={{ fontFamily: RUNE, fontSize: "20px", lineHeight: "26px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}{r.v === 0 ? " ?" : ""}</div>
+            <div data-vh-title="" style={{ fontFamily: RUNE, fontSize: "20px", lineHeight: "26px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}{r.v === 0 ? " ?" : ""}</div>
             <div style={pm}>{LANES[r.l]} · {GL[r.t]}{r.sub ? ` · ${SUB_EN[r.sub] || r.sub}` : ""}{r.eats.length ? " · tameable" : ""} · {r.v === 2 ? "verified (valheim.tools)" : r.v === 1 ? "valheim.source.gs" : "unverified"}</div>
             {whole && <div style={{ fontFamily: RUNE, fontSize: "13px", lineHeight: "18px", fontWeight: 700, letterSpacing: "0.03em", color: "#6a3211", marginTop: 4 }}>Whole chain · {upChain.length} upstream · {downChain.length} downstream</div>}
           </div>
-          <div style={{ display: "flex", gap: 6 }}>
-            <div onClick={back} style={pill(false)}>← Back</div>
-            <div onClick={() => { setSel(null); setHist([]); }} style={pill(false)}>Close ✕</div>
+          <div className="vh-chips" style={{ display: "flex", gap: 6 }}>
+            <button type="button" className="vh-btn vh-chip" onClick={back} style={pill(false)}>← Back</button>
+            <button type="button" className="vh-btn vh-chip" onClick={() => { setSel(null); setHist([]); }} style={pill(false)}>Close ✕</button>
           </div>
         </div>
         <div style={{ marginTop: 6 }}>{runeRule("rgba(106,50,17,0.55)", BRUNE[r.l] + " ᛟ " + BRUNE[r.l])}</div>
@@ -308,42 +327,42 @@ export default function App() {
   };
 
   const grid = () => {
-    const forced = types.length > 0 || ql !== "";
-    const secs: [Cat, number[]][] = CATS.map((c: Cat): [Cat, number[]] => [c, items.filter((i: number) => CAT[i] === c[0])]).filter((x: [Cat, number[]]) => x[1].length > 0);
     const chip = (i: number) => {
       const on = sel === i;
       const rel = upSet.has(i) || downSet.has(i);
+      const inResults = !ql || D[i].n.toLowerCase().indexOf(ql) >= 0;
       return (
-        <div key={i} onClick={() => (on ? setSel(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
+        <button type="button" className="vh-btn vh-chip" data-vh-result={inResults ? "" : undefined} data-vh-id={inResults ? i : undefined} data-vh-name={inResults ? D[i].n : undefined} aria-pressed={on} onClick={() => (on ? setSel(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
           {D[i].n}{D[i].v === 0 ? " ?" : ""}{ql && D[i].l !== lane ? <span style={{ color: "#bfa983" }}> · {LANES[D[i].l]}</span> : null}
-        </div>
+        </button>
       );
     };
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         {items.length === 0 && <div style={muted}>Nothing matches.</div>}
-        {secs.length > 1 && !forced && (
-          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-            <span onClick={() => { const o: Record<string, boolean> = {}; CATS.forEach((c: Cat) => { o[c[0]] = true; }); setOpen(o); }} style={{ ...muted, color: INK.mid, cursor: "pointer" }}>Expand all</span>
-            <span onClick={() => { const o: Record<string, boolean> = {}; CATS.forEach((c: Cat) => { o[c[0]] = false; }); setOpen(o); }} style={{ ...muted, color: INK.mid, cursor: "pointer" }}>Collapse all</span>
+        {sections.length > 1 && !forced && (
+          <div className="vh-chips" style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <button type="button" className="vh-btn vh-chip" onClick={() => { const o: Record<string, boolean> = {}; CATS.forEach((c: Cat) => { o[c[0]] = true; }); setOpen(o); }} style={{ ...muted, color: INK.mid, cursor: "pointer", background: "transparent", border: 0 }}>Expand all</button>
+            <button type="button" className="vh-btn vh-chip" onClick={() => { const o: Record<string, boolean> = {}; CATS.forEach((c: Cat) => { o[c[0]] = false; }); setOpen(o); }} style={{ ...muted, color: INK.mid, cursor: "pointer", background: "transparent", border: 0 }}>Collapse all</button>
           </div>
         )}
-        {secs.map(([c, list]: [Cat, number[]], idx: number) => {
+        {sections.map(([c, list]: [Cat, number[]], idx: number) => {
           const color = c[0] === "str" ? "#d7c4a3" : cat[CATS.indexOf(c) % cat.length];
-          const isOpen = forced || (open[c[0]] !== undefined ? open[c[0]] : (wide || idx < 3));
+          const isOpen = catOpen(c[0], idx);
           const linked = list.filter((i: number) => i === sel || upSet.has(i) || downSet.has(i));
           const shown = isOpen ? list : linked;
+          const listId = `vh-cat-${c[0]}`;
           return (
             <div key={c[0]}>
-              <div onClick={() => setOpen((o: Record<string, boolean>) => ({ ...o, [c[0]]: !isOpen }))} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", padding: "6px 2px", borderBottom: "1px solid rgba(160,120,70,0.35)", userSelect: "none" as const }}>
-                <span style={{ width: 4, height: 16, borderRadius: 1, background: color, boxShadow: `0 0 6px ${color}88`, flex: "0 0 auto" }} />
-                <span>{c[1]}</span>
+              <button type="button" className="vh-btn vh-group" aria-expanded={isOpen} aria-controls={listId} onClick={() => setOpen((o: Record<string, boolean>) => ({ ...o, [c[0]]: !isOpen }))} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", padding: "6px 2px", width: "100%", textAlign: "left", fontFamily: BODY, color: "inherit", background: "transparent", border: 0, borderBottom: "1px solid rgba(160,120,70,0.35)", userSelect: "none" as const }}>
+                <span aria-hidden="true" style={{ width: 4, height: 16, borderRadius: 1, background: color, boxShadow: `0 0 6px ${color}88`, flex: "0 0 auto" }} />
+                <span aria-hidden="true">{c[1]}</span>
                 <span style={{ fontFamily: RUNE, fontSize: "14px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.03em", color: INK.hi, textShadow: "0 1px 2px #000", flex: 1 }}>{c[2]}</span>
                 {!isOpen && linked.length > 0 && <span style={{ ...muted, color: INK.amber }}>{linked.length} linked</span>}
                 <span style={{ ...theme.font.label, fontFamily: BODY, color: INK.amber, padding: "0 7px", borderRadius: 3, background: "#1b130c", border: "1px solid #6e5232" }}>{list.length}</span>
-                <span style={{ ...muted, color: INK.amber, width: 12, textAlign: "center" as const }}>{isOpen ? "▾" : "▸"}</span>
-              </div>
-              {shown.length > 0 && <div style={{ display: "flex", flexWrap: "wrap", gap: 5, padding: "7px 0 7px 10px", borderLeft: `2px solid ${color}66`, marginLeft: 1 }}>{shown.map(chip)}</div>}
+                <span aria-hidden="true" style={{ ...muted, color: INK.amber, width: 12, textAlign: "center" as const }}>{isOpen ? "▾" : "▸"}</span>
+              </button>
+              <ul id={listId} className="vh-chips" hidden={shown.length === 0} style={{ display: "flex", flexWrap: "wrap", gap: 5, padding: "7px 0 7px 10px", borderLeft: `2px solid ${color}66`, marginLeft: 1 }}>{shown.map((i: number) => <li key={i}>{chip(i)}</li>)}</ul>
             </div>
           );
         })}
@@ -366,35 +385,35 @@ export default function App() {
         }}>
         {rivet({ top: 3, left: 3 })}{rivet({ top: 3, right: 3 })}{rivet({ bottom: 3, left: 3 })}{rivet({ bottom: 3, right: 3 })}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div onClick={() => setLane((l: number) => Math.max(0, l - 1))} style={arrow(lane > 0)}>◀</div>
+          <button type="button" className="vh-btn vh-chip" aria-label="Previous biome" aria-disabled={lane === 0} onClick={() => setLane((l: number) => Math.max(0, l - 1))} style={arrow(lane > 0)}>◀</button>
           <div style={{ flex: 1, textAlign: "center" as const, minWidth: 0 }}>
             <div style={{ fontFamily: RUNE, fontSize: wide ? "24px" : "20px", lineHeight: wide ? "30px" : "26px", fontWeight: 700, letterSpacing: "0.06em", color: INK.hi, textShadow: `0 0 14px ${B[2]}66, 0 2px 3px #000` }}>
               <span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginRight: 8 }}>{BRUNE[lane]}</span>{lane < 8 ? `${lane + 1}. ` : ""}{LANES[lane]}<span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginLeft: 8 }}>{BRUNE[lane]}</span>
             </div>
             <div style={{ ...muted, color: INK.mid }}>{LANE_SUB[lane]} · {COUNTS[lane]} entries</div>
           </div>
-          <div onClick={() => setLane((l: number) => Math.min(8, l + 1))} style={arrow(lane < 8)}>▶</div>
+          <button type="button" className="vh-btn vh-chip" aria-label="Next biome" aria-disabled={lane === 8} onClick={() => setLane((l: number) => Math.min(8, l + 1))} style={arrow(lane < 8)}>▶</button>
         </div>
         {runeRule("rgba(232,176,79,0.65)", "ᚠᚢᚦᚨᚱᚲ")}
         {wide && (
-          <div style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
-            {LANES.map((l: string, i: number) => <div key={l} onClick={() => setLane(i)} style={pill(i === lane)}>{l}</div>)}
+          <div className="vh-chips" role="group" aria-label="Biomes" style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
+            {LANES.map((l: string, i: number) => <button type="button" key={l} className="vh-btn vh-chip" aria-pressed={i === lane} onClick={() => setLane(i)} style={pill(i === lane)}>{l}</button>)}
           </div>
         )}
-        <div className="vh-scroll" style={{ display: "flex", gap: 5, overflowX: "auto", paddingBottom: 3, alignItems: "center", scrollbarColor: "#7a5a36 transparent" }}>
-          <input className="vh-in" value={q} onChange={(e: { target: { value: string } }) => setQ(e.target.value)} placeholder="Search all biomes" style={{ ...theme.font.label, fontFamily: BODY, fontSize: "14px", padding: "5px 9px", borderRadius: 4, border: "1px solid #7a5a36", background: "#120d09", color: INK.hi, boxShadow: "inset 0 2px 4px rgba(0,0,0,0.8)", outline: "none", minWidth: 140, flex: "0 0 auto" }} />
-          <div onClick={() => setTypes([])} style={pill(types.length === 0)}>All</div>
-          {present.map((c: Cat) => <div key={c[0]} onClick={() => toggleType(c[0])} style={pill(types.indexOf(c[0]) >= 0)}>{c[1]} {c[3]}</div>)}
+        <div className="vh-scroll vh-chips" style={{ display: "flex", gap: 5, overflowX: "auto", paddingBottom: 3, alignItems: "center", scrollbarColor: "#7a5a36 transparent" }}>
+          <input id="vh-search" className="vh-in" type="search" aria-label="Search all biomes" autoComplete="off" aria-controls="vh-results" value={q} onChange={(e: { target: { value: string } }) => setQ(e.target.value)} placeholder="Search all biomes" style={{ ...theme.font.label, fontFamily: BODY, fontSize: "14px", padding: "5px 9px", borderRadius: 4, border: "1px solid #7a5a36", background: "#120d09", color: INK.hi, boxShadow: "inset 0 2px 4px rgba(0,0,0,0.8)", minWidth: 140, flex: "0 0 auto" }} />
+          <button type="button" className="vh-btn vh-chip" aria-pressed={types.length === 0} onClick={() => setTypes([])} style={pill(types.length === 0)}>All</button>
+          {present.map((c: Cat) => <button type="button" key={c[0]} className="vh-btn vh-chip" aria-pressed={types.indexOf(c[0]) >= 0} onClick={() => toggleType(c[0])} style={pill(types.indexOf(c[0]) >= 0)}>{c[1]} {c[3]}</button>)}
         </div>
         <div role="radiogroup" aria-label="How far to follow links" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }} onTouchStart={(e: { stopPropagation: () => void }) => e.stopPropagation()} onTouchEnd={(e: { stopPropagation: () => void }) => e.stopPropagation()}>
           <span style={{ ...muted, color: INK.mid }}>Links</span>
-          <button type="button" role="radio" aria-checked={!whole} onClick={() => setWhole(false)} style={chainBtn(!whole)}>Direct links</button>
-          <button type="button" role="radio" aria-checked={whole} onClick={() => setWhole(true)} style={chainBtn(whole)}>Whole chain</button>
+          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={!whole} onClick={() => setWhole(false)} style={chainBtn(!whole)}>Direct links</button>
+          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={whole} onClick={() => setWhole(true)} style={chainBtn(whole)}>Whole chain</button>
           <span style={{ ...muted, flex: "1 1 180px" }}>{whole ? "Every step required, and everything it unlocks." : "Only the next connection."}</span>
         </div>
         <div style={{ display: "flex", flexDirection: wide ? "row" : "column", gap: 8, height: boxH }}>
           {(wide || sel === null) && (
-            <div className="vh-scroll" style={{ ...card, flex: wide ? "0 0 44%" : "1 1 auto", overflowY: "auto", padding: 10, minHeight: 0 }}>{grid()}</div>
+            <div id="vh-results" className="vh-scroll" style={{ ...card, flex: wide ? "0 0 44%" : "1 1 auto", overflowY: "auto", padding: 10, minHeight: 0 }}>{grid()}</div>
           )}
           {(wide || sel !== null) && (
             <div ref={panelRef} className="vh-scroll" style={{ ...parch, flex: "1 1 auto", overflowY: "auto", minHeight: 0 }}>{focus()}</div>

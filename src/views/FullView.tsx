@@ -7,6 +7,11 @@ import {
   DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, closure, COUNTS, KINDC, isStructEdge, splitUpgradeLabel,
 } from "../graph";
 import { DetailExtras } from "../details";
+import { handleSearchKey } from "../keys";
+
+function groupShown(gi: number[], closedGroup: boolean, sel: number | null, up: Set<number>, down: Set<number>): number[] {
+  return closedGroup ? gi.filter((i) => i === sel || up.has(i) || down.has(i)) : gi;
+}
 
 type Seg = { d: string; c: string; dash: boolean };
 
@@ -48,6 +53,9 @@ export default function App() {
   const contentRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const chips = useRef<Map<number, HTMLElement>>(new Map());
+  const qRef = useRef(q);
+  const resultIdsRef = useRef<number[]>([]);
+  qRef.current = q;
   const wide = width >= 760;
   const KC: Record<string, string> = KINDC;
   const upC = theme.text.primary;
@@ -64,6 +72,35 @@ export default function App() {
     return true;
   }), [ql, hidden, sel, upSet, downSet]);
   const visCount = visible.filter((v: boolean) => v).length;
+  const resultIds = useMemo(() => {
+    const ids: number[] = [];
+    for (let li = 0; li < LANES.length; li++) {
+      const idxs: number[] = [];
+      for (let i = 0; i < D.length; i++) if (D[i].l === li && visible[i]) idxs.push(i);
+      GROUPS.forEach(([g]) => {
+        const gi = idxs.filter((i) => D[i].t === g);
+        if (!gi.length) return;
+        const shown = groupShown(gi, closed.indexOf(g) >= 0 && !ql, sel, upSet, downSet);
+        ids.push(...(ql ? shown.filter((i) => D[i].n.toLowerCase().includes(ql)) : shown));
+      });
+    }
+    return ids;
+  }, [visible, closed, ql, sel, upSet, downSet]);
+  resultIdsRef.current = resultIds;
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      handleSearchKey(e, {
+        getQuery: () => qRef.current,
+        clearQuery: () => setQ(""),
+        closePanel: () => setSel(null),
+        openIndex: (i: number) => setSel(i),
+        getResultIds: () => resultIdsRef.current,
+      });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -132,10 +169,17 @@ export default function App() {
     const isSel = sel === i, isUp = upSet.has(i), isDown = downSet.has(i);
     const dim = sel !== null && !isSel && !isUp && !isDown;
     const color = isSel ? "#ffb25e" : sel !== null && depth === "1" && isUp ? ek(i, sel) : sel !== null && depth === "1" && isDown ? ek(sel, i) : isUp || isDown ? "#d9a44e" : "#6e5232";
+    const inResults = !ql || r.n.toLowerCase().includes(ql);
     return (
-      <div
+      <button
+        type="button"
         key={"c" + i}
-        ref={(el: HTMLDivElement | null) => { if (el) chips.current.set(i, el); else chips.current.delete(i); }}
+        className="vh-btn vh-chip"
+        data-vh-result={inResults ? "" : undefined}
+        data-vh-id={inResults ? i : undefined}
+        data-vh-name={inResults ? r.n : undefined}
+        aria-pressed={isSel}
+        ref={(el: HTMLButtonElement | null) => { if (el) chips.current.set(i, el); else chips.current.delete(i); }}
         onClick={() => pick(i)}
         style={{
           ...theme.font.label, fontFamily: BODY, fontSize: "13px", display: "inline-flex", alignItems: "center", padding: "4px 9px", borderRadius: 4, cursor: "pointer",
@@ -145,13 +189,13 @@ export default function App() {
           fontWeight: r.t === "B" || r.t === "M" || r.t === "T" || isSel ? 700 : 400,
           transition: theme.motion.hover, position: "relative", zIndex: 1, maxWidth: "100%",
         }}
-      >{r.n}{r.v === 0 ? " ?" : ""}</div>
+      >{r.n}{r.v === 0 ? " ?" : ""}</button>
     );
   };
   const link = (i: number, extra?: string, c?: string, level?: string) => (ok(i) ?
-    <div key={"k" + i + (extra || "")} onClick={() => setSel(i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${c || "#6e5232"}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
+    <button type="button" key={"k" + i + (extra || "")} className="vh-btn vh-chip" onClick={() => setSel(i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${c || "#6e5232"}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
       {extra ? extra + " " : ""}{D[i].n}{level ? ` (${level})` : ""} <span style={{ color: "#cdb98f" }}>· {LANES[D[i].l]}</span>
-    </div> : null
+    </button> : null
   );
   const row = (label: string, body: ReactNode, k: string) => (
     <div key={k} style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "baseline", marginBottom: 4 }}>
@@ -159,8 +203,8 @@ export default function App() {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "baseline", flex: "1 1 200px" }}>{body}</div>
     </div>
   );
-  const wrapL = (els: ReactNode[]) => <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{els}</div>;
-  const ul = (i: number) => (ok(i) ? <span onClick={() => setSel(i)} style={{ textDecoration: "underline", cursor: "pointer", color: "#6a3211" }}>{D[i].n}</span> : null);
+  const wrapL = (els: ReactNode[]) => <ul className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{els.map((el, n) => (el ? <li key={n}>{el}</li> : null))}</ul>;
+  const ul = (i: number) => (ok(i) ? <button type="button" className="vh-btn" onClick={() => setSel(i)} style={{ fontFamily: BODY, fontSize: "13px", lineHeight: "18px", textDecoration: "underline", cursor: "pointer", color: "#6a3211", background: "transparent", border: 0, padding: 0 }}>{D[i].n}</button> : null);
   const TN: Record<string, string> = { H: "Haldor", h: "Hildir", W: "Bog Witch" };
 
   const srcRows = (r: N): ReactNode[] => r.src.map((t: string, k: number) => {
@@ -207,13 +251,13 @@ export default function App() {
     const fuel = r.ex.filter((t: string) => t[0] === "F").map((t: string) => b(t.slice(1)));
     const sec = (title: string, body: ReactNode) => <div><div style={h3}>{title}</div>{body}</div>;
     return (
-      <div ref={panelRef} key="panel" style={{ border: "1px solid #8a6a3e", borderRadius: 6, padding: 14, background: `${NOISE}, radial-gradient(ellipse at 50% 35%, #f1e3c0 0%, #e4cf9f 65%, #c8aa72 100%)`, boxShadow: "inset 0 0 30px rgba(110,70,30,0.45), 0 3px 10px rgba(0,0,0,0.6)", color: INK.dark, fontFamily: BODY, width: "100%", boxSizing: "border-box", position: "relative", zIndex: 2 }}>
+      <div ref={panelRef} key="panel" data-vh-panel="" style={{ border: "1px solid #8a6a3e", borderRadius: 6, padding: 14, background: `${NOISE}, radial-gradient(ellipse at 50% 35%, #f1e3c0 0%, #e4cf9f 65%, #c8aa72 100%)`, boxShadow: "inset 0 0 30px rgba(110,70,30,0.45), 0 3px 10px rgba(0,0,0,0.6)", color: INK.dark, fontFamily: BODY, width: "100%", boxSizing: "border-box", position: "relative", zIndex: 2 }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
           <div>
-            <div style={{ fontFamily: RUNE, fontSize: "22px", lineHeight: "28px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}</div>
+            <div data-vh-title="" style={{ fontFamily: RUNE, fontSize: "22px", lineHeight: "28px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}</div>
             <div style={parchMeta}>{LANES[r.l]} · {GL[r.t]}{r.sub ? ` · ${SUB_EN[r.sub] || r.sub}` : ""}{r.eats.length ? " · tameable" : ""}</div>
           </div>
-          <div onClick={() => setSel(null)} style={pill(false)}>Close ✕</div>
+          <button type="button" className="vh-btn vh-chip" onClick={() => setSel(null)} style={pill(false)}>Close ✕</button>
         </div>
         {cre && r.rec.length > 0 && sec("Summoning (altar offering)", wrapL(r.rec.map((x: number[]) => link(x[0], `${x[1]}×`, KC.o))))}
         {!cre && !built && (r.rec.length > 0 || r.st.length > 0) && sec(
@@ -271,11 +315,15 @@ export default function App() {
           const gi = idxs.filter((i: number) => D[i].t === g);
           if (!gi.length) return null;
           const isClosed = closed.indexOf(g) >= 0 && !ql;
-          const shown = isClosed ? gi.filter((i: number) => i === sel || upSet.has(i) || downSet.has(i)) : gi;
+          const shown = groupShown(gi, isClosed, sel, upSet, downSet);
+          const listId = `vh-lane-${li}-${g}`;
           return (
             <div key={g} style={{ marginTop: 8 }}>
-              <div onClick={() => setClosed((c: string[]) => toggle(c, g))} style={{ ...muted, marginBottom: 4, cursor: "pointer", userSelect: "none" }}>{isClosed ? "▸" : "▾"} {label} ({gi.length}){isClosed && shown.length ? ` · ${shown.length} linked` : ""}</div>
-              {shown.length > 0 && <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{shown.map((i: number) => chip(i))}</div>}
+              <button type="button" className="vh-btn vh-group" aria-expanded={!isClosed} aria-controls={listId} onClick={() => setClosed((c: string[]) => toggle(c, g))} style={{ ...muted, display: "flex", alignItems: "center", width: "100%", margin: 0, marginBottom: 4, padding: "2px 0", textAlign: "left", cursor: "pointer", userSelect: "none", background: "transparent", border: 0, color: INK.mid }}>
+                <span aria-hidden="true">{isClosed ? "▸ " : "▾ "}</span>
+                <span>{label} ({gi.length}){isClosed && shown.length ? ` · ${shown.length} linked` : ""}</span>
+              </button>
+              <ul id={listId} className="vh-chips" hidden={shown.length === 0} style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{shown.map((i: number) => <li key={i}>{chip(i)}</li>)}</ul>
             </div>
           );
         })}
@@ -290,7 +338,7 @@ export default function App() {
       if (!wide && sel !== null && D[sel].l === li) els.push(panel());
     }
     return (
-      <div ref={wrapRef} style={{ width: "100%" }}>
+      <div id="vh-results" ref={wrapRef} style={{ width: "100%" }}>
         {wide && sel !== null && <div style={{ marginBottom: 12 }}>{panel()}</div>}
         <div className="vh-scroll" style={{ overflowX: wide ? "auto" : "visible", width: "100%", maxWidth: "100%", paddingBottom: wide ? 8 : 0, scrollbarColor: "#7a5a36 transparent" }}>
           <div ref={contentRef} style={{ position: "relative", display: "flex", flexDirection: wide ? "row" : "column", alignItems: wide ? "flex-start" : "stretch", gap: wide ? 30 : 14, width: wide ? "max-content" : "100%" }}>
@@ -319,19 +367,19 @@ export default function App() {
       <div style={frame}>
         {rivet({ top: 4, left: 4 })}{rivet({ top: 4, right: 4 })}{rivet({ bottom: 4, left: 4 })}{rivet({ bottom: 4, right: 4 })}
       <Section heading="Biome flow">
-        <Input label="Search" value={q} onChange={(v: string) => setQ(v)} placeholder="e.g. Bone Fragments, Raspberries, Troll, Haldor" />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+        <Input id="vh-search" label="Search" ariaLabel="Search" type="search" autoComplete="off" controls="vh-results" value={q} onChange={(v: string) => setQ(v)} placeholder="e.g. Bone Fragments, Raspberries, Troll, Haldor" />
+        <div className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
           <span style={muted}>Show types:</span>
           {GROUPS.map(([g, label]: [string, string]) => (
-            <div key={g} onClick={() => setHidden((h: string[]) => toggle(h, g))} style={pill(hidden.indexOf(g) < 0)}>{label} {typeCount(g)}</div>
+            <button type="button" key={g} className="vh-btn vh-chip" aria-pressed={hidden.indexOf(g) < 0} onClick={() => setHidden((h: string[]) => toggle(h, g))} style={pill(hidden.indexOf(g) < 0)}>{label} {typeCount(g)}</button>
           ))}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+        <div className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
           <span style={muted}>Groups:</span>
-          <div onClick={() => setClosed([])} style={pill(false)}>Expand all</div>
-          <div onClick={() => setClosed(GROUPS.map((g: [string, string]) => g[0]))} style={pill(false)}>Collapse all</div>
-          <div onClick={() => setClosed(DEF_CLOSED)} style={pill(false)}>Default</div>
-          <div onClick={() => setHidden([])} style={pill(false)}>All types</div>
+          <button type="button" className="vh-btn vh-chip" onClick={() => setClosed([])} style={pill(false)}>Expand all</button>
+          <button type="button" className="vh-btn vh-chip" onClick={() => setClosed(GROUPS.map((g: [string, string]) => g[0]))} style={pill(false)}>Collapse all</button>
+          <button type="button" className="vh-btn vh-chip" onClick={() => setClosed(DEF_CLOSED)} style={pill(false)}>Default</button>
+          <button type="button" className="vh-btn vh-chip" onClick={() => setHidden([])} style={pill(false)}>All types</button>
         </div>
         <Segmented options={[{ value: "1", label: "Direct links" }, { value: "all", label: "Whole chain" }]} value={depth} onChange={(v: string) => setDepth(v)} />
         <Legend names={KINDS.map((k: [string, string]) => k[1])} />
