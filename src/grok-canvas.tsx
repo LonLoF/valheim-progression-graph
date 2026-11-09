@@ -2,7 +2,7 @@
  * Stand-in for the host "grok/canvas" (and "grok-canvas") module.
  * Dark Grok page tokens, plus the blocks these two views import.
  */
-import { createContext, useContext, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useId, useState, type CSSProperties, type ReactNode } from "react";
 
 export { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 export type { CSSProperties, ReactNode } from "react";
@@ -167,6 +167,7 @@ export function Section({
   children?: ReactNode;
 }) {
   const hall = useContext(HallSkin);
+  const panelId = useId();
   const [open, setOpen] = useState(!collapsible || defaultOpen);
   const headingStyle: CSSProperties = {
     ...font.heading2,
@@ -182,7 +183,9 @@ export function Section({
       {heading && collapsible ? (
         <button
           type="button"
+          className="vh-btn vh-group"
           aria-expanded={open}
+          aria-controls={panelId}
           onClick={() => setOpen((v) => !v)}
           style={{
             ...headingStyle,
@@ -206,7 +209,7 @@ export function Section({
       ) : heading ? (
         <h2 style={{ ...headingStyle, margin: "0 0 12px" }}>{heading}</h2>
       ) : null}
-      {open ? <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div> : null}
+      <div id={panelId} hidden={!open} style={{ display: "flex", flexDirection: "column", gap: 12 }}>{children}</div>
     </section>
   );
 }
@@ -222,22 +225,34 @@ export function Input({
   onChange,
   placeholder,
   type = "text",
+  id,
+  ariaLabel,
+  autoComplete,
+  controls,
 }: {
   label?: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  type?: "text" | "number";
+  type?: "text" | "number" | "search";
+  id?: string;
+  ariaLabel?: string;
+  autoComplete?: string;
+  controls?: string;
 }) {
   const hall = useContext(HallSkin);
   return (
     <label style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
       {label ? <span style={{ ...font.subtext, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.tertiary }}>{label}</span> : null}
       <input
+        id={id}
         className={hall ? "vh-in" : undefined}
         type={type}
         value={value}
         placeholder={placeholder}
+        aria-label={ariaLabel}
+        autoComplete={autoComplete}
+        aria-controls={controls}
         onChange={(e) => onChange(e.target.value)}
         style={{
           ...font.body1,
@@ -250,7 +265,6 @@ export function Input({
           background: hall ? "#120d09" : DARK.fill.secondary,
           color: hall ? INK.hi : DARK.text.primary,
           boxShadow: hall ? "inset 0 2px 4px rgba(0,0,0,0.8)" : undefined,
-          outline: "none",
         }}
       />
     </label>
@@ -278,6 +292,7 @@ export function Segmented<T extends string>({
           <button
             key={option.value}
             type="button"
+            className="vh-btn vh-chip"
             role="radio"
             aria-checked={on}
             onClick={() => onChange(option.value)}

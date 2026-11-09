@@ -19,12 +19,12 @@ const chip = (click: boolean): CSSProperties => ({
 
 function Linked({ name, inDataset, onOpen }: { name: string; inDataset: boolean; onOpen: (i: number) => void }) {
   const i = inDataset ? find(name) : -1;
-  if (ok(i)) return <span style={chip(true)} onClick={() => onOpen(i)}>{name}</span>;
+  if (ok(i)) return <button type="button" className="vh-btn vh-chip" style={chip(true)} onClick={() => onOpen(i)}>{name}</button>;
   return <span style={chip(false)}>{name}</span>;
 }
 
 function Rows({ children }: { children: ReactNode }) {
-  return <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline" }}>{children}</div>;
+  return <div className="vh-chips" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline" }}>{children}</div>;
 }
 
 const viaLabel = (via: string): string => {

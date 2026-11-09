@@ -37,6 +37,7 @@ body {
   top: 0;
   z-index: 40;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -51,9 +52,38 @@ body {
   letter-spacing: 0.04em;
 }
 
+.view-nav-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
 .view-nav-title {
   color: #d8c49c;
   white-space: nowrap;
+}
+
+.view-nav-version {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 1px 8px;
+  border-radius: 4px;
+  border: 1px solid #7a5a36;
+  background: linear-gradient(180deg, #3d2e20 0%, #22180f 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 225, 170, 0.12);
+  color: #f3e6c8;
+  font-family: "Alegreya", "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.view-nav-version:empty {
+  display: none;
 }
 
 .view-nav-links {
@@ -86,11 +116,42 @@ body {
   border-color: #ffb25e;
 }
 
-.view-nav a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 2px solid #ffb25e;
+:focus-visible {
+  outline: 2px solid #d8b35a;
   outline-offset: 2px;
+}
+
+.vh-btn {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+}
+
+input[type="search"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+ul.vh-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.vh-chips > li {
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .view-nav-current {
@@ -112,8 +173,35 @@ input:focus-visible {
     letter-spacing: 0.02em;
   }
 
+  .view-nav-version {
+    font-size: 11px;
+    letter-spacing: 0.01em;
+  }
+
   .view-nav a,
   .view-nav-current {
     padding: 0 8px;
+  }
+}
+
+/* Phones keep the same wood-and-iron chips; only the hit area grows. */
+@media (pointer: coarse) {
+  .vh-chip {
+    min-height: 40px !important;
+    padding: 8px 12px !important;
+  }
+
+  .vh-chips {
+    gap: 8px !important;
+  }
+
+  .vh-group {
+    min-height: 44px !important;
+  }
+
+  .view-nav a,
+  input.vh-in,
+  input[type="search"] {
+    min-height: 40px;
   }
 }

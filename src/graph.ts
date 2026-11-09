@@ -86,10 +86,13 @@ const TYPE: Record<string, string> = {
 };
 const TRADER: Record<string, string> = { Haldor: "H", Hildir: "h", "Bog Witch": "W" };
 
-const data = rawData as { version: string; lanes: string[]; items: RawItem[] };
+const data = rawData as { version: string; game: string; lanes: string[]; items: RawItem[] };
 const wikiEntries = (wikiFile as { entries: Record<string, { summary?: string; stats?: Record<string, unknown>; wiki?: string; wiki_match?: string }> }).entries;
 
 export const DATA_VERSION = data.version;
+export const GAME = data.game;
+const dataDate = /^(\d{4}-\d{2}-\d{2})/.exec(data.version)?.[1] ?? data.version;
+export const VERSION_BADGE = `${data.game} · data ${dataDate}`;
 export const LANES = ["Meadows", "Black Forest", "Swamp", "Mountain", "Plains", "Mistlands", "Ashlands", "Deep North", "Ocean"];
 export const LANE_SUB = ["Boss: Eikthyr", "Boss: The Elder", "Boss: Bonemass", "Boss: Moder", "Boss: Yagluth", "Boss: The Queen", "Boss: Fader", "Boss: Kall Fimbulbringer", "Side lane"];
 export const GROUPS: [string, string][] = [["B", "Bosses"], ["M", "Minibosses"], ["C", "Creatures"], ["Z", "Structures"], ["T", "Traders"], ["m", "Materials"], ["S", "Stations & buildings"], ["E", "Station upgrades"], ["t", "Tools"], ["w", "Weapons"], ["s", "Shields"], ["o", "Ammo & bait"], ["a", "Armor & accessories"], ["f", "Food"], ["d", "Meads"], ["h", "Fish"], ["r", "Trophies"], ["x", "Other (valuables, keys, misc)"]];
