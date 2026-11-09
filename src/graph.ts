@@ -4,6 +4,9 @@
  */
 import rawData from "./data/data_v9.json";
 import wikiFile from "./data/wiki_info.json";
+import { includeBiomeFoundIn, joinClauses, upgradeStationLabel, upgradeUseLabel } from "../scripts/public-text.mjs";
+
+export { splitUpgradeLabel } from "../scripts/public-text.mjs";
 
 export type N = {
   n: string;
@@ -155,7 +158,7 @@ export const D: N[] = items.map((it) => {
       const tool = s.tool ? findName(String(s.tool)) : -1;
       src.push("g" + objs + (tool >= 0 ? "@" + id36(tool) : ""));
     }
-    if (s.found_in) src.push("f" + (s.found_in as string[]).map((n) => String(laneOf(n))).join(""));
+    if (s.found_in && includeBiomeFoundIn(it.type)) src.push("f" + (s.found_in as string[]).map((n) => String(laneOf(n))).join(""));
     if (s.bought_from) {
       const code = TRADER[String(s.bought_from)] || "";
       const gate = s.available_after ? findName(String(s.available_after)) : -1;
@@ -259,9 +262,25 @@ D.forEach((r, i) => {
   r.ex.forEach((t) => {
     const c = t[0], p = t.slice(1).split("~");
     if (c === "u" || c === "a" || c === "p") {
-      const v = c === "u" ? "upgrade" : c === "a" ? "alt. recipe" : "Forge of Potential";
-      (p[1] ? p[1].split(">") : []).forEach((s) => { const j = b(s); add(i, j, "c"); if (r.st.indexOf(j) < 0 && !EXV.has(j + ">" + i)) EXV.set(j + ">" + i, v); });
-      (p[2] ? p[2].split(",") : []).forEach((x) => { const j = b(x.split("*")[0]); add(i, j, "c"); if (!EXV.has(j + ">" + i)) EXV.set(j + ">" + i, v); });
+      const plain = c === "a" ? "alt. recipe" : c === "p" ? "Forge of Potential" : "";
+      (p[1] ? p[1].split(">") : []).forEach((s) => {
+        const j = b(s);
+        add(i, j, "c");
+        if (!ok(j) || r.st.indexOf(j) >= 0 || EXV.has(j + ">" + i)) return;
+        if (c === "u") {
+          const label = upgradeStationLabel(items[i].upgrades, D[j].n);
+          if (label) EXV.set(j + ">" + i, label);
+        } else if (plain) EXV.set(j + ">" + i, plain);
+      });
+      (p[2] ? p[2].split(",") : []).forEach((x) => {
+        const j = b(x.split("*")[0]);
+        add(i, j, "c");
+        if (!ok(j) || EXV.has(j + ">" + i)) return;
+        if (c === "u") {
+          const label = upgradeUseLabel(items[i].upgrades, D[j].n);
+          if (label) EXV.set(j + ">" + i, label);
+        } else if (plain) EXV.set(j + ">" + i, plain);
+      });
     }
     if (c === "F") { const j = b(t.slice(1)); add(i, j, "o"); EXV.set(j + ">" + i, "fuel"); }
     if (c === "x" && p.length > 1) { const j = b(p[1]); add(j, i, "o"); EXV.set(i + ">" + j, p[0]); }
@@ -328,7 +347,7 @@ export function walkChain(start: number, dir: "up" | "down"): ChainHop[] {
 }
 export const COUNTS = LANES.map((_x, li) => D.filter((r) => r.l === li).length);
 
-const whereOf = (w?: string[]): string => (w || []).join("; ");
+const whereOf = (w?: string[]): string => joinClauses(w);
 const lootOf = (rows?: { item: string; amount?: string; chance_per_roll?: string; chance_per_chest?: string; chance?: string; in_dataset?: boolean }[]): Loot[] => (rows || []).map((r) => {
   const roll = r.chance_per_roll || r.chance || "";
   const chest = r.chance_per_chest && r.chance_per_chest !== roll ? `${r.chance_per_chest} per chest` : "";

@@ -1,0 +1,131 @@
+/*
+  Latin subsets of Cinzel and Alegreya, and the runic subset of Noto Sans Runic.
+  The Cinzel and Alegreya files are the unmodified Google Fonts variable subsets
+  (wght axis). Weights are selected with font-weight ranges below.
+  SIL Open Font License: OFL-cinzel.txt, OFL-alegreya.txt, OFL-notosansrunic.txt.
+*/
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("./cinzel-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Alegreya";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./alegreya-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Noto Sans Runic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./noto-sans-runic.woff2") format("woff2");
+  unicode-range: U+16A0-16F8;
+}
+
+/*
+  Fallback faces sized to Palatino (TeX Gyre Pagella metrics) and Georgia
+  (Gelasio metrics are within about 1% for regular body text). size-adjust is
+  the ratio of a sample line's advance width, so the first paint matches the
+  web font before it swaps in.
+*/
+@font-face {
+  font-family: "Cinzel Fallback";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Palatino Linotype"), local("Palatino"), local("Book Antiqua"), local("Georgia");
+  size-adjust: 124.35%;
+  ascent-override: 78.49%;
+  descent-override: 29.91%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Cinzel Fallback";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Palatino Linotype Bold"), local("Palatino Bold"), local("Georgia Bold"), local("Palatino Linotype"), local("Palatino"), local("Georgia");
+  size-adjust: 121.82%;
+  ascent-override: 80.12%;
+  descent-override: 30.54%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Alegreya Fallback";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Palatino Linotype"), local("Palatino"), local("Book Antiqua"), local("Georgia");
+  size-adjust: 91.9%;
+  ascent-override: 110.55%;
+  descent-override: 37.54%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Alegreya Fallback";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Palatino Linotype Bold"), local("Palatino Bold"), local("Georgia Bold"), local("Palatino Linotype"), local("Palatino"), local("Georgia");
+  size-adjust: 90.88%;
+  ascent-override: 111.8%;
+  descent-override: 37.96%;
+  line-gap-override: 0%;
+}
+
+/*
+  Used when Palatino and Georgia are not installed (phones, and this
+  environment). Tuned to Noto Serif, which is the usual Android serif.
+*/
+@font-face {
+  font-family: "Cinzel System";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Noto Serif"), local("Liberation Serif"), local("Times New Roman");
+  size-adjust: 116.16%;
+  ascent-override: 84.02%;
+  descent-override: 32.03%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Cinzel System";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Noto Serif Bold"), local("Liberation Serif Bold"), local("Times New Roman Bold"), local("Noto Serif"), local("Liberation Serif"), local("Times New Roman");
+  size-adjust: 108.68%;
+  ascent-override: 89.81%;
+  descent-override: 34.23%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Alegreya System";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Noto Serif"), local("Liberation Serif"), local("Times New Roman");
+  size-adjust: 85.69%;
+  ascent-override: 118.57%;
+  descent-override: 40.26%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Alegreya System";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Noto Serif Bold"), local("Liberation Serif Bold"), local("Times New Roman Bold"), local("Noto Serif"), local("Liberation Serif"), local("Times New Roman");
+  size-adjust: 81.14%;
+  ascent-override: 125.22%;
+  descent-override: 42.52%;
+  line-gap-override: 0%;
+}

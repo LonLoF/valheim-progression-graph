@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from "grok/canvas";
 import {
   D, type N, b, ok, LANES, LANE_SUB, GROUPS, GL, SUB_EN, DEF_CLOSED,
   isCre, isBuilt, HAMMER, COINS, TRIDX, KINDS, UPS, EK, EXV, xl,
-  DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, closure, COUNTS, KINDC, isStructEdge,
+  DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, closure, COUNTS, KINDC, isStructEdge, splitUpgradeLabel,
 } from "../graph";
 import { DetailExtras } from "../details";
 import { handleSearchKey } from "../keys";
@@ -16,12 +16,11 @@ function groupShown(gi: number[], closedGroup: boolean, sel: number | null, up: 
 type Seg = { d: string; c: string; dash: boolean };
 
 // Same hall skin as the compact view: wood, iron, runes, ember selection, parchment notes.
-const RUNE = "'Cinzel', 'Norse', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, serif";
-const BODY = "'Alegreya', 'IM Fell English', 'Palatino Linotype', 'Book Antiqua', Georgia, serif";
+const RUNE = "'Cinzel', 'Cinzel Fallback', 'Cinzel System', 'Norse', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif";
+const BODY = "'Alegreya', 'Alegreya Fallback', 'Alegreya System', 'IM Fell English', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif";
 const RUNIC = "'Noto Sans Runic', 'Segoe UI Historic', 'Segoe UI Symbol', serif";
 const INK = { hi: "#f3e6c8", mid: "#d8c49c", lo: "#b3a084", dark: "#2a1b0e", amber: "#e8b04f" };
-const SKIN_CSS = "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Alegreya:wght@400;700&family=Noto+Sans+Runic&display=swap');"
-  + ".vh-in::placeholder{color:#a8957a;opacity:1}.vh-scroll::-webkit-scrollbar{width:8px;height:6px}.vh-scroll::-webkit-scrollbar-thumb{background:#6e5232;border-radius:4px}.vh-scroll::-webkit-scrollbar-track{background:transparent}";
+const SKIN_CSS = ".vh-in::placeholder{color:#a8957a;opacity:1}.vh-scroll::-webkit-scrollbar{width:8px;height:6px}.vh-scroll::-webkit-scrollbar-thumb{background:#6e5232;border-radius:4px}.vh-scroll::-webkit-scrollbar-track{background:transparent}";
 const NOISE = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.20 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 const GRAIN = "repeating-linear-gradient(91deg, rgba(0,0,0,0.10) 0px, rgba(0,0,0,0.10) 2px, rgba(255,230,190,0.018) 2px, rgba(255,230,190,0.018) 6px, rgba(0,0,0,0.05) 6px, rgba(0,0,0,0.05) 11px)";
 const BIOME: [string, string, string][] = [
@@ -44,7 +43,9 @@ export default function App() {
   const [closed, setClosed] = useState<string[]>(DEF_CLOSED);
   const [depth, setDepth] = useState("1");
   const [sel, setSel] = useState<number | null>(null);
-  const [width, setWidth] = useState(1000);
+  // Read the real viewport on the first paint so a phone does not draw the
+  // desktop lanes and then jump.
+  const [width, setWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1000));
   const [tick, setTick] = useState(0);
   const [paths, setPaths] = useState<Seg[]>([]);
   const [box, setBox] = useState<[number, number]>([0, 0]);
@@ -191,9 +192,9 @@ export default function App() {
       >{r.n}{r.v === 0 ? " ?" : ""}</button>
     );
   };
-  const link = (i: number, extra?: string, c?: string) => (ok(i) ?
+  const link = (i: number, extra?: string, c?: string, level?: string) => (ok(i) ?
     <button type="button" key={"k" + i + (extra || "")} className="vh-btn vh-chip" onClick={() => setSel(i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${c || "#6e5232"}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
-      {extra ? extra + " " : ""}{D[i].n} <span style={{ color: "#cdb98f" }}>· {LANES[D[i].l]}</span>
+      {extra ? extra + " " : ""}{D[i].n}{level ? ` (${level})` : ""} <span style={{ color: "#cdb98f" }}>· {LANES[D[i].l]}</span>
     </button> : null
   );
   const row = (label: string, body: ReactNode, k: string) => (
@@ -287,8 +288,11 @@ export default function App() {
           const rec = D[u].rec.find((x: number[]) => x[0] === sel);
           const k = EK.get(sel + ">" + u) || "o";
           const verb = k === "b" ? "build" : k === "c" ? "craft" : "";
-          const xv = EXV.get(sel + ">" + u);
-          return link(u, rec ? `${rec[1]}× ${verb ? verb + " " : ""}→` : xv ? `${xv} →` : verb ? `${verb} →` : "→", KC[k]);
+          const xv = EXV.get(sel + ">" + u) || "";
+          const up = splitUpgradeLabel(xv);
+          if (rec) return link(u, `${rec[1]}× ${verb ? verb + " " : ""}→`, KC[k]);
+          if (up) return link(u, up.prefix, KC[k], up.level);
+          return link(u, xv ? `${xv} →` : verb ? `${verb} →` : "→", KC[k]);
         })))}
         {raw.length > 0 && sec("All raw sources in the chain", <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18" }}>{raw.map((n: number) => `${D[n].n} (${LANES[D[n].l]})`).join(", ")}</div>)}
         {r.note && <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", marginTop: 10 }}>{r.note}</div>}
