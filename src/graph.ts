@@ -5,6 +5,7 @@
 import rawData from "./data/data_v9.json";
 import wikiFile from "./data/wiki_info.json";
 import { includeBiomeFoundIn, joinClauses, upgradeStationLabel, upgradeUseLabel } from "../scripts/public-text.mjs";
+import { classifyFood, type FoodRole } from "./foodRole";
 
 export { splitUpgradeLabel } from "../scripts/public-text.mjs";
 
@@ -70,9 +71,10 @@ type RawItem = {
   note?: string;
   used_in?: { target: string; relation: string; amount?: number | null; detail?: string; in_dataset?: boolean }[];
   upgrades?: { quality: number; station?: string; station_level?: number; ingredients?: [string, number][] }[];
-  alt_recipes?: { at?: string[]; ingredients?: [string, number][] }[];
+  alt_recipes?: { at?: string[]; ingredients?: [string, number][]; station_level?: number; yields?: number }[];
   forge_of_potential?: { idol: string; amount: number; when?: string }[];
   fuel?: string[];
+  aliases?: string[];
   spawns?: { creature: string; in_dataset?: boolean; where?: string[] }[];
   chests?: { container?: string; rolls?: string; loot?: { item: string; amount?: string; chance_per_roll?: string; chance_per_chest?: string; chance?: string; in_dataset?: boolean }[] }[];
   pickables?: { item: string; in_dataset?: boolean; where?: string[] }[];
@@ -391,6 +393,58 @@ export const WIKI: WikiInfo[] = items.map((it) => {
   Object.entries(e.stats || {}).forEach(([k, v]) => { const s = showStat(v); if (s) stats.push([labelStat(k), s]); });
   return { summary: e.summary || "", stats, wiki: e.wiki || undefined, mentioned: e.wiki_match === "mentioned" };
 });
+
+export type { FoodRole };
+export const FOOD_ROLE: (FoodRole | null)[] = items.map((it) => classifyFood(it.type, wikiEntries[it.name]?.stats as Record<string, unknown> | undefined));
+
+/** Alternate names from the dataset. The item's own name is not repeated here. */
+export const ALIASES: [string, number][] = [];
+items.forEach((it, i) => {
+  (it.aliases || []).forEach((alias) => {
+    const name = String(alias || "").trim();
+    if (name) ALIASES.push([name, i]);
+  });
+});
+
+export type CraftRecipe = {
+  ingredients: [number, number][];
+  station: number;
+  level: number;
+  yields: number;
+};
+
+function recipeFrom(at: string[] | undefined, ingredients: [string, number][] | undefined, level?: number, yields?: number): CraftRecipe | null {
+  const list: [number, number][] = [];
+  (ingredients || []).forEach(([n, q]) => {
+    const i = findName(n);
+    if (i >= 0 && q > 0) list.push([i, q]);
+  });
+  if (!list.length) return null;
+  let station = -1;
+  for (const n of at || []) {
+    if (n === "by hand" || n === "By hand") { station = -1; break; }
+    const i = findName(n);
+    if (i >= 0) { station = i; break; }
+  }
+  return { ingredients: list, station, level: level || 1, yields: yields && yields > 0 ? yields : 1 };
+}
+
+export const PRIMARY: (CraftRecipe | null)[] = items.map((it) => {
+  if (it.crafted) return recipeFrom(it.crafted.at, it.crafted.ingredients, it.crafted.station_level, it.crafted.yields);
+  if (it.built) return recipeFrom(it.built.near_station, it.built.materials, it.built.station_level, 1);
+  if (it.summon_offering) return recipeFrom(undefined, it.summon_offering, 1, 1);
+  return null;
+});
+
+export const ALTS: CraftRecipe[][] = items.map((it) => (it.alt_recipes || [])
+  .map((alt) => recipeFrom(alt.at, alt.ingredients, alt.station_level, alt.yields))
+  .filter((r): r is CraftRecipe => r !== null));
+
+export type QualityStep = { quality: number; station: number; level: number };
+export const QUALITIES: QualityStep[][] = items.map((it) => (it.upgrades || []).map((u) => {
+  const named = u.station && u.station !== "by hand" && u.station !== "By hand" ? findName(u.station) : -1;
+  return { quality: u.quality, station: named, level: u.station_level || 1 };
+}));
 
 export const isStructEdge = (from: number, to: number): boolean => {
   const k = EK.get(from + ">" + to);
