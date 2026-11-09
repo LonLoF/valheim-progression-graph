@@ -6,6 +6,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { lintPublicCopy, selfTestPublicText } from "./public-text.mjs";
 
 // Vite bundles this file into a temporary config, so import.meta.url is not
 // the script path. npm and `vite build` both run with the repo as cwd.
@@ -105,10 +106,47 @@ function selfTest() {
   }
 }
 
+const FONT_FILES = [
+  "src/site.css",
+  "src/views/CompactView.tsx",
+  "src/views/FullView.tsx",
+  "src/details.tsx",
+  "src/grok-canvas.tsx",
+  "index.html",
+  "compact/index.html",
+];
+
+/** Google Fonts must stay out, and the upgrade / structure copy has to stay wired up. */
+export function checkWiring() {
+  const errors = [];
+  const read = (p) => readFileSync(join(root, p), "utf8");
+  for (const p of FONT_FILES) {
+    if (/fonts\.googleapis\.com|fonts\.gstatic\.com/.test(read(p))) errors.push(`${p}: Google Fonts reference`);
+  }
+  for (const p of ["index.html", "compact/index.html"]) {
+    const html = read(p);
+    if (!html.includes('rel="preload"') || !html.includes('as="font"') || !html.includes("crossorigin")) {
+      errors.push(`${p}: missing font preload`);
+    }
+    if (!html.includes("fonts/fonts.css")) errors.push(`${p}: fonts.css is not linked`);
+  }
+  const fonts = read("public/assets/fonts/fonts.css");
+  if (!/font-display:\s*swap/.test(fonts)) errors.push("fonts.css: font-display: swap missing");
+  if (!/size-adjust:/.test(fonts) || !/ascent-override:/.test(fonts)) errors.push("fonts.css: fallback metric overrides missing");
+  const graph = read("src/graph.ts");
+  if (!graph.includes("includeBiomeFoundIn")) errors.push("graph.ts does not hide the biome Found in block for structures");
+  if (!graph.includes("upgradeUseLabel")) errors.push("graph.ts does not give upgrade uses an amount and level");
+  for (const p of ["src/views/CompactView.tsx", "src/views/FullView.tsx"]) {
+    if (!read(p).includes("splitUpgradeLabel")) errors.push(`${p}: upgrade chips are not split into amount and level`);
+  }
+  return errors;
+}
+
 export function publicCopyErrors() {
   selfTest();
+  selfTestPublicText();
   const { data, wiki } = load();
-  return [...checkSummaryTiers(data, wiki), ...checkPublicNotes(data)];
+  return [...checkSummaryTiers(data, wiki), ...checkPublicNotes(data), ...lintPublicCopy(data, wiki), ...checkWiring()];
 }
 
 function main() {
@@ -117,7 +155,7 @@ function main() {
     console.error(errors.join("\n"));
     process.exit(1);
   }
-  console.log("summary tiers and public notes ok");
+  console.log("summary tiers, public notes, text patterns and font wiring ok");
 }
 
 const invoked = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];

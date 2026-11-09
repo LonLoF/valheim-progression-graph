@@ -378,7 +378,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "1–5",
-     "chance": "Dolmen01: 1 spot (10%); Dolmen02: 1 spot (20%); Dolmen03: 1 spot (30%)",
+     "chance": "1 spot (10%); 1 spot (20%); 1 spot (30%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -387,7 +387,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "1–5",
-     "chance": "ShipSetting01: 1 spot (50%)",
+     "chance": "1 spot (50%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -405,7 +405,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–5",
-     "chance": "Crypt2: in 6 of 18 rooms; Crypt3: in 6 of 18 rooms; Crypt4: in 6 of 18 rooms",
+     "chance": "in 6 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -414,7 +414,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–5",
-     "chance": "TrollCave02: up to 9 spots (50% each)",
+     "chance": "up to 9 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -432,7 +432,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–5",
-     "chance": "Hildir_crypt: in 2 of 15 rooms",
+     "chance": "in 2 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -486,7 +486,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl / Withered Bone / Withered Bone",
      "amount": "3–10",
-     "chance": "SunkenCrypt4: in 6 of 16 rooms",
+     "chance": "in 6 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -589,7 +589,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "1–3",
-     "chance": "Dolmen01: 1 spot (10%); Dolmen02: 1 spot (20%); Dolmen03: 1 spot (30%)",
+     "chance": "1 spot (10%); 1 spot (20%); 1 spot (30%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -607,7 +607,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "1–3",
-     "chance": "ShipSetting01: 1 spot (50%)",
+     "chance": "1 spot (50%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -616,7 +616,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–3",
-     "chance": "Crypt2: in 6 of 18 rooms; Crypt3: in 6 of 18 rooms; Crypt4: in 6 of 18 rooms",
+     "chance": "in 6 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -625,7 +625,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–3",
-     "chance": "TrollCave02: up to 9 spots (50% each)",
+     "chance": "up to 9 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -634,7 +634,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–3",
-     "chance": "Hildir_crypt: in 2 of 15 rooms",
+     "chance": "in 2 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -661,7 +661,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl / Withered Bone / Withered Bone",
      "amount": "2–5",
-     "chance": "SunkenCrypt4: in 6 of 16 rooms",
+     "chance": "in 6 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1476,7 +1476,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "2–15",
-     "chance": "Dolmen01: 1 spot (10%); Dolmen02: 1 spot (20%); Dolmen03: 1 spot (30%)",
+     "chance": "1 spot (10%); 1 spot (20%); 1 spot (30%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1494,7 +1494,7 @@
      "via": "pickable",
      "container": "one of: Coins / Amber Pearl / Amber",
      "amount": "2–15",
-     "chance": "ShipSetting01: 1 spot (50%)",
+     "chance": "1 spot (50%)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1512,7 +1512,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "5–20",
-     "chance": "Crypt2: in 6 of 18 rooms; Crypt3: in 6 of 18 rooms; Crypt4: in 6 of 18 rooms",
+     "chance": "in 6 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1530,7 +1530,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "5–20",
-     "chance": "TrollCave02: up to 9 spots (50% each)",
+     "chance": "up to 9 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1548,7 +1548,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "5–20",
-     "chance": "Hildir_crypt: in 2 of 15 rooms",
+     "chance": "in 2 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1611,7 +1611,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl / Withered Bone / Withered Bone",
      "amount": "5–30",
-     "chance": "SunkenCrypt4: in 6 of 16 rooms",
+     "chance": "in 6 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1656,7 +1656,7 @@
      "via": "pickable",
      "container": "one of: Coins",
      "amount": "3–9",
-     "chance": "MountainCave02: in 1 of 94 rooms",
+     "chance": "in 1 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1683,7 +1683,7 @@
      "via": "pickable",
      "container": "one of: Coins",
      "amount": "3–9",
-     "chance": "Hildir_cave: in 1 of 83 rooms",
+     "chance": "in 1 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1780,7 +1780,7 @@
     {
      "found_in_structure": "Infested Mine",
      "via": "pickable",
-     "chance": "Mistlands_DvergrTownEntrance1: in 1 of 48 rooms; Mistlands_DvergrTownEntrance2: in 1 of 48 rooms",
+     "chance": "in 1 of 48 rooms",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -1977,21 +1977,21 @@
     {
      "found_in_structure": "Abandoned House",
      "via": "pickable",
-     "chance": "WoodHouse8: up to 6 spots (20% each)",
+     "chance": "up to 6 spots (20% each)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Abandoned Village",
      "via": "pickable",
-     "chance": "WoodFarm1: in 1 of 13 rooms",
+     "chance": "in 1 of 13 rooms",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Fuling Village",
      "via": "pickable",
-     "chance": "GoblinCamp2: in 2 of 17 rooms",
+     "chance": "in 2 of 17 rooms",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -4779,7 +4779,7 @@
     {
      "found_in_structure": "Big Rock Clearing",
      "via": "pickable",
-     "chance": "BigRockClearing: 22 spots",
+     "chance": "22 spots",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -4855,7 +4855,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–2",
-     "chance": "Crypt2: in 6 of 18 rooms; Crypt3: in 6 of 18 rooms; Crypt4: in 6 of 18 rooms",
+     "chance": "in 6 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -4873,7 +4873,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–2",
-     "chance": "TrollCave02: up to 9 spots (50% each)",
+     "chance": "up to 9 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -4891,7 +4891,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl",
      "amount": "1–2",
-     "chance": "Hildir_crypt: in 2 of 15 rooms",
+     "chance": "in 2 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -4918,7 +4918,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl / Withered Bone / Withered Bone",
      "amount": "1–2",
-     "chance": "SunkenCrypt4: in 6 of 16 rooms",
+     "chance": "in 6 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -5206,14 +5206,14 @@
     {
      "found_in_structure": "Abandoned House",
      "via": "pickable",
-     "chance": "WoodHouse3: up to 6 spots (90% each)",
+     "chance": "up to 6 spots (90% each)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Sacrificial Stones",
      "via": "pickable",
-     "chance": "StartTemple: up to 8 spots (2 always, 1 at 51.2%, 1 at 50.6%, 1 at 50%, 1 at 48.8%, 1 at 37%, 1 at 34.7%; 4.7 on average)",
+     "chance": "up to 8 spots (2 always, 1 at 51.2%, 1 at 50.6%, 1 at 50%, 1 at 48.8%, 1 at 37%, 1 at 34.7%; 4.7 on average)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -5229,7 +5229,7 @@
     {
      "found_in_structure": "Winding Tunnels",
      "via": "pickable",
-     "chance": "TheHole01: 5 spots",
+     "chance": "5 spots",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -5580,14 +5580,14 @@
     {
      "found_in_structure": "Abandoned House",
      "via": "pickable",
-     "chance": "WoodHouse3: up to 3 spots (90% each)",
+     "chance": "up to 3 spots (90% each)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Sacrificial Stones",
      "via": "pickable",
-     "chance": "StartTemple: up to 4 spots (2 always, 1 at 75.8%, 1 at 74.4%; 3.5 on average)",
+     "chance": "up to 4 spots (2 always, 1 at 75.8%, 1 at 74.4%; 3.5 on average)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -5612,7 +5612,7 @@
     {
      "found_in_structure": "Winding Tunnels",
      "via": "pickable",
-     "chance": "TheHole01: 2 spots",
+     "chance": "2 spots",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -7985,21 +7985,21 @@
     {
      "found_in_structure": "Abandoned House",
      "via": "pickable",
-     "chance": "WoodHouse12: up to 4 spots (33% each)",
+     "chance": "up to 4 spots (33% each)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Abandoned Village",
      "via": "pickable",
-     "chance": "WoodFarm1: in 1 of 13 rooms",
+     "chance": "in 1 of 13 rooms",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Sacrificial Stones",
      "via": "pickable",
-     "chance": "StartTemple: 2 spots",
+     "chance": "2 spots",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -8092,14 +8092,14 @@
     {
      "found_in_structure": "Abandoned Village",
      "via": "pickable",
-     "chance": "WoodFarm1: in 1 of 13 rooms",
+     "chance": "in 1 of 13 rooms",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Sacrificial Stones",
      "via": "pickable",
-     "chance": "StartTemple: 2 spots",
+     "chance": "2 spots",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -12707,28 +12707,28 @@
     {
      "found_in_structure": "Combat Ruin",
      "via": "pickable",
-     "chance": "CombatRuin01: up to 2 spots (80% each)",
+     "chance": "up to 2 spots (80% each)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dolmen",
      "via": "pickable",
-     "chance": "Dolmen01: 1 spot (50%); Dolmen02: 1 spot (50%); Dolmen03: up to 2 spots (1 always, 1 at 50%; 1.5 on average)",
+     "chance": "1 spot (50%); up to 2 spots (1 always, 1 at 50%; 1.5 on average)",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Viking Graveyard",
      "via": "pickable",
-     "chance": "ShipSetting01: 2 spots",
+     "chance": "2 spots",
      "structure_lane": "Meadows",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Burial Chambers",
      "via": "pickable",
-     "chance": "Crypt2: in 3 of 18 rooms; Crypt3: in 3 of 18 rooms; Crypt4: in 3 of 18 rooms",
+     "chance": "in 3 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -12744,42 +12744,42 @@
     {
      "found_in_structure": "Troll Cave",
      "via": "pickable",
-     "chance": "TrollCave02: up to 3 spots (66% each)",
+     "chance": "up to 3 spots (66% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Bear Cave",
      "via": "pickable",
-     "chance": "BearCave: 1 spot (66%)",
+     "chance": "1 spot (66%)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Smouldering Tomb",
      "via": "pickable",
-     "chance": "Hildir_crypt: in 1 of 15 rooms",
+     "chance": "in 1 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Frost Caves",
      "via": "pickable",
-     "chance": "MountainCave02: in 12 of 94 rooms",
+     "chance": "in 12 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Howling Cavern",
      "via": "pickable",
-     "chance": "Hildir_cave: in 10 of 83 rooms",
+     "chance": "in 10 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Mountain Grave",
      "via": "pickable",
-     "chance": "MountainGrave01: 1 spot (50%)",
+     "chance": "1 spot (50%)",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -12795,14 +12795,14 @@
     {
      "found_in_structure": "North Memorial Place",
      "via": "pickable",
-     "chance": "NorthMemorialPlace: up to 10 spots (6 always, 4 at 90%; 9.6 on average)",
+     "chance": "up to 10 spots (6 always, 4 at 90%; 9.6 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Ship Setting (Deep North)",
      "via": "pickable",
-     "chance": "ShipSetting02: up to 6 spots (45% each); ShipSetting03: up to 6 spots (2 at 50%, 4 at 25%; 2 on average)",
+     "chance": "up to 6 spots (45% each); up to 6 spots (2 at 50%, 4 at 25%; 2 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -16946,14 +16946,14 @@
     {
      "found_in_structure": "Burial Chambers",
      "via": "pickable",
-     "chance": "Crypt2: in 6 of 18 rooms; Crypt3: in 6 of 18 rooms; Crypt4: in 6 of 18 rooms",
+     "chance": "in 6 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Smouldering Tomb",
      "via": "pickable",
-     "chance": "Hildir_crypt: in 1 of 15 rooms",
+     "chance": "in 1 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -17111,7 +17111,7 @@
     {
      "found_in_structure": "Big Rock Clearing",
      "via": "pickable",
-     "chance": "BigRockClearing: 4 spots",
+     "chance": "4 spots",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -17874,7 +17874,7 @@
     {
      "found_in_structure": "Bear Cave",
      "via": "pickable",
-     "chance": "BearCave: up to 3 spots (50% each)",
+     "chance": "up to 3 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -18603,35 +18603,35 @@
     {
      "found_in_structure": "Burial Chambers",
      "via": "pickable",
-     "chance": "Crypt2: in 12 of 18 rooms; Crypt3: in 12 of 18 rooms; Crypt4: in 12 of 18 rooms",
+     "chance": "in 12 of 18 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Troll Cave",
      "via": "pickable",
-     "chance": "TrollCave02: up to 12 spots (50% each)",
+     "chance": "up to 12 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Bear Cave",
      "via": "pickable",
-     "chance": "BearCave: up to 22 spots (50% each)",
+     "chance": "up to 22 spots (50% each)",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Smouldering Tomb",
      "via": "pickable",
-     "chance": "Hildir_crypt: in 9 of 15 rooms",
+     "chance": "in 9 of 15 rooms",
      "structure_lane": "Black Forest",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Sunken Crypts",
      "via": "pickable",
-     "chance": "SunkenCrypt4: in 7 of 16 rooms",
+     "chance": "in 7 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -19874,7 +19874,7 @@
     {
      "found_in_structure": "Frost Caves",
      "via": "pickable",
-     "chance": "MountainCave02: in 1 of 94 rooms",
+     "chance": "in 1 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -23458,7 +23458,7 @@
     {
      "found_in_structure": "Draugr Village",
      "via": "spawn",
-     "chance": "WoodVillage1: Draugr in 8+7 of 10 rooms, Draugr Elite in 4 of 10 rooms",
+     "chance": "Draugr in 8+7 of 10 rooms, Draugr Elite in 4 of 10 rooms",
      "structure_lane": "Meadows",
      "audit_source": "https://valheimdb.com/locations/wood-village"
     }
@@ -23499,7 +23499,7 @@
     {
      "found_in_structure": "Draugr Village",
      "via": "spawn",
-     "chance": "WoodVillage1: in 4 of 10 rooms",
+     "chance": "in 4 of 10 rooms",
      "structure_lane": "Meadows",
      "audit_source": "https://valheimdb.com/locations/wood-village"
     }
@@ -24484,7 +24484,7 @@
     {
      "found_in_structure": "Frost Caves",
      "via": "pickable",
-     "chance": "MountainCave02: in 12 of 94 rooms",
+     "chance": "in 12 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -24500,7 +24500,7 @@
     {
      "found_in_structure": "Howling Cavern",
      "via": "pickable",
-     "chance": "Hildir_cave: in 10 of 83 rooms",
+     "chance": "in 10 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -24516,7 +24516,7 @@
     {
      "found_in_structure": "Putrid Hole",
      "via": "pickable",
-     "chance": "MorgenHole1: up to 13 spots (3 at 50%, 10 at 12.5%; 2.8 on average); MorgenHole2: up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average); MorgenHole3: up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)",
+     "chance": "up to 13 spots (3 at 50%, 10 at 12.5%; 2.8 on average); up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -27779,7 +27779,7 @@
      "via": "pickable",
      "container": "one of: Coins / Ruby / Amber / Amber Pearl / Withered Bone / Withered Bone",
      "amount": "1",
-     "chance": "SunkenCrypt4: in 6 of 16 rooms",
+     "chance": "in 6 of 16 rooms",
      "structure_lane": "Swamp",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -32651,14 +32651,14 @@
     {
      "found_in_structure": "Frost Caves",
      "via": "pickable",
-     "chance": "MountainCave02: in 40 of 94 rooms",
+     "chance": "in 40 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Howling Cavern",
      "via": "pickable",
-     "chance": "Hildir_cave: in 32 of 83 rooms",
+     "chance": "in 32 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -32726,7 +32726,7 @@
      "via": "pickable",
      "container": "one of: Fenris Claw / Fenris Hair",
      "amount": "1",
-     "chance": "MountainCave02: in 12 of 94 rooms",
+     "chance": "in 12 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -32735,7 +32735,7 @@
      "via": "pickable",
      "container": "one of: Fenris Claw / Fenris Hair",
      "amount": "1",
-     "chance": "Hildir_cave: in 9 of 83 rooms",
+     "chance": "in 9 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -32820,7 +32820,7 @@
     {
      "found_in_structure": "Frost Caves",
      "via": "pickable",
-     "chance": "MountainCave02: in 3 of 94 rooms",
+     "chance": "in 3 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -32829,14 +32829,14 @@
      "via": "pickable",
      "container": "one of: Fenris Claw / Fenris Hair",
      "amount": "1",
-     "chance": "MountainCave02: in 12 of 94 rooms",
+     "chance": "in 12 of 94 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Howling Cavern",
      "via": "pickable",
-     "chance": "Hildir_cave: in 1 of 83 rooms",
+     "chance": "in 1 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -32845,7 +32845,7 @@
      "via": "pickable",
      "container": "one of: Fenris Claw / Fenris Hair",
      "amount": "1",
-     "chance": "Hildir_cave: in 9 of 83 rooms",
+     "chance": "in 9 of 83 rooms",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -33128,7 +33128,7 @@
     {
      "found_in_structure": "Winding Tunnels",
      "via": "pickable",
-     "chance": "TheHole01: in 8 of 32 rooms",
+     "chance": "in 8 of 32 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -37642,7 +37642,7 @@
     {
      "found_in_structure": "Drake Nest",
      "via": "pickable",
-     "chance": "DrakeNest01: 1 spot",
+     "chance": "1 spot",
      "structure_lane": "Mountain",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -38715,7 +38715,7 @@
     {
      "found_in_structure": "Fuling Village",
      "via": "pickable",
-     "chance": "GoblinCamp2: in 1 of 17 rooms",
+     "chance": "in 1 of 17 rooms",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -39960,7 +39960,7 @@
     {
      "found_in_structure": "Fuling Village",
      "via": "pickable",
-     "chance": "GoblinCamp2: in 1 of 17 rooms",
+     "chance": "in 1 of 17 rooms",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -41415,7 +41415,7 @@
     {
      "found_in_structure": "Tar Pit",
      "via": "pickable",
-     "chance": "TarPit1: 16 spots; TarPit2: 12 spots; TarPit3: 9 spots",
+     "chance": "16 spots; 12 spots; 9 spots",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -45555,14 +45555,14 @@
     {
      "found_in_structure": "Fuling Village",
      "via": "pickable",
-     "chance": "GoblinCamp2: in 1 of 17 rooms",
+     "chance": "in 1 of 17 rooms",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Fuling Outpost",
      "via": "pickable",
-     "chance": "StoneTower1: 1 spot",
+     "chance": "1 spot",
      "structure_lane": "Plains",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -46308,7 +46308,7 @@
     {
      "found_in_structure": "Infested Mine",
      "via": "pickable",
-     "chance": "Mistlands_DvergrTownEntrance1: in 6 of 48 rooms; Mistlands_DvergrTownEntrance2: in 6 of 48 rooms",
+     "chance": "in 6 of 48 rooms",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -51100,7 +51100,7 @@
     {
      "found_in_structure": "Winding Tunnels",
      "via": "pickable",
-     "chance": "TheHole01: in 20 of 32 rooms",
+     "chance": "in 20 of 32 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -51386,7 +51386,7 @@
     {
      "found_in_structure": "Infested Mine",
      "via": "pickable",
-     "chance": "Mistlands_DvergrTownEntrance1: in 21 of 48 rooms; Mistlands_DvergrTownEntrance2: in 21 of 48 rooms",
+     "chance": "in 21 of 48 rooms",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -52434,35 +52434,35 @@
     {
      "found_in_structure": "Infested Citadel",
      "via": "pickable",
-     "chance": "Mistlands_DvergrBossEntrance1: up to 2 spots (50% each)",
+     "chance": "up to 2 spots (50% each)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Guard Tower",
      "via": "pickable",
-     "chance": "Mistlands_GuardTower1_new: up to 4 spots (2 at 75%, 1 at 56.3%, 1 at 50%; 2.6 on average); Mistlands_GuardTower2_new: up to 3 spots (50% each)",
+     "chance": "up to 4 spots (2 at 75%, 1 at 56.3%, 1 at 50%; 2.6 on average); up to 3 spots (50% each)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Lighthouse",
      "via": "pickable",
-     "chance": "Mistlands_Lighthouse1_new: up to 3 spots (56.3% each)",
+     "chance": "up to 3 spots (56.3% each)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Excavation Site",
      "via": "pickable",
-     "chance": "Mistlands_Excavation1: up to 6 spots (50% each); Mistlands_Excavation2: up to 6 spots (50% each)",
+     "chance": "up to 6 spots (50% each)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Charred Tower Ruins",
      "via": "pickable",
-     "chance": "CharredTowerRuins1_dvergr: up to 3 spots (50% each)",
+     "chance": "up to 3 spots (50% each)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -52524,21 +52524,21 @@
     {
      "found_in_structure": "Infested Citadel",
      "via": "pickable",
-     "chance": "Mistlands_DvergrBossEntrance1: up to 7 spots (5 at 33%, 2 at 25%; 2.2 on average)",
+     "chance": "up to 7 spots (5 at 33%, 2 at 25%; 2.2 on average)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Guard Tower",
      "via": "pickable",
-     "chance": "Mistlands_GuardTower1_new: up to 2 spots (1 at 15%, 1 at 10%; 0.3 on average); Mistlands_GuardTower2_new: 1 spot (10%)",
+     "chance": "up to 2 spots (1 at 15%, 1 at 10%; 0.3 on average); 1 spot (10%)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Lighthouse",
      "via": "pickable",
-     "chance": "Mistlands_Lighthouse1_new: up to 3 spots (15% each)",
+     "chance": "up to 3 spots (15% each)",
      "structure_lane": "Mistlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -57906,7 +57906,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms",
+     "chance": "1 spot (7.1%) · in 13 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -58939,7 +58939,7 @@
     {
      "found_in_structure": "Mysterious Location",
      "via": "pickable",
-     "chance": "PlaceofMystery2: 1 spot",
+     "chance": "1 spot",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -59031,7 +59031,7 @@
     {
      "found_in_structure": "Mysterious Location",
      "via": "pickable",
-     "chance": "PlaceofMystery1: 1 spot",
+     "chance": "1 spot",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -60965,7 +60965,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms",
+     "chance": "1 spot (7.1%) · in 13 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -61240,7 +61240,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms",
+     "chance": "1 spot (7.1%) · in 13 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -61678,7 +61678,7 @@
     {
      "found_in_structure": "Charred Fortress",
      "via": "pickable",
-     "chance": "CharredFortress: up to 10 spots (2 always, 8 at 5%; 2.4 on average)",
+     "chance": "up to 10 spots (2 always, 8 at 5%; 2.4 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -61694,21 +61694,21 @@
     {
      "found_in_structure": "Putrid Hole",
      "via": "pickable",
-     "chance": "MorgenHole1: up to 14 spots (8 at 25%, 6 at 6.3%; 2.4 on average); MorgenHole2: up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average); MorgenHole3: up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)",
+     "chance": "up to 14 spots (8 at 25%, 6 at 6.3%; 2.4 on average); up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Mysterious Location",
      "via": "pickable",
-     "chance": "PlaceofMystery1: 4 spots; PlaceofMystery2: 4 spots",
+     "chance": "4 spots",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Tomb of Lord Reto",
      "via": "pickable",
-     "chance": "PlaceofMystery3: 4 spots",
+     "chance": "4 spots",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -62056,7 +62056,7 @@
     {
      "found_in_structure": "Sulfur Arch",
      "via": "pickable",
-     "chance": "SulfurArch: up to 20 spots (40% each)",
+     "chance": "up to 20 spots (40% each)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -62587,14 +62587,14 @@
     {
      "found_in_structure": "Ashlands Ruins",
      "via": "pickable",
-     "chance": "AshlandRuins: in 6 of 15 rooms; FortressRuins: in 4 of 12 rooms; CharredTowerRuins1: up to 86 spots (49 at 21.9%, 37 at 18.2%; 17.5 on average)",
+     "chance": "in 6 of 15 rooms; in 4 of 12 rooms; up to 86 spots (49 at 21.9%, 37 at 18.2%; 17.5 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Charred Tower Ruins",
      "via": "pickable",
-     "chance": "CharredTowerRuins1_dvergr: up to 64 spots (37 at 36.4%, 27 at 21.9%; 19.4 on average)",
+     "chance": "up to 64 spots (37 at 36.4%, 27 at 21.9%; 19.4 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -63072,14 +63072,14 @@
     {
      "found_in_structure": "Ashlands Ruins",
      "via": "pickable",
-     "chance": "AshlandRuins: in 4 of 15 rooms; FortressRuins: in 2 of 12 rooms; CharredTowerRuins1: up to 4 spots (19.8% each)",
+     "chance": "in 4 of 15 rooms; in 2 of 12 rooms; up to 4 spots (19.8% each)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
     {
      "found_in_structure": "Dvergr Charred Tower Ruins",
      "via": "pickable",
-     "chance": "CharredTowerRuins1_dvergr: up to 4 spots (19.8% each)",
+     "chance": "up to 4 spots (19.8% each)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -63278,7 +63278,7 @@
     {
      "found_in_structure": "Charred Ruins",
      "via": "pickable",
-     "chance": "CharredRuins1: up to 72 spots (1 at 80%, 6 at 73.1%, 3 at 69.5%, 1 at 65.8%, 2 at 48.7%, 3 at 48%, 28 at 43.9%, 13 at 41.7%, 11 at 39.5%, 2 at 37.5%, 2 at 35%; 33.8 on average); CharredRuins2: up to 6 spots (3 at 60%, 2 at 36%, 1 at 32.4%; 2.8 on average); CharredRuins3: up to 4 spots (1 always, 1 at 60%, 2 at 48.6%; 2.6 on average); CharredRuins4: up to 4 spots (1 at 90%, 2 at 54%, 1 at 48.6%; 2.5 on average)",
+     "chance": "up to 72 spots (1 at 80%, 6 at 73.1%, 3 at 69.5%, 1 at 65.8%, 2 at 48.7%, 3 at 48%, 28 at 43.9%, 13 at 41.7%, 11 at 39.5%, 2 at 37.5%, 2 at 35%; 33.8 on average); up to 6 spots (3 at 60%, 2 at 36%, 1 at 32.4%; 2.8 on average); up to 4 spots (1 always, 1 at 60%, 2 at 48.6%; 2.6 on average); up to 4 spots (1 at 90%, 2 at 54%, 1 at 48.6%; 2.5 on average)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -69271,7 +69271,7 @@
     {
      "found_in_structure": "Volture Nest",
      "via": "pickable",
-     "chance": "VoltureNest: up to 6 spots (50% each)",
+     "chance": "up to 6 spots (50% each)",
      "structure_lane": "Ashlands",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -72529,7 +72529,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
+     "chance": "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -72538,7 +72538,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "MorkBorg: in 11 of 16 rooms",
+     "chance": "in 11 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -72547,7 +72547,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "ShipSetting02: up to 5 spots (45% each); ShipSetting03: up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
+     "chance": "up to 5 spots (45% each); up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -73096,7 +73096,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
+     "chance": "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -73105,7 +73105,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "MorkBorg: in 11 of 16 rooms",
+     "chance": "in 11 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -73114,7 +73114,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "ShipSetting02: up to 5 spots (45% each); ShipSetting03: up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
+     "chance": "up to 5 spots (45% each); up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -75635,7 +75635,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
+     "chance": "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -75644,7 +75644,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "MorkBorg: in 11 of 16 rooms",
+     "chance": "in 11 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -75653,7 +75653,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "ShipSetting02: up to 5 spots (45% each); ShipSetting03: up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
+     "chance": "up to 5 spots (45% each); up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -76759,7 +76759,7 @@
     {
      "found_in_structure": "Mörkhalla",
      "via": "pickable",
-     "chance": "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
+     "chance": "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -76768,7 +76768,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "MorkBorg: in 11 of 16 rooms",
+     "chance": "in 11 of 16 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -76777,7 +76777,7 @@
      "via": "pickable",
      "container": "one of: Draumyx / Veydris / Grimvarn / Solryth",
      "amount": "1",
-     "chance": "ShipSetting02: up to 5 spots (45% each); ShipSetting03: up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
+     "chance": "up to 5 spots (45% each); up to 3 spots (1 at 50%, 2 at 25%; 1 on average)",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     },
@@ -77213,7 +77213,7 @@
     {
      "found_in_structure": "North Village",
      "via": "pickable",
-     "chance": "NorthVillage: in 1 of 9 rooms",
+     "chance": "in 1 of 9 rooms",
      "structure_lane": "Deep North",
      "audit_source": "valheimdb.com (Valheim 1.0.20 datamine)"
     }
@@ -86492,7 +86492,7 @@
     "https://valheimdb.com/locations/wood-house-woodhouse13",
     "https://valheim.fandom.com/wiki/Abandoned_House"
    ],
-   "note": "13 variants of lone ruined wooden houses. WoodHouse2 chest can hold a Mysterious Axe Head, WoodHouse6 a Curious Axe Head (25% per roll). WoodHouse4/5 have no chest (only a 25% bee nest).",
+   "note": "13 variants of lone ruined wooden houses. One variant's chest can hold a Mysterious Axe Head, and another a Curious Axe Head (25% per roll). Two variants have no chest (only a 25% bee nest).",
    "used_in": [],
    "audit": {
     "run": "2026-10-28 v9",
@@ -86541,13 +86541,13 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodHouse1: 1 (50%) in the location",
-      "WoodHouse7: 1 (50%) in the location",
-      "WoodHouse9: 1 (50%) in the location",
-      "WoodHouse10: 1 (50%) in the location",
-      "WoodHouse11: 1 (50%) in the location",
-      "WoodHouse12: 1 (50%) in the location",
-      "WoodHouse13: 1 (50%) in the location"
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -86627,7 +86627,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodHouse2: 1 (50%) in the location"
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -86686,7 +86686,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodHouse6: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -86747,28 +86747,28 @@
      "item": "Wood",
      "in_dataset": true,
      "where": [
-      "WoodHouse3: up to 3 spots (90% each)"
+      "up to 3 spots (90% each)"
      ]
     },
     {
      "item": "Stone",
      "in_dataset": true,
      "where": [
-      "WoodHouse3: up to 6 spots (90% each)"
+      "up to 6 spots (90% each)"
      ]
     },
     {
      "item": "Dandelion",
      "in_dataset": true,
      "where": [
-      "WoodHouse8: up to 6 spots (20% each)"
+      "up to 6 spots (20% each)"
      ]
     },
     {
      "item": "Mushroom",
      "in_dataset": true,
      "where": [
-      "WoodHouse12: up to 4 spots (33% each)"
+      "up to 4 spots (33% each)"
      ]
     }
    ],
@@ -86844,7 +86844,7 @@
      "creature": "Boar",
      "in_dataset": true,
      "where": [
-      "WoodFarm1: in 3 of 13 rooms"
+      "in 3 of 13 rooms"
      ]
     }
    ],
@@ -86853,7 +86853,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodFarm1: in 2 of 13 rooms"
+      "in 2 of 13 rooms"
      ],
      "loot": [
       {
@@ -86935,21 +86935,21 @@
      "item": "Raspberries",
      "in_dataset": true,
      "where": [
-      "WoodFarm1: in 1 of 13 rooms"
+      "in 1 of 13 rooms"
      ]
     },
     {
      "item": "Dandelion",
      "in_dataset": true,
      "where": [
-      "WoodFarm1: in 1 of 13 rooms"
+      "in 1 of 13 rooms"
      ]
     },
     {
      "item": "Mushroom",
      "in_dataset": true,
      "where": [
-      "WoodFarm1: in 1 of 13 rooms"
+      "in 1 of 13 rooms"
      ]
     }
    ],
@@ -87024,15 +87024,15 @@
      "creature": "Draugr",
      "in_dataset": true,
      "where": [
-      "WoodVillage1: in 8 of 10 rooms",
-      "WoodVillage1: in 7 of 10 rooms"
+      "in 8 of 10 rooms",
+      "in 7 of 10 rooms"
      ]
     },
     {
      "creature": "Draugr Elite",
      "in_dataset": true,
      "where": [
-      "WoodVillage1: in 4 of 10 rooms"
+      "in 4 of 10 rooms"
      ]
     }
    ],
@@ -87041,7 +87041,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodVillage1: in 3 of 10 rooms"
+      "in 3 of 10 rooms"
      ],
      "loot": [
       {
@@ -87121,7 +87121,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "WoodVillage1: in 1 of 10 rooms, with a loot table of its own"
+      "in 1 of 10 rooms, with a loot table of its own"
      ],
      "loot": [
       {
@@ -87249,7 +87249,7 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "CombatRuin01: from Evil Bone Pile × 1"
+      "from Evil Bone Pile × 1"
      ]
     }
    ],
@@ -87258,7 +87258,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "CombatRuin01: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -87305,7 +87305,7 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "CombatRuin01: up to 2 spots (80% each)"
+      "up to 2 spots (80% each)"
      ]
     }
    ],
@@ -87364,9 +87364,9 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "Dolmen01: 1 spawner (50%)",
-      "Dolmen02: 1 spawner (50%)",
-      "Dolmen03: 1 spawner (50%)"
+      "1 spawner (50%)",
+      "1 spawner (50%)",
+      "1 spawner (50%)"
      ]
     }
    ],
@@ -87376,9 +87376,9 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "Dolmen01: 1 spot (50%)",
-      "Dolmen02: 1 spot (50%)",
-      "Dolmen03: up to 2 spots (1 always, 1 at 50%; 1.5 on average)"
+      "1 spot (50%)",
+      "1 spot (50%)",
+      "up to 2 spots (1 always, 1 at 50%; 1.5 on average)"
      ]
     },
     {
@@ -87400,9 +87400,9 @@
       }
      ],
      "where": [
-      "Dolmen01: 1 spot (10%)",
-      "Dolmen02: 1 spot (20%)",
-      "Dolmen03: 1 spot (30%)"
+      "1 spot (10%)",
+      "1 spot (20%)",
+      "1 spot (30%)"
      ]
     }
    ],
@@ -87457,7 +87457,7 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "ShipSetting01: 1 spawner (50%)"
+      "1 spawner (50%)"
      ]
     }
    ],
@@ -87466,7 +87466,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "ShipSetting01: 1 (80%) in the location"
+      "1 (80%) in the location"
      ],
      "loot": [
       {
@@ -87555,7 +87555,7 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "ShipSetting01: 2 spots"
+      "2 spots"
      ]
     },
     {
@@ -87577,7 +87577,7 @@
       }
      ],
      "where": [
-      "ShipSetting01: 1 spot (50%)"
+      "1 spot (50%)"
      ]
     }
    ],
@@ -87634,28 +87634,28 @@
      "item": "Raspberries",
      "in_dataset": true,
      "where": [
-      "StartTemple: 2 spots"
+      "2 spots"
      ]
     },
     {
      "item": "Mushroom",
      "in_dataset": true,
      "where": [
-      "StartTemple: 2 spots"
+      "2 spots"
      ]
     },
     {
      "item": "Wood",
      "in_dataset": true,
      "where": [
-      "StartTemple: up to 4 spots (2 always, 1 at 75.8%, 1 at 74.4%; 3.5 on average)"
+      "up to 4 spots (2 always, 1 at 75.8%, 1 at 74.4%; 3.5 on average)"
      ]
     },
     {
      "item": "Stone",
      "in_dataset": true,
      "where": [
-      "StartTemple: up to 8 spots (2 always, 1 at 51.2%, 1 at 50.6%, 1 at 50%, 1 at 48.8%, 1 at 37%, 1 at 34.7%; 4.7 on average)"
+      "up to 8 spots (2 always, 1 at 51.2%, 1 at 50.6%, 1 at 50%, 1 at 48.8%, 1 at 37%, 1 at 34.7%; 4.7 on average)"
      ]
     }
    ],
@@ -87716,27 +87716,27 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "Crypt2: 3 spawners · in 12 of 18 rooms",
-      "Crypt3: 3 spawners · in 12 of 18 rooms",
-      "Crypt4: 3 spawners · in 12 of 18 rooms"
+      "3 spawners · in 12 of 18 rooms",
+      "3 spawners · in 12 of 18 rooms",
+      "3 spawners · in 12 of 18 rooms"
      ]
     },
     {
      "creature": "Rancid Remains",
      "in_dataset": true,
      "where": [
-      "Crypt2: in 4 of 18 rooms",
-      "Crypt3: in 4 of 18 rooms",
-      "Crypt4: in 4 of 18 rooms"
+      "in 4 of 18 rooms",
+      "in 4 of 18 rooms",
+      "in 4 of 18 rooms"
      ]
     },
     {
      "creature": "Ghost",
      "in_dataset": true,
      "where": [
-      "Crypt2: in 2 of 18 rooms",
-      "Crypt3: in 2 of 18 rooms",
-      "Crypt4: in 2 of 18 rooms"
+      "in 2 of 18 rooms",
+      "in 2 of 18 rooms",
+      "in 2 of 18 rooms"
      ]
     }
    ],
@@ -87745,9 +87745,9 @@
      "container": "Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "Crypt2: in 5 of 18 rooms",
-      "Crypt3: in 5 of 18 rooms",
-      "Crypt4: in 5 of 18 rooms"
+      "in 5 of 18 rooms",
+      "in 5 of 18 rooms",
+      "in 5 of 18 rooms"
      ],
      "loot": [
       {
@@ -87829,27 +87829,27 @@
      "item": "Yellow Mushroom",
      "in_dataset": true,
      "where": [
-      "Crypt2: in 12 of 18 rooms",
-      "Crypt3: in 12 of 18 rooms",
-      "Crypt4: in 12 of 18 rooms"
+      "in 12 of 18 rooms",
+      "in 12 of 18 rooms",
+      "in 12 of 18 rooms"
      ]
     },
     {
      "item": "Surtling Core",
      "in_dataset": true,
      "where": [
-      "Crypt2: in 6 of 18 rooms",
-      "Crypt3: in 6 of 18 rooms",
-      "Crypt4: in 6 of 18 rooms"
+      "in 6 of 18 rooms",
+      "in 6 of 18 rooms",
+      "in 6 of 18 rooms"
      ]
     },
     {
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "Crypt2: in 3 of 18 rooms",
-      "Crypt3: in 3 of 18 rooms",
-      "Crypt4: in 3 of 18 rooms"
+      "in 3 of 18 rooms",
+      "in 3 of 18 rooms",
+      "in 3 of 18 rooms"
      ]
     },
     {
@@ -87876,9 +87876,9 @@
       }
      ],
      "where": [
-      "Crypt2: in 6 of 18 rooms",
-      "Crypt3: in 6 of 18 rooms",
-      "Crypt4: in 6 of 18 rooms"
+      "in 6 of 18 rooms",
+      "in 6 of 18 rooms",
+      "in 6 of 18 rooms"
      ]
     }
    ],
@@ -87931,7 +87931,7 @@
      "creature": "Troll",
      "in_dataset": true,
      "where": [
-      "TrollCave02: up to 2 spawners (1 at 75%, 1 at 33%; 1.1 on average)"
+      "up to 2 spawners (1 at 75%, 1 at 33%; 1.1 on average)"
      ]
     }
    ],
@@ -87940,7 +87940,7 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "TrollCave02: up to 2 (56.3% each) in the location"
+      "up to 2 (56.3% each) in the location"
      ],
      "loot": [
       {
@@ -88036,14 +88036,14 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "TrollCave02: up to 3 spots (66% each)"
+      "up to 3 spots (66% each)"
      ]
     },
     {
      "item": "Yellow Mushroom",
      "in_dataset": true,
      "where": [
-      "TrollCave02: up to 12 spots (50% each)"
+      "up to 12 spots (50% each)"
      ]
     },
     {
@@ -88070,7 +88070,7 @@
       }
      ],
      "where": [
-      "TrollCave02: up to 9 spots (50% each)"
+      "up to 9 spots (50% each)"
      ]
     }
    ],
@@ -88121,7 +88121,7 @@
      "creature": "Bear",
      "in_dataset": true,
      "where": [
-      "BearCave: 1 spawner (75%)"
+      "1 spawner (75%)"
      ]
     }
    ],
@@ -88131,21 +88131,21 @@
      "item": "Blueberries",
      "in_dataset": true,
      "where": [
-      "BearCave: up to 3 spots (50% each)"
+      "up to 3 spots (50% each)"
      ]
     },
     {
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "BearCave: 1 spot (66%)"
+      "1 spot (66%)"
      ]
     },
     {
      "item": "Yellow Mushroom",
      "in_dataset": true,
      "where": [
-      "BearCave: up to 22 spots (50% each)"
+      "up to 22 spots (50% each)"
      ]
     }
    ],
@@ -88196,21 +88196,21 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: 3 spawners · in 7 of 15 rooms"
+      "3 spawners · in 7 of 15 rooms"
      ]
     },
     {
      "creature": "Brenna",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: in 3 of 15 rooms"
+      "in 3 of 15 rooms"
      ]
     },
     {
      "creature": "Ghost",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: in 1 of 15 rooms"
+      "in 1 of 15 rooms"
      ]
     }
    ],
@@ -88219,7 +88219,7 @@
      "container": "Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "Hildir_crypt: in 1 of 15 rooms"
+      "in 1 of 15 rooms"
      ],
      "loot": [
       {
@@ -88301,21 +88301,21 @@
      "item": "Yellow Mushroom",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: in 9 of 15 rooms"
+      "in 9 of 15 rooms"
      ]
     },
     {
      "item": "Surtling Core",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: in 1 of 15 rooms"
+      "in 1 of 15 rooms"
      ]
     },
     {
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "Hildir_crypt: in 1 of 15 rooms"
+      "in 1 of 15 rooms"
      ]
     },
     {
@@ -88342,7 +88342,7 @@
       }
      ],
      "where": [
-      "Hildir_crypt: in 2 of 15 rooms"
+      "in 2 of 15 rooms"
      ]
     }
    ],
@@ -88379,7 +88379,7 @@
     "https://valheimdb.com/locations/stone-house-stonehouse4",
     "https://valheim.fandom.com/wiki/Abandoned_Outpost"
    ],
-   "note": "Abandoned Outpost type: stone foundations. Ruin1 and StoneHouse3 always have a Black Forest chest; StoneHouse4 has none.",
+   "note": "Abandoned Outpost type: stone foundations. Two layouts always have a Black Forest chest; one has none.",
    "used_in": [],
    "audit": {
     "run": "2026-10-28 v9",
@@ -88410,16 +88410,16 @@
      "creature": "Greydwarf",
      "in_dataset": true,
      "where": [
-      "Ruin1: 5 spawners",
-      "StoneHouse3: 1 spawner",
-      "StoneHouse4: up to 2 spawners (50% each)"
+      "5 spawners",
+      "1 spawner",
+      "up to 2 spawners (50% each)"
      ]
     },
     {
      "creature": "Greydwarf Shaman",
      "in_dataset": true,
      "where": [
-      "Ruin1: 1 spawner"
+      "1 spawner"
      ]
     }
    ],
@@ -88428,8 +88428,8 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "Ruin1: 1 in the location",
-      "StoneHouse3: 1 in the location"
+      "1 in the location",
+      "1 in the location"
      ],
      "loot": [
       {
@@ -88549,14 +88549,14 @@
      "creature": "Greydwarf",
      "in_dataset": true,
      "where": [
-      "Ruin2: up to 7 spawners (6 always, 1 at 20%; 6.2 on average)"
+      "up to 7 spawners (6 always, 1 at 20%; 6.2 on average)"
      ]
     },
     {
      "creature": "Greydwarf Brute",
      "in_dataset": true,
      "where": [
-      "Ruin2: 1 spawner (20%)"
+      "1 spawner (20%)"
      ]
     }
    ],
@@ -88565,7 +88565,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "Ruin2: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -88755,10 +88755,10 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "StoneTowerRuins07: up to 6 spawners (2 always, 3 at 25%, 1 at 12.5%; 2.9 on average)",
-      "StoneTowerRuins08: up to 6 spawners (3 always, 3 at 12.5%; 3.4 on average)",
-      "StoneTowerRuins09: up to 7 spawners (3 at 33%, 4 at 16.5%; 1.7 on average)",
-      "StoneTowerRuins10: up to 7 spawners (3 at 50%, 4 at 12.5%; 2 on average)"
+      "up to 6 spawners (2 always, 3 at 25%, 1 at 12.5%; 2.9 on average)",
+      "up to 6 spawners (3 always, 3 at 12.5%; 3.4 on average)",
+      "up to 7 spawners (3 at 33%, 4 at 16.5%; 1.7 on average)",
+      "up to 7 spawners (3 at 50%, 4 at 12.5%; 2 on average)"
      ]
     }
    ],
@@ -88767,10 +88767,10 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "StoneTowerRuins07: 1 (25%) in the location",
-      "StoneTowerRuins08: 1 (25%) in the location",
-      "StoneTowerRuins09: 1 (50%) in the location",
-      "StoneTowerRuins10: 1 (25%) in the location"
+      "1 (25%) in the location",
+      "1 (25%) in the location",
+      "1 (50%) in the location",
+      "1 (25%) in the location"
      ],
      "loot": [
       {
@@ -88891,21 +88891,21 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "StoneTowerRuins03: up to 6 spawners (33% each)"
+      "up to 6 spawners (33% each)"
      ]
     },
     {
      "creature": "Greydwarf",
      "in_dataset": true,
      "where": [
-      "StoneTowerRuins03: up to 4 spawners (3 at 50%, 1 at 40.9%; 1.9 on average)"
+      "up to 4 spawners (3 at 50%, 1 at 40.9%; 1.9 on average)"
      ]
     },
     {
      "creature": "Greydwarf Brute",
      "in_dataset": true,
      "where": [
-      "StoneTowerRuins03: 1 spawner (40.9%)"
+      "1 spawner (40.9%)"
      ]
     }
    ],
@@ -88914,7 +88914,7 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "StoneTowerRuins03: up to 2 (1 at 81.8%, 1 at 33%; 1.1 on average) in the location"
+      "up to 2 (1 at 81.8%, 1 at 33%; 1.1 on average) in the location"
      ],
      "loot": [
       {
@@ -89058,21 +89058,21 @@
      "creature": "Greydwarf",
      "in_dataset": true,
      "where": [
-      "Greydwarf_camp1: from Greydwarf Nest × 1"
+      "from Greydwarf Nest × 1"
      ]
     },
     {
      "creature": "Greydwarf Brute",
      "in_dataset": true,
      "where": [
-      "Greydwarf_camp1: from Greydwarf Nest × 1"
+      "from Greydwarf Nest × 1"
      ]
     },
     {
      "creature": "Greydwarf Shaman",
      "in_dataset": true,
      "where": [
-      "Greydwarf_camp1: from Greydwarf Nest × 1"
+      "from Greydwarf Nest × 1"
      ]
     }
    ],
@@ -89137,10 +89137,10 @@
      "container": "Chest",
      "rolls": "1–4 rolls, no item twice",
      "placement": [
-      "ShipWreck01: 1 (74.9%) in the location",
-      "ShipWreck02: 1 (74.9%) in the location",
-      "ShipWreck03: 1 (74.9%) in the location",
-      "ShipWreck04: 1 (74.9%) in the location"
+      "1 (74.9%) in the location",
+      "1 (74.9%) in the location",
+      "1 (74.9%) in the location",
+      "1 (74.9%) in the location"
      ],
      "loot": [
       {
@@ -89227,14 +89227,14 @@
      "item": "Thistle",
      "in_dataset": true,
      "where": [
-      "BigRockClearing: 4 spots"
+      "4 spots"
      ]
     },
     {
      "item": "Rock",
      "in_dataset": true,
      "where": [
-      "BigRockClearing: 22 spots"
+      "22 spots"
      ]
     }
    ],
@@ -89287,29 +89287,29 @@
      "creature": "Oozer",
      "in_dataset": true,
      "where": [
-      "SunkenCrypt4: 1 spawner (30%)"
+      "1 spawner (30%)"
      ]
     },
     {
      "creature": "Draugr",
      "in_dataset": true,
      "where": [
-      "SunkenCrypt4: 1 spawner (30%) · in 6 of 16 rooms",
-      "SunkenCrypt4: in 2 of 16 rooms"
+      "1 spawner (30%) · in 6 of 16 rooms",
+      "in 2 of 16 rooms"
      ]
     },
     {
      "creature": "Blob",
      "in_dataset": true,
      "where": [
-      "SunkenCrypt4: in 6 of 16 rooms"
+      "in 6 of 16 rooms"
      ]
     },
     {
      "creature": "Draugr Elite",
      "in_dataset": true,
      "where": [
-      "SunkenCrypt4: in 4 of 16 rooms"
+      "in 4 of 16 rooms"
      ]
     }
    ],
@@ -89318,7 +89318,7 @@
      "container": "Chest",
      "rolls": "4–5 rolls, no item twice",
      "placement": [
-      "SunkenCrypt4: in 5 of 16 rooms"
+      "in 5 of 16 rooms"
      ],
      "loot": [
       {
@@ -89428,7 +89428,7 @@
      "item": "Yellow Mushroom",
      "in_dataset": true,
      "where": [
-      "SunkenCrypt4: in 7 of 16 rooms"
+      "in 7 of 16 rooms"
      ]
     },
     {
@@ -89465,7 +89465,7 @@
       }
      ],
      "where": [
-      "SunkenCrypt4: in 6 of 16 rooms"
+      "in 6 of 16 rooms"
      ]
     }
    ],
@@ -89500,7 +89500,7 @@
    ],
    "destructibles": [],
    "requirements": [
-    "Iron Gate opens with  Swamp Key dropped by The Elder (valheimdb)",
+    "Iron Gate opens with Swamp Key dropped by The Elder (valheimdb)",
     "Swamp Key (dropped by The Elder; not consumed) to open the iron gate"
    ],
    "vegvisir": [],
@@ -89547,22 +89547,22 @@
      "creature": "Draugr",
      "in_dataset": true,
      "where": [
-      "Grave1: from Body Pile × 2",
-      "Grave1: from Body Pile × 2"
+      "from Body Pile × 2",
+      "from Body Pile × 2"
      ]
     },
     {
      "creature": "Draugr Elite",
      "in_dataset": true,
      "where": [
-      "Grave1: from Body Pile × 2"
+      "from Body Pile × 2"
      ]
     },
     {
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "Grave1: from Evil Bone Pile × 1"
+      "from Evil Bone Pile × 1"
      ]
     }
    ],
@@ -89571,7 +89571,7 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "Grave1: 1 (50%) in the location"
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -89729,18 +89729,18 @@
      "creature": "Draugr",
      "in_dataset": true,
      "where": [
-      "SwampRuin1: up to 2 spawners (50% each) · from Body Pile × 1",
-      "SwampRuin1: from Body Pile × 1",
-      "SwampRuin2: up to 2 spawners (50% each) · from Body Pile × 1",
-      "SwampRuin2: from Body Pile × 1"
+      "up to 2 spawners (50% each) · from Body Pile × 1",
+      "from Body Pile × 1",
+      "up to 2 spawners (50% each) · from Body Pile × 1",
+      "from Body Pile × 1"
      ]
     },
     {
      "creature": "Draugr Elite",
      "in_dataset": true,
      "where": [
-      "SwampRuin1: 1 spawner (32.1%) · from Body Pile × 1",
-      "SwampRuin2: 1 spawner (32.1%) · from Body Pile × 1"
+      "1 spawner (32.1%) · from Body Pile × 1",
+      "1 spawner (32.1%) · from Body Pile × 1"
      ]
     }
    ],
@@ -89749,8 +89749,8 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "SwampRuin1: 1 (25.1%) in the location",
-      "SwampRuin2: 1 (25.1%) in the location"
+      "1 (25.1%) in the location",
+      "1 (25.1%) in the location"
      ],
      "loot": [
       {
@@ -89886,7 +89886,7 @@
     "https://valheimdb.com/locations/swamp-hut-swamphut5",
     "https://valheim.fandom.com/wiki/Abandoned_Hut"
    ],
-   "note": "Ruined stilt houses. Black-Forest-type chest (10%, 75% in SwampHut4) guarded by a one-time Wraith (or Draugr in SwampHut4).",
+   "note": "Ruined stilt houses. Black-Forest-type chest (10%, or 75% in one layout) guarded by a one-time Wraith (or a Draugr in that layout).",
    "used_in": [],
    "audit": {
     "run": "2026-10-28 v9",
@@ -89919,18 +89919,18 @@
      "creature": "Wraith",
      "in_dataset": true,
      "where": [
-      "SwampHut1: 1 spawner (10%)",
-      "SwampHut2: 1 spawner (10%)",
-      "SwampHut3: 1 spawner (10%)",
-      "SwampHut5: 1 spawner (10%)"
+      "1 spawner (10%)",
+      "1 spawner (10%)",
+      "1 spawner (10%)",
+      "1 spawner (10%)"
      ]
     },
     {
      "creature": "Draugr",
      "in_dataset": true,
      "where": [
-      "SwampHut4: up to 2 spawners (1 at 30%, 1 at 20%; 0.5 on average)",
-      "SwampHut4: up to 2 spawners (75% each)"
+      "up to 2 spawners (1 at 30%, 1 at 20%; 0.5 on average)",
+      "up to 2 spawners (75% each)"
      ]
     }
    ],
@@ -89939,11 +89939,11 @@
      "container": "Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "SwampHut1: 1 (10%) in the location",
-      "SwampHut2: 1 (10%) in the location",
-      "SwampHut3: 1 (10%) in the location",
-      "SwampHut4: 1 (75%) in the location",
-      "SwampHut5: 1 (10%) in the location"
+      "1 (10%) in the location",
+      "1 (10%) in the location",
+      "1 (10%) in the location",
+      "1 (75%) in the location",
+      "1 (10%) in the location"
      ],
      "loot": [
       {
@@ -90063,7 +90063,7 @@
      "creature": "Draugr Elite",
      "in_dataset": true,
      "where": [
-      "SwampWell1: up to 2 spawners (32.1% each)"
+      "up to 2 spawners (32.1% each)"
      ]
     }
    ],
@@ -90118,7 +90118,7 @@
      "creature": "Surtling",
      "in_dataset": true,
      "where": [
-      "FireHole: 3 spawners"
+      "3 spawners"
      ]
     }
    ],
@@ -90238,35 +90238,35 @@
      "creature": "Cultist",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 3 of 94 rooms"
+      "in 3 of 94 rooms"
      ]
     },
     {
      "creature": "Stone Golem",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 1 of 94 rooms"
+      "in 1 of 94 rooms"
      ]
     },
     {
      "creature": "Ulv",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 22 of 94 rooms"
+      "in 22 of 94 rooms"
      ]
     },
     {
      "creature": "Bat",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 20 of 94 rooms"
+      "in 20 of 94 rooms"
      ]
     },
     {
      "creature": "Tetra",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 2 of 94 rooms"
+      "in 2 of 94 rooms"
      ]
     }
    ],
@@ -90275,7 +90275,7 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no entry twice",
      "placement": [
-      "MountainCave02: in 2 of 94 rooms"
+      "in 2 of 94 rooms"
      ],
      "loot": [
       {
@@ -90357,35 +90357,35 @@
      "item": "Entrails",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 12 of 94 rooms"
+      "in 12 of 94 rooms"
      ]
     },
     {
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 12 of 94 rooms"
+      "in 12 of 94 rooms"
      ]
     },
     {
      "item": "Fenris Hair",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 3 of 94 rooms"
+      "in 3 of 94 rooms"
      ]
     },
     {
      "item": "Crystal",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 40 of 94 rooms"
+      "in 40 of 94 rooms"
      ]
     },
     {
      "item": "Fishing Rod",
      "in_dataset": true,
      "where": [
-      "MountainCave02: in 1 of 94 rooms"
+      "in 1 of 94 rooms"
      ]
     },
     {
@@ -90402,7 +90402,7 @@
       }
      ],
      "where": [
-      "MountainCave02: in 12 of 94 rooms"
+      "in 12 of 94 rooms"
      ]
     },
     {
@@ -90414,7 +90414,7 @@
       }
      ],
      "where": [
-      "MountainCave02: in 1 of 94 rooms"
+      "in 1 of 94 rooms"
      ]
     }
    ],
@@ -90524,28 +90524,28 @@
      "creature": "Geirrhafa",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 21 of 83 rooms"
+      "in 21 of 83 rooms"
      ]
     },
     {
      "creature": "Ulv",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 22 of 83 rooms"
+      "in 22 of 83 rooms"
      ]
     },
     {
      "creature": "Bat",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 13 of 83 rooms"
+      "in 13 of 83 rooms"
      ]
     },
     {
      "creature": "Tetra",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 2 of 83 rooms"
+      "in 2 of 83 rooms"
      ]
     }
    ],
@@ -90554,7 +90554,7 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no entry twice",
      "placement": [
-      "Hildir_cave: in 2 of 83 rooms"
+      "in 2 of 83 rooms"
      ],
      "loot": [
       {
@@ -90636,28 +90636,28 @@
      "item": "Crystal",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 32 of 83 rooms"
+      "in 32 of 83 rooms"
      ]
     },
     {
      "item": "Entrails",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 10 of 83 rooms"
+      "in 10 of 83 rooms"
      ]
     },
     {
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 10 of 83 rooms"
+      "in 10 of 83 rooms"
      ]
     },
     {
      "item": "Fenris Hair",
      "in_dataset": true,
      "where": [
-      "Hildir_cave: in 1 of 83 rooms"
+      "in 1 of 83 rooms"
      ]
     },
     {
@@ -90674,7 +90674,7 @@
       }
      ],
      "where": [
-      "Hildir_cave: in 9 of 83 rooms"
+      "in 9 of 83 rooms"
      ]
     },
     {
@@ -90686,7 +90686,7 @@
       }
      ],
      "where": [
-      "Hildir_cave: in 1 of 83 rooms"
+      "in 1 of 83 rooms"
      ]
     }
    ],
@@ -90786,17 +90786,17 @@
      "creature": "Stone Golem",
      "in_dataset": true,
      "where": [
-      "AbandonedLogCabin02: up to 2 spawners (1 at 50%, 1 at 10%; 0.6 on average)",
-      "AbandonedLogCabin03: 1 spawner (10%)",
-      "AbandonedLogCabin04: up to 2 spawners (10% each)"
+      "up to 2 spawners (1 at 50%, 1 at 10%; 0.6 on average)",
+      "1 spawner (10%)",
+      "up to 2 spawners (10% each)"
      ]
     },
     {
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "AbandonedLogCabin03: up to 2 spawners (50% each)",
-      "AbandonedLogCabin04: up to 2 spawners (50% each)"
+      "up to 2 spawners (50% each)",
+      "up to 2 spawners (50% each)"
      ]
     }
    ],
@@ -90805,9 +90805,9 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "AbandonedLogCabin02: up to 2 (1 at 54.6%, 1 at 34.6%; 0.9 on average) in the location",
-      "AbandonedLogCabin03: 1 in the location",
-      "AbandonedLogCabin04: 1 in the location"
+      "up to 2 (1 at 54.6%, 1 at 34.6%; 0.9 on average) in the location",
+      "1 in the location",
+      "1 in the location"
      ],
      "loot": [
       {
@@ -90952,9 +90952,9 @@
      "creature": "Skeleton",
      "in_dataset": true,
      "where": [
-      "StoneTowerRuins04: up to 5 spawners (3 at 33%, 2 at 9.1%; 1.2 on average)",
-      "StoneTowerRuins05: up to 19 spawners (4 at 33%, 3 at 16.5%, 12 at 10.9%; 3.1 on average)",
-      "StoneTowerRuins05: from Evil Bone Pile × 1 (50%)"
+      "up to 5 spawners (3 at 33%, 2 at 9.1%; 1.2 on average)",
+      "up to 19 spawners (4 at 33%, 3 at 16.5%, 12 at 10.9%; 3.1 on average)",
+      "from Evil Bone Pile × 1 (50%)"
      ]
     }
    ],
@@ -90963,8 +90963,8 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "StoneTowerRuins04: up to 2 (1 at 59.4%, 1 at 18.1%; 0.8 on average) in the location",
-      "StoneTowerRuins05: 1 (50%) in the location"
+      "up to 2 (1 at 59.4%, 1 at 18.1%; 0.8 on average) in the location",
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -91108,7 +91108,7 @@
      "container": "Chest",
      "rolls": "3–5 rolls, no item twice",
      "placement": [
-      "MountainWell1: 1 (75%) in the location"
+      "1 (75%) in the location"
      ],
      "loot": [
       {
@@ -91249,7 +91249,7 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "MountainGrave01: 1 spot (50%)"
+      "1 spot (50%)"
      ]
     }
    ],
@@ -91302,7 +91302,7 @@
      "creature": "Drake",
      "in_dataset": true,
      "where": [
-      "DrakeNest01: up to 3 spawners (66% each)"
+      "up to 3 spawners (66% each)"
      ]
     }
    ],
@@ -91312,7 +91312,7 @@
      "item": "Dragon Egg",
      "in_dataset": true,
      "where": [
-      "DrakeNest01: 1 spot"
+      "1 spot"
      ]
     }
    ],
@@ -91413,22 +91413,22 @@
      "creature": "Fuling",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 15 of 17 rooms",
-      "GoblinCamp2: in 5 of 17 rooms"
+      "in 15 of 17 rooms",
+      "in 5 of 17 rooms"
      ]
     },
     {
      "creature": "Fuling Shaman",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 5 of 17 rooms"
+      "in 5 of 17 rooms"
      ]
     },
     {
      "creature": "Fuling Berserker",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 4 of 17 rooms"
+      "in 4 of 17 rooms"
      ]
     }
    ],
@@ -91437,7 +91437,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "GoblinCamp2: in 5 of 17 rooms"
+      "in 5 of 17 rooms"
      ],
      "loot": [
       {
@@ -91519,28 +91519,28 @@
      "item": "Flax",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 1 of 17 rooms"
+      "in 1 of 17 rooms"
      ]
     },
     {
      "item": "Fuling Totem",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 1 of 17 rooms"
+      "in 1 of 17 rooms"
      ]
     },
     {
      "item": "Barley",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 1 of 17 rooms"
+      "in 1 of 17 rooms"
      ]
     },
     {
      "item": "Dandelion",
      "in_dataset": true,
      "where": [
-      "GoblinCamp2: in 2 of 17 rooms"
+      "in 2 of 17 rooms"
      ]
     }
    ],
@@ -91573,7 +91573,7 @@
     "https://valheimdb.com/locations/stone-tower-stonetower3",
     "https://valheim.fandom.com/wiki/Fuling_Outpost"
    ],
-   "note": "Restored outpost (StoneTower1) always has a Fuling Totem; top-floor Plains chest 50%.",
+   "note": "The restored outpost always has a Fuling Totem; the top-floor Plains chest is 50%.",
    "used_in": [],
    "audit": {
     "run": "2026-10-28 v9",
@@ -91600,8 +91600,8 @@
      "creature": "Fuling",
      "in_dataset": true,
      "where": [
-      "StoneTower1: up to 9 spawners (6 at 54%, 3 at 27%; 4.1 on average)",
-      "StoneTower3: up to 12 spawners (10 at 54%, 2 at 27%; 5.9 on average)"
+      "up to 9 spawners (6 at 54%, 3 at 27%; 4.1 on average)",
+      "up to 12 spawners (10 at 54%, 2 at 27%; 5.9 on average)"
      ]
     }
    ],
@@ -91610,8 +91610,8 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "StoneTower1: 1 (50%) in the location",
-      "StoneTower3: 1 (50%) in the location"
+      "1 (50%) in the location",
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -91693,7 +91693,7 @@
      "item": "Fuling Totem",
      "in_dataset": true,
      "where": [
-      "StoneTower1: 1 spot"
+      "1 spot"
      ]
     }
    ],
@@ -91746,7 +91746,7 @@
      "creature": "Fuling",
      "in_dataset": true,
      "where": [
-      "Ruin3: 2 spawners"
+      "2 spawners"
      ]
     }
    ],
@@ -91755,7 +91755,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "Ruin3: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -91893,17 +91893,17 @@
      "creature": "Fuling Berserker",
      "in_dataset": true,
      "where": [
-      "StoneHenge1: up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
-      "StoneHenge2: up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
-      "StoneHenge3: up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
-      "StoneHenge4: up to 2 spawners (50% each)"
+      "up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
+      "up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
+      "up to 3 spawners (1 at 50%, 2 at 25%; 1 on average)",
+      "up to 2 spawners (50% each)"
      ]
     },
     {
      "creature": "Fuling",
      "in_dataset": true,
      "where": [
-      "StoneHenge5: up to 3 spawners (40.5% each)"
+      "up to 3 spawners (40.5% each)"
      ]
     }
    ],
@@ -91912,9 +91912,9 @@
      "container": "Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "StoneHenge1: 1 (50%) in the location",
-      "StoneHenge2: 1 (50%) in the location",
-      "StoneHenge3: 1 (50%) in the location"
+      "1 (50%) in the location",
+      "1 (50%) in the location",
+      "1 (50%) in the location"
      ],
      "loot": [
       {
@@ -92012,9 +92012,9 @@
      "creature": "Growth",
      "in_dataset": true,
      "where": [
-      "TarPit1: up to 9 spawners (2 always, 7 at 50%; 5.5 on average)",
-      "TarPit2: up to 9 spawners (2 always, 7 at 50%; 5.5 on average)",
-      "TarPit3: up to 6 spawners (2 always, 4 at 50%; 4 on average)"
+      "up to 9 spawners (2 always, 7 at 50%; 5.5 on average)",
+      "up to 9 spawners (2 always, 7 at 50%; 5.5 on average)",
+      "up to 6 spawners (2 always, 4 at 50%; 4 on average)"
      ]
     }
    ],
@@ -92024,9 +92024,9 @@
      "item": "Tar",
      "in_dataset": true,
      "where": [
-      "TarPit1: 16 spots",
-      "TarPit2: 12 spots",
-      "TarPit3: 9 spots"
+      "16 spots",
+      "12 spots",
+      "9 spots"
      ]
     }
    ],
@@ -92079,29 +92079,29 @@
      "creature": "Fuling",
      "in_dataset": true,
      "where": [
-      "Hildir_plainsfortress: in 6 of 33 rooms",
-      "Hildir_plainsfortress: in 10 of 33 rooms"
+      "in 6 of 33 rooms",
+      "in 10 of 33 rooms"
      ]
     },
     {
      "creature": "Fuling Shaman",
      "in_dataset": true,
      "where": [
-      "Hildir_plainsfortress: in 6 of 33 rooms"
+      "in 6 of 33 rooms"
      ]
     },
     {
      "creature": "Zil",
      "in_dataset": true,
      "where": [
-      "Hildir_plainsfortress: in 1 of 33 rooms"
+      "in 1 of 33 rooms"
      ]
     },
     {
      "creature": "Thungr",
      "in_dataset": true,
      "where": [
-      "Hildir_plainsfortress: in 1 of 33 rooms"
+      "in 1 of 33 rooms"
      ]
     }
    ],
@@ -92110,7 +92110,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "Hildir_plainsfortress: in 9 of 33 rooms"
+      "in 9 of 33 rooms"
      ],
      "loot": [
       {
@@ -92190,7 +92190,7 @@
      "container": "Chest",
      "rolls": "5–6 rolls, no item twice",
      "placement": [
-      "Hildir_plainsfortress: in 1 of 33 rooms"
+      "in 1 of 33 rooms"
      ],
      "loot": [
       {
@@ -92317,24 +92317,24 @@
      "creature": "Seeker",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: 5 spawners · in 18 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: up to 4 spawners (2 always, 2 at 50%; 3 on average) · in 18 of 48 rooms"
+      "5 spawners · in 18 of 48 rooms",
+      "up to 4 spawners (2 always, 2 at 50%; 3 on average) · in 18 of 48 rooms"
      ]
     },
     {
      "creature": "Seeker Soldier",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: in 9 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 9 of 48 rooms"
+      "in 9 of 48 rooms",
+      "in 9 of 48 rooms"
      ]
     },
     {
      "creature": "Tick",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: in 10 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 10 of 48 rooms"
+      "in 10 of 48 rooms",
+      "in 10 of 48 rooms"
      ]
     }
    ],
@@ -92343,8 +92343,8 @@
      "container": "Dvergr Treasure Chest",
      "rolls": "4–5 rolls, no entry twice",
      "placement": [
-      "Mistlands_DvergrTownEntrance1: in 2 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 2 of 48 rooms"
+      "in 2 of 48 rooms",
+      "in 2 of 48 rooms"
      ],
      "loot": [
       {
@@ -92447,24 +92447,24 @@
      "item": "Royal Jelly",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: in 21 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 21 of 48 rooms"
+      "in 21 of 48 rooms",
+      "in 21 of 48 rooms"
      ]
     },
     {
      "item": "Black Core",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: in 6 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 6 of 48 rooms"
+      "in 6 of 48 rooms",
+      "in 6 of 48 rooms"
      ]
     },
     {
      "item": "Coins",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrTownEntrance1: in 1 of 48 rooms",
-      "Mistlands_DvergrTownEntrance2: in 1 of 48 rooms"
+      "in 1 of 48 rooms",
+      "in 1 of 48 rooms"
      ]
     }
    ],
@@ -92554,14 +92554,14 @@
      "creature": "Seeker",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrBossEntrance1: 4 spawners"
+      "4 spawners"
      ]
     },
     {
      "creature": "The Queen",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrBossEntrance1: in 1 of 18 rooms"
+      "in 1 of 18 rooms"
      ]
     }
    ],
@@ -92571,14 +92571,14 @@
      "item": "Dvergr Tankard",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrBossEntrance1: up to 7 spots (5 at 33%, 2 at 25%; 2.2 on average)"
+      "up to 7 spots (5 at 33%, 2 at 25%; 2.2 on average)"
      ]
     },
     {
      "item": "Dvergr Lantern",
      "in_dataset": true,
      "where": [
-      "Mistlands_DvergrBossEntrance1: up to 2 spots (50% each)"
+      "up to 2 spots (50% each)"
      ]
     }
    ],
@@ -92613,7 +92613,7 @@
    ],
    "destructibles": [],
    "requirements": [
-    "Dvergr Vault opens with  Sealbreaker crafted at Galdr Table (valheimdb)",
+    "Dvergr Vault opens with Sealbreaker crafted at Galdr Table (valheimdb)",
     "Sealbreaker to open the Dvergr vault door"
    ],
    "vegvisir": [],
@@ -92666,18 +92666,18 @@
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "Mistlands_GuardTower1_new: up to 4 spawners (3 always, 1 at 50%; 3.5 on average)",
-      "Mistlands_GuardTower2_new: up to 4 spawners (3 always, 1 at 50%; 3.5 on average)",
-      "Mistlands_GuardTower3_new: up to 4 spawners (2 always, 2 at 50%; 3 on average)"
+      "up to 4 spawners (3 always, 1 at 50%; 3.5 on average)",
+      "up to 4 spawners (3 always, 1 at 50%; 3.5 on average)",
+      "up to 4 spawners (2 always, 2 at 50%; 3 on average)"
      ]
     },
     {
      "creature": "Dvergr Mage",
      "in_dataset": true,
      "where": [
-      "Mistlands_GuardTower1_new: up to 4 spawners (2 always, 2 at 50%; 3 on average)",
-      "Mistlands_GuardTower2_new: up to 4 spawners (2 always, 2 at 50%; 3 on average)",
-      "Mistlands_GuardTower3_new: up to 3 spawners (2 always, 1 at 50%; 2.5 on average)"
+      "up to 4 spawners (2 always, 2 at 50%; 3 on average)",
+      "up to 4 spawners (2 always, 2 at 50%; 3 on average)",
+      "up to 3 spawners (2 always, 1 at 50%; 2.5 on average)"
      ]
     }
    ],
@@ -92687,16 +92687,16 @@
      "item": "Dvergr Lantern",
      "in_dataset": true,
      "where": [
-      "Mistlands_GuardTower1_new: up to 4 spots (2 at 75%, 1 at 56.3%, 1 at 50%; 2.6 on average)",
-      "Mistlands_GuardTower2_new: up to 3 spots (50% each)"
+      "up to 4 spots (2 at 75%, 1 at 56.3%, 1 at 50%; 2.6 on average)",
+      "up to 3 spots (50% each)"
      ]
     },
     {
      "item": "Dvergr Tankard",
      "in_dataset": true,
      "where": [
-      "Mistlands_GuardTower1_new: up to 2 spots (1 at 15%, 1 at 10%; 0.3 on average)",
-      "Mistlands_GuardTower2_new: 1 spot (10%)"
+      "up to 2 spots (1 at 15%, 1 at 10%; 0.3 on average)",
+      "1 spot (10%)"
      ]
     }
    ],
@@ -92821,9 +92821,9 @@
      "creature": "Seeker",
      "in_dataset": true,
      "where": [
-      "Mistlands_GuardTower1_ruined_new: up to 7 spawners (3 at 50%, 1 at 18.8%, 1 at 9.4%, 1 at 3.1%, 1 at 1.6%; 1.8 on average)",
-      "Mistlands_GuardTower1_ruined_new2: up to 3 spawners (50% each)",
-      "Mistlands_GuardTower3_ruined_new: up to 4 spawners (50% each)"
+      "up to 7 spawners (3 at 50%, 1 at 18.8%, 1 at 9.4%, 1 at 3.1%, 1 at 1.6%; 1.8 on average)",
+      "up to 3 spawners (50% each)",
+      "up to 4 spawners (50% each)"
      ]
     }
    ],
@@ -92832,9 +92832,9 @@
      "container": "Dvergr Treasure Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "Mistlands_GuardTower1_ruined_new: 1 in the location",
-      "Mistlands_GuardTower1_ruined_new2: 1 in the location",
-      "Mistlands_GuardTower3_ruined_new: 1 in the location"
+      "1 in the location",
+      "1 in the location",
+      "1 in the location"
      ],
      "loot": [
       {
@@ -92938,14 +92938,14 @@
      "creature": "Dvergr Mage",
      "in_dataset": true,
      "where": [
-      "Mistlands_Lighthouse1_new: 3 spawners"
+      "3 spawners"
      ]
     },
     {
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "Mistlands_Lighthouse1_new: up to 3 spawners (2 always, 1 at 50%; 2.5 on average)"
+      "up to 3 spawners (2 always, 1 at 50%; 2.5 on average)"
      ]
     }
    ],
@@ -92955,14 +92955,14 @@
      "item": "Dvergr Tankard",
      "in_dataset": true,
      "where": [
-      "Mistlands_Lighthouse1_new: up to 3 spots (15% each)"
+      "up to 3 spots (15% each)"
      ]
     },
     {
      "item": "Dvergr Lantern",
      "in_dataset": true,
      "where": [
-      "Mistlands_Lighthouse1_new: up to 3 spots (56.3% each)"
+      "up to 3 spots (56.3% each)"
      ]
     }
    ],
@@ -93039,23 +93039,23 @@
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "Mistlands_Excavation1: up to 8 spawners (2 at 66%, 6 at 33%; 3.3 on average)",
-      "Mistlands_Excavation2: up to 8 spawners (2 at 66%, 1 at 50%, 5 at 33%; 3.5 on average)"
+      "up to 8 spawners (2 at 66%, 6 at 33%; 3.3 on average)",
+      "up to 8 spawners (2 at 66%, 1 at 50%, 5 at 33%; 3.5 on average)"
      ]
     },
     {
      "creature": "Dvergr Mage",
      "in_dataset": true,
      "where": [
-      "Mistlands_Excavation1: up to 4 spawners (50% each)",
-      "Mistlands_Excavation2: up to 4 spawners (50% each)"
+      "up to 4 spawners (50% each)",
+      "up to 4 spawners (50% each)"
      ]
     },
     {
      "creature": "Seeker",
      "in_dataset": true,
      "where": [
-      "Mistlands_Excavation3: up to 6 spawners (2 always, 4 at 50%; 4 on average)"
+      "up to 6 spawners (2 always, 4 at 50%; 4 on average)"
      ]
     }
    ],
@@ -93065,8 +93065,8 @@
      "item": "Dvergr Lantern",
      "in_dataset": true,
      "where": [
-      "Mistlands_Excavation1: up to 6 spots (50% each)",
-      "Mistlands_Excavation2: up to 6 spots (50% each)"
+      "up to 6 spots (50% each)",
+      "up to 6 spots (50% each)"
      ]
     }
    ],
@@ -93174,14 +93174,14 @@
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "Mistlands_Harbour1: up to 2 spawners (1 at 75%, 1 at 25%; 1 on average)"
+      "up to 2 spawners (1 at 75%, 1 at 25%; 1 on average)"
      ]
     },
     {
      "creature": "Dvergr Mage",
      "in_dataset": true,
      "where": [
-      "Mistlands_Harbour1: up to 3 spawners (1 at 66%, 1 at 25%, 1 at 12.5%; 1 on average)"
+      "up to 3 spawners (1 at 66%, 1 at 25%, 1 at 12.5%; 1 on average)"
      ]
     }
    ],
@@ -93278,7 +93278,7 @@
      "creature": "Tick",
      "in_dataset": true,
      "where": [
-      "Mistlands_Giant1: 5 spawners"
+      "5 spawners"
      ]
     }
    ],
@@ -93341,7 +93341,7 @@
     "https://valheim.fandom.com/wiki/Ancient_Armor",
     "fandom POI table (not listed on valheimdb.com)"
    ],
-   "note": "Giant helmet with swords stuck in the ground (Mistlands_Swords1–3, 33 each per world).",
+   "note": "Giant helmet with swords stuck in the ground. Three sites per world, 33 swords at each.",
    "used_in": [],
    "audit": {
     "run": "2026-10-28 v9",
@@ -93429,7 +93429,7 @@
      "creature": "Seeker",
      "in_dataset": true,
      "where": [
-      "Mistlands_RockSpire1: 1 spawner (75%)"
+      "1 spawner (75%)"
      ]
     }
    ],
@@ -93438,7 +93438,7 @@
      "container": "Dvergr Treasure Chest",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "Mistlands_RockSpire1: 1 (75%) in the location"
+      "1 (75%) in the location"
      ],
      "loot": [
       {
@@ -93542,14 +93542,14 @@
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "Mistlands_RoadPost1: 1 spawner (50%)"
+      "1 spawner (50%)"
      ]
     },
     {
      "creature": "Dvergr Mage",
      "in_dataset": true,
      "where": [
-      "Mistlands_RoadPost1: 1 spawner (50%)"
+      "1 spawner (50%)"
      ]
     }
    ],
@@ -93647,28 +93647,28 @@
      "creature": "Skugg (charred ballista)",
      "in_dataset": false,
      "where": [
-      "CharredFortress: up to 4 spawners (80% each)"
+      "up to 4 spawners (80% each)"
      ]
     },
     {
      "creature": "Charred Warlock",
      "in_dataset": true,
      "where": [
-      "CharredFortress: up to 3 spawners (1 always, 2 at 60%; 2.2 on average) · from Effigy of Malice × 2"
+      "up to 3 spawners (1 always, 2 at 60%; 2.2 on average) · from Effigy of Malice × 2"
      ]
     },
     {
      "creature": "Charred Marksman",
      "in_dataset": true,
      "where": [
-      "CharredFortress: up to 5 spawners (1 always, 4 at 60%; 3.4 on average) · from Effigy of Malice × 2"
+      "up to 5 spawners (1 always, 4 at 60%; 3.4 on average) · from Effigy of Malice × 2"
      ]
     },
     {
      "creature": "Charred Warrior",
      "in_dataset": true,
      "where": [
-      "CharredFortress: from Effigy of Malice × 2"
+      "from Effigy of Malice × 2"
      ]
     }
    ],
@@ -93677,7 +93677,7 @@
      "container": "Charred Chest",
      "rolls": "5–6 rolls, no item twice",
      "placement": [
-      "CharredFortress: up to 4 (2 always, 1 at 50%, 1 at 13%; 2.6 on average) in the location"
+      "up to 4 (2 always, 1 at 50%, 1 at 13%; 2.6 on average) in the location"
      ],
      "loot": [
       {
@@ -93780,7 +93780,7 @@
      "item": "Molten Core",
      "in_dataset": true,
      "where": [
-      "CharredFortress: up to 10 spots (2 always, 8 at 5%; 2.4 on average)"
+      "up to 10 spots (2 always, 8 at 5%; 2.4 on average)"
      ]
     }
    ],
@@ -93862,9 +93862,9 @@
      "creature": "Morgen",
      "in_dataset": true,
      "where": [
-      "MorgenHole1: 1 spawner",
-      "MorgenHole2: 1 spawner",
-      "MorgenHole3: 1 spawner"
+      "1 spawner",
+      "1 spawner",
+      "1 spawner"
      ]
     }
    ],
@@ -93873,9 +93873,9 @@
      "container": "Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "MorgenHole1: up to 3 (1 always, 2 at 50%; 2 on average) in the location",
-      "MorgenHole2: up to 3 (1 always, 2 at 50%; 2 on average) in the location",
-      "MorgenHole3: up to 3 (1 always, 2 at 50%; 2 on average) in the location"
+      "up to 3 (1 always, 2 at 50%; 2 on average) in the location",
+      "up to 3 (1 always, 2 at 50%; 2 on average) in the location",
+      "up to 3 (1 always, 2 at 50%; 2 on average) in the location"
      ],
      "loot": [
       {
@@ -93950,18 +93950,18 @@
      "item": "Molten Core",
      "in_dataset": true,
      "where": [
-      "MorgenHole1: up to 14 spots (8 at 25%, 6 at 6.3%; 2.4 on average)",
-      "MorgenHole2: up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)",
-      "MorgenHole3: up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)"
+      "up to 14 spots (8 at 25%, 6 at 6.3%; 2.4 on average)",
+      "up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)",
+      "up to 13 spots (8 at 25%, 4 at 12.5%, 1 at 6.3%; 2.6 on average)"
      ]
     },
     {
      "item": "Entrails",
      "in_dataset": true,
      "where": [
-      "MorgenHole1: up to 13 spots (3 at 50%, 10 at 12.5%; 2.8 on average)",
-      "MorgenHole2: up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)",
-      "MorgenHole3: up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)"
+      "up to 13 spots (3 at 50%, 10 at 12.5%; 2.8 on average)",
+      "up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)",
+      "up to 9 spots (3 at 50%, 2 at 25%, 4 at 12.5%; 2.5 on average)"
      ]
     }
    ],
@@ -94077,32 +94077,32 @@
      "creature": "Charred Twitcher",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: from Monument of Torment × 1",
-      "PlaceofMystery2: from Monument of Torment × 1"
+      "from Monument of Torment × 1",
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Warrior",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: from Monument of Torment × 1",
-      "PlaceofMystery2: from Monument of Torment × 1"
+      "from Monument of Torment × 1",
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Marksman",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: from Monument of Torment × 1",
-      "PlaceofMystery2: from Monument of Torment × 1"
+      "from Monument of Torment × 1",
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Warlock",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: from Monument of Torment × 1",
-      "PlaceofMystery2: from Monument of Torment × 1"
+      "from Monument of Torment × 1",
+      "from Monument of Torment × 1"
      ]
     }
    ],
@@ -94112,22 +94112,22 @@
      "item": "Molten Core",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: 4 spots",
-      "PlaceofMystery2: 4 spots"
+      "4 spots",
+      "4 spots"
      ]
     },
     {
      "item": "Dyrnwyn Tip Fragment",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery1: 1 spot"
+      "1 spot"
      ]
     },
     {
      "item": "Dyrnwyn Blade Fragment",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery2: 1 spot"
+      "1 spot"
      ]
     }
    ],
@@ -94185,35 +94185,35 @@
      "creature": "Lord Reto",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: 1 spawner"
+      "1 spawner"
      ]
     },
     {
      "creature": "Charred Twitcher",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Warrior",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Marksman",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Warlock",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     }
    ],
@@ -94223,7 +94223,7 @@
      "item": "Molten Core",
      "in_dataset": true,
      "where": [
-      "PlaceofMystery3: 4 spots"
+      "4 spots"
      ]
     }
    ],
@@ -94294,23 +94294,23 @@
      "creature": "Morgen",
      "in_dataset": true,
      "where": [
-      "AshlandRuins: in 1 of 15 rooms",
-      "FortressRuins: in 1 of 12 rooms"
+      "in 1 of 15 rooms",
+      "in 1 of 12 rooms"
      ]
     },
     {
      "creature": "Charred Twitcher",
      "in_dataset": true,
      "where": [
-      "FortressRuins: in 3 of 12 rooms",
-      "CharredTowerRuins3: from Monument of Torment × 1 (50%)"
+      "in 3 of 12 rooms",
+      "from Monument of Torment × 1 (50%)"
      ]
     },
     {
      "creature": "Charred Warrior",
      "in_dataset": true,
      "where": [
-      "CharredTowerRuins3: from Monument of Torment × 1 (50%)"
+      "from Monument of Torment × 1 (50%)"
      ]
     }
    ],
@@ -94320,18 +94320,18 @@
      "item": "Smoke Puff",
      "in_dataset": true,
      "where": [
-      "AshlandRuins: in 4 of 15 rooms",
-      "FortressRuins: in 2 of 12 rooms",
-      "CharredTowerRuins1: up to 4 spots (19.8% each)"
+      "in 4 of 15 rooms",
+      "in 2 of 12 rooms",
+      "up to 4 spots (19.8% each)"
      ]
     },
     {
      "item": "Fiddlehead",
      "in_dataset": true,
      "where": [
-      "AshlandRuins: in 6 of 15 rooms",
-      "FortressRuins: in 4 of 12 rooms",
-      "CharredTowerRuins1: up to 86 spots (49 at 21.9%, 37 at 18.2%; 17.5 on average)"
+      "in 6 of 15 rooms",
+      "in 4 of 12 rooms",
+      "up to 86 spots (49 at 21.9%, 37 at 18.2%; 17.5 on average)"
      ]
     }
    ],
@@ -94397,10 +94397,10 @@
      "item": "Vineberry Cluster",
      "in_dataset": true,
      "where": [
-      "CharredRuins1: up to 72 spots (1 at 80%, 6 at 73.1%, 3 at 69.5%, 1 at 65.8%, 2 at 48.7%, 3 at 48%, 28 at 43.9%, 13 at 41.7%, 11 at 39.5%, 2 at 37.5%, 2 at 35%; 33.8 on average)",
-      "CharredRuins2: up to 6 spots (3 at 60%, 2 at 36%, 1 at 32.4%; 2.8 on average)",
-      "CharredRuins3: up to 4 spots (1 always, 1 at 60%, 2 at 48.6%; 2.6 on average)",
-      "CharredRuins4: up to 4 spots (1 at 90%, 2 at 54%, 1 at 48.6%; 2.5 on average)"
+      "up to 72 spots (1 at 80%, 6 at 73.1%, 3 at 69.5%, 1 at 65.8%, 2 at 48.7%, 3 at 48%, 28 at 43.9%, 13 at 41.7%, 11 at 39.5%, 2 at 37.5%, 2 at 35%; 33.8 on average)",
+      "up to 6 spots (3 at 60%, 2 at 36%, 1 at 32.4%; 2.8 on average)",
+      "up to 4 spots (1 always, 1 at 60%, 2 at 48.6%; 2.6 on average)",
+      "up to 4 spots (1 at 90%, 2 at 54%, 1 at 48.6%; 2.5 on average)"
      ]
     }
    ],
@@ -94458,7 +94458,7 @@
      "creature": "Dvergr Rogue",
      "in_dataset": true,
      "where": [
-      "CharredTowerRuins1_dvergr: up to 5 spawners (2 always, 3 at 75%; 4.3 on average)"
+      "up to 5 spawners (2 always, 3 at 75%; 4.3 on average)"
      ]
     }
    ],
@@ -94468,21 +94468,21 @@
      "item": "Dvergr Lantern",
      "in_dataset": true,
      "where": [
-      "CharredTowerRuins1_dvergr: up to 3 spots (50% each)"
+      "up to 3 spots (50% each)"
      ]
     },
     {
      "item": "Fiddlehead",
      "in_dataset": true,
      "where": [
-      "CharredTowerRuins1_dvergr: up to 64 spots (37 at 36.4%, 27 at 21.9%; 19.4 on average)"
+      "up to 64 spots (37 at 36.4%, 27 at 21.9%; 19.4 on average)"
      ]
     },
     {
      "item": "Smoke Puff",
      "in_dataset": true,
      "where": [
-      "CharredTowerRuins1_dvergr: up to 4 spots (19.8% each)"
+      "up to 4 spots (19.8% each)"
      ]
     }
    ],
@@ -94578,7 +94578,7 @@
      "creature": "Volture",
      "in_dataset": true,
      "where": [
-      "VoltureNest: up to 4 spawners (1 always, 1 at 75%, 1 at 50%, 1 at 25%; 2.5 on average)"
+      "up to 4 spawners (1 always, 1 at 75%, 1 at 50%, 1 at 25%; 2.5 on average)"
      ]
     }
    ],
@@ -94588,7 +94588,7 @@
      "item": "Volture Egg",
      "in_dataset": true,
      "where": [
-      "VoltureNest: up to 6 spots (50% each)"
+      "up to 6 spots (50% each)"
      ]
     }
    ],
@@ -94641,7 +94641,7 @@
      "item": "Sulfur",
      "in_dataset": true,
      "where": [
-      "SulfurArch: up to 20 spots (40% each)"
+      "up to 20 spots (40% each)"
      ]
     }
    ],
@@ -94692,14 +94692,14 @@
      "creature": "Charred Twitcher",
      "in_dataset": true,
      "where": [
-      "CharredStone_Spawner: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     },
     {
      "creature": "Charred Warrior",
      "in_dataset": true,
      "where": [
-      "CharredStone_Spawner: from Monument of Torment × 1"
+      "from Monument of Torment × 1"
      ]
     }
    ],
@@ -94754,36 +94754,36 @@
      "creature": "Captive Fuling",
      "in_dataset": true,
      "where": [
-      "MorkBorg: in 11 of 16 rooms"
+      "in 11 of 16 rooms"
      ]
     },
     {
      "creature": "Imprisoned Dvergr",
      "in_dataset": true,
      "where": [
-      "MorkBorg: in 11 of 16 rooms"
+      "in 11 of 16 rooms"
      ]
     },
     {
      "creature": "Krigen",
      "in_dataset": true,
      "where": [
-      "MorkBorg: in 14 of 16 rooms",
-      "MorkBorg: in 2 of 16 rooms"
+      "in 14 of 16 rooms",
+      "in 2 of 16 rooms"
      ]
     },
     {
      "creature": "Hexen",
      "in_dataset": true,
      "where": [
-      "MorkBorg: in 14 of 16 rooms"
+      "in 14 of 16 rooms"
      ]
     },
     {
      "creature": "Shapeless Pulp",
      "in_dataset": true,
      "where": [
-      "MorkBorg: in 14 of 16 rooms"
+      "in 14 of 16 rooms"
      ]
     }
    ],
@@ -94792,7 +94792,7 @@
      "container": "Ancient Chest",
      "rolls": "5–7 rolls, no item twice",
      "placement": [
-      "MorkBorg: in 16 of 16 rooms"
+      "in 16 of 16 rooms"
      ],
      "loot": [
       {
@@ -94893,7 +94893,7 @@
      "container": "Jotun's Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "MorkBorg: in 15 of 16 rooms"
+      "in 15 of 16 rooms"
      ],
      "loot": [
       {
@@ -94968,49 +94968,49 @@
      "item": "Veydris",
      "in_dataset": true,
      "where": [
-      "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
+      "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
      ]
     },
     {
      "item": "Solryth",
      "in_dataset": true,
      "where": [
-      "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
+      "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
      ]
     },
     {
      "item": "Grimvarn",
      "in_dataset": true,
      "where": [
-      "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
+      "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
      ]
     },
     {
      "item": "Draumyx",
      "in_dataset": true,
      "where": [
-      "MorkBorg: up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
+      "up to 5 spots (1 at 14.3%, 4 at 4.6%; 0.3 on average) · in 16 of 16 rooms"
      ]
     },
     {
      "item": "Bloodstone",
      "in_dataset": true,
      "where": [
-      "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms"
+      "1 spot (7.1%) · in 13 of 16 rooms"
      ]
     },
     {
      "item": "Jade",
      "in_dataset": true,
      "where": [
-      "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms"
+      "1 spot (7.1%) · in 13 of 16 rooms"
      ]
     },
     {
      "item": "Iolite",
      "in_dataset": true,
      "where": [
-      "MorkBorg: 1 spot (7.1%) · in 13 of 16 rooms"
+      "1 spot (7.1%) · in 13 of 16 rooms"
      ]
     },
     {
@@ -95037,14 +95037,14 @@
       }
      ],
      "where": [
-      "MorkBorg: in 11 of 16 rooms"
+      "in 11 of 16 rooms"
      ]
     }
    ],
    "containers": [],
    "destructibles": [],
    "requirements": [
-    "Gates of Mörkhalla opens with  Intricate Key (used up) dropped by Hexen 10% · made at Frost Foundry (valheimdb)",
+    "Gates of Mörkhalla opens with Intricate Key (used up) dropped by Hexen 10% · made at Frost Foundry (valheimdb)",
     "Intricate Key (used up; made at the Frost Foundry, mould from Winding Tunnels) to open the Gates of Mörkhalla; entrance at the top of a ruined tower"
    ],
    "vegvisir": [],
@@ -95091,22 +95091,22 @@
      "creature": "Shadow",
      "in_dataset": true,
      "where": [
-      "TheHole01: up to 4 spawners (50% each)"
+      "up to 4 spawners (50% each)"
      ]
     },
     {
      "creature": "Eyeless One",
      "in_dataset": true,
      "where": [
-      "TheHole01: in 17 of 32 rooms"
+      "in 17 of 32 rooms"
      ]
     },
     {
      "creature": "Elaking",
      "in_dataset": true,
      "where": [
-      "TheHole01: in 3 of 32 rooms",
-      "TheHole01: in 3 of 32 rooms"
+      "in 3 of 32 rooms",
+      "in 3 of 32 rooms"
      ]
     }
    ],
@@ -95115,7 +95115,7 @@
      "container": "Barrel",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "TheHole01: 2 in the location"
+      "2 in the location"
      ],
      "loot": [
       {
@@ -95204,28 +95204,28 @@
      "item": "Stone",
      "in_dataset": true,
      "where": [
-      "TheHole01: 5 spots"
+      "5 spots"
      ]
     },
     {
      "item": "Wood",
      "in_dataset": true,
      "where": [
-      "TheHole01: 2 spots"
+      "2 spots"
      ]
     },
     {
      "item": "Frostcore",
      "in_dataset": true,
      "where": [
-      "TheHole01: in 8 of 32 rooms"
+      "in 8 of 32 rooms"
      ]
     },
     {
      "item": "Luminous Larva",
      "in_dataset": true,
      "where": [
-      "TheHole01: in 20 of 32 rooms"
+      "in 20 of 32 rooms"
      ]
     }
    ],
@@ -95276,7 +95276,7 @@
      "creature": "Shadow",
      "in_dataset": true,
      "where": [
-      "NorthVillage: in 4 of 9 rooms"
+      "in 4 of 9 rooms"
      ]
     }
    ],
@@ -95285,7 +95285,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "NorthVillage: in 4 of 9 rooms"
+      "in 4 of 9 rooms"
      ],
      "loot": [
       {
@@ -95358,7 +95358,7 @@
      "container": "Barrel",
      "rolls": "3–6 rolls, no item twice",
      "placement": [
-      "NorthVillage: in 1 of 9 rooms"
+      "in 1 of 9 rooms"
      ],
      "loot": [
       {
@@ -95452,7 +95452,7 @@
      "container": "Barrel",
      "rolls": "2–3 rolls, no item twice",
      "placement": [
-      "NorthVillage: in 1 of 9 rooms"
+      "in 1 of 9 rooms"
      ],
      "loot": [
       {
@@ -95541,7 +95541,7 @@
      "item": "Lingonberries",
      "in_dataset": true,
      "where": [
-      "NorthVillage: in 1 of 9 rooms"
+      "in 1 of 9 rooms"
      ]
     }
    ],
@@ -95593,7 +95593,7 @@
      "container": "Chest",
      "rolls": "1 rolls, no item twice",
      "placement": [
-      "NorthMemorialPlace: up to 10 (1 always, 5 at 50%, 4 at 45%; 5.3 on average) in the location"
+      "up to 10 (1 always, 5 at 50%, 4 at 45%; 5.3 on average) in the location"
      ],
      "loot": [
       {
@@ -95745,7 +95745,7 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "NorthMemorialPlace: up to 10 spots (6 always, 4 at 90%; 9.6 on average)"
+      "up to 10 spots (6 always, 4 at 90%; 9.6 on average)"
      ]
     }
    ],
@@ -95800,7 +95800,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no entry twice",
      "placement": [
-      "DN_hut01: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -95917,7 +95917,7 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no entry twice",
      "placement": [
-      "LumberCamp: 1 in the location"
+      "1 in the location"
      ],
      "loot": [
       {
@@ -96040,8 +96040,8 @@
      "container": "Chest",
      "rolls": "3–4 rolls, no item twice",
      "placement": [
-      "ShipSetting02: 1 (45%) in the location",
-      "ShipSetting03: up to 3 (1 at 50%, 2 at 25%; 1 on average) in the location"
+      "1 (45%) in the location",
+      "up to 3 (1 at 50%, 2 at 25%; 1 on average) in the location"
      ],
      "loot": [
       {
@@ -96116,8 +96116,8 @@
      "item": "Bone Fragments",
      "in_dataset": true,
      "where": [
-      "ShipSetting02: up to 6 spots (45% each)",
-      "ShipSetting03: up to 6 spots (2 at 50%, 4 at 25%; 2 on average)"
+      "up to 6 spots (45% each)",
+      "up to 6 spots (2 at 50%, 4 at 25%; 2 on average)"
      ]
     },
     {
@@ -96144,8 +96144,8 @@
       }
      ],
      "where": [
-      "ShipSetting02: up to 5 spots (45% each)",
-      "ShipSetting03: up to 3 spots (1 at 50%, 2 at 25%; 1 on average)"
+      "up to 5 spots (45% each)",
+      "up to 3 spots (1 at 50%, 2 at 25%; 1 on average)"
      ]
     }
    ],
@@ -96200,8 +96200,8 @@
      "container": "Chest",
      "rolls": "2–4 rolls, no item twice",
      "placement": [
-      "ShipWreck01_DN: 1 (75%) in the location",
-      "ShipWreck02_DN: 1 (75%) in the location"
+      "1 (75%) in the location",
+      "1 (75%) in the location"
      ],
      "loot": [
       {

@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 import { publicCopyErrors } from "./scripts/check-summary-tiers.mjs";
 
-// Fails `vite build` when a summary names a different tier than the lane
-// the item is shown in, unless it uses the "normally {tier}-tier" phrasing.
+// Fails `vite build` when public copy drifts: tier phrasing, notes,
+// doubled spaces, "..", leftover prefab ids, or a bare upgrade label.
 function summaryTierCheck(): Plugin {
   return {
     name: "summary-tier-check",

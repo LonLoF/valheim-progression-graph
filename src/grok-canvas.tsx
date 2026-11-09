@@ -95,8 +95,8 @@ export function useGrokTheme(): GrokTheme {
 
 const HallSkin = createContext(false);
 
-const RUNE = "'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif";
-const BODY = "'Alegreya', 'Palatino Linotype', Palatino, Georgia, serif";
+const RUNE = "'Cinzel', 'Cinzel Fallback', 'Cinzel System', 'Palatino Linotype', Palatino, Georgia, serif";
+const BODY = "'Alegreya', 'Alegreya Fallback', 'Alegreya System', 'Palatino Linotype', Palatino, Georgia, serif";
 const INK = { hi: "#f3e6c8", mid: "#d8c49c", lo: "#b3a084", amber: "#e8b04f" };
 const HALL_KINDS = ["#f0a640", "#7fb2d9", "#9fcf6e", "#c79bf0", "#e8685a", "#cdbf9f", "#e6d3a3", "#8fb59a"];
 
@@ -140,7 +140,7 @@ export function Page({
   return (
     <HallSkin.Provider value={hall}>
       <main lang={lang} style={{ maxWidth, margin: "0 auto", padding: pad, width: "100%", color: hall ? INK.hi : undefined, fontFamily: hall ? BODY : undefined }}>
-        <h1 style={{ ...font.heading1, fontFamily: hall ? RUNE : undefined, fontWeight: 700, letterSpacing: hall ? "0.04em" : font.heading1.letterSpacing, color: hall ? INK.hi : undefined, margin: "0 0 8px", textShadow: hall ? "0 2px 2px #000" : undefined }}>{title}</h1>
+        <h1 style={{ ...font.heading1, fontFamily: RUNE, fontWeight: 700, letterSpacing: "0.04em", color: hall ? INK.hi : "#f3e6c8", margin: "0 0 8px", textShadow: hall ? "0 2px 2px #000" : undefined }}>{title}</h1>
         {summary ? (
           <p style={{ ...font.body1, fontFamily: hall ? BODY : undefined, color: hall ? INK.mid : DARK.text.secondary, margin: "0 0 20px", maxWidth: "78ch" }}>{summary}</p>
         ) : (

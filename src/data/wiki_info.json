@@ -3053,7 +3053,7 @@
   "Ectoplasm": {
    "type": "material",
    "lane": "Black Forest",
-   "summary": "Ectoplasm is a Black Forest-tier material. Dropped by Ghost and The Void. Used to make T.W.I.G..",
+   "summary": "Ectoplasm is a Black Forest-tier material. Dropped by Ghost and The Void. Used to make T.W.I.G.",
    "stats": {
     "weight": 2,
     "stack": 50,
@@ -9645,7 +9645,7 @@
      "pierce",
      "slash"
     ],
-    "attacks": "Club: 85 Blunt; Spear: 85 Pierce; Sword: 85  Slash; Torch: 45 Blunt, 45 Fire",
+    "attacks": "Club: 85 Blunt; Spear: 85 Pierce; Sword: 85 Slash; Torch: 45 Blunt, 45 Fire",
     "location": "Plains"
    },
    "wiki": "https://valheim.fandom.com/wiki/Fuling",
@@ -22821,7 +22821,7 @@
   "Abandoned House": {
    "type": "structure",
    "lane": "Meadows",
-   "summary": "Abandoned House is a ruin found in the Meadows. Its chests can hold Feathers, Coins, Amber and Flinthead Arrow and more. 13 variants of lone ruined wooden houses. WoodHouse2 chest can hold a Mysterious Axe Head, WoodHouse6 a Curious Axe Head (25% per roll). WoodHouse4/5 have no chest (only a 25% bee nest).",
+   "summary": "Abandoned House is a ruin found in the Meadows. Its chests can hold Feathers, Coins, Amber and Flinthead Arrow and more. 13 variants of lone ruined wooden houses. One variant's chest can hold a Mysterious Axe Head, and another a Curious Axe Head (25% per roll). Two variants have no chest (only a 25% bee nest).",
    "stats": {
     "max_per_world": 220
    },
@@ -23026,7 +23026,7 @@
   "Greydwarf Ruins": {
    "type": "structure",
    "lane": "Black Forest",
-   "summary": "Greydwarf Ruins is a ruin found in the Black Forest. Guarded by Greydwarf and Greydwarf Shaman. Its chests can hold Feathers, Flinthead Arrow, Coins and Amber and more. Abandoned Outpost type: stone foundations. Ruin1 and StoneHouse3 always have a Black Forest chest; StoneHouse4 has none.",
+   "summary": "Greydwarf Ruins is a ruin found in the Black Forest. Guarded by Greydwarf and Greydwarf Shaman. Its chests can hold Feathers, Flinthead Arrow, Coins and Amber and more. Abandoned Outpost type: stone foundations. Two layouts always have a Black Forest chest; one has none.",
    "stats": {
     "max_per_world": 600,
     "creatures": [
@@ -23162,7 +23162,7 @@
   "Sunken Crypts": {
    "type": "structure",
    "lane": "Swamp",
-   "summary": "Sunken Crypts is a dungeon found in the Swamp. Guarded by Oozer, Draugr, Blob and Draugr Elite. Its chests can hold Withered Bone, Ironhead Arrow, Poison Arrow and Coins and more. Needs: Iron Gate opens with  Swamp Key dropped by The Elder. Main source of Scrap Iron. Body Piles spawn Draugr; Blobs/Oozers. Floor valuables: one of Coins 5–30 / Ruby 1–2 / Amber 3–10 / Amber Pearl 2–5 / Withered Bone.",
+   "summary": "Sunken Crypts is a dungeon found in the Swamp. Guarded by Oozer, Draugr, Blob and Draugr Elite. Its chests can hold Withered Bone, Ironhead Arrow, Poison Arrow and Coins and more. Needs: Iron Gate opens with Swamp Key dropped by The Elder. Main source of Scrap Iron. Body Piles spawn Draugr; Blobs/Oozers. Floor valuables: one of Coins 5–30 / Ruby 1–2 / Amber 3–10 / Amber Pearl 2–5 / Withered Bone.",
    "stats": {
     "max_per_world": 175,
     "layout": "up to 31 rooms, entrance included",
@@ -23224,7 +23224,7 @@
   "Abandoned Hut": {
    "type": "structure",
    "lane": "Swamp",
-   "summary": "Abandoned Hut is a ruin found in the Swamp. Guarded by Wraith and Draugr. Its chests can hold Feathers, Flinthead Arrow, Coins and Amber and more. Ruined stilt houses. Black-Forest-type chest (10%, 75% in SwampHut4) guarded by a one-time Wraith (or Draugr in SwampHut4).",
+   "summary": "Abandoned Hut is a ruin found in the Swamp. Guarded by Wraith and Draugr. Its chests can hold Feathers, Flinthead Arrow, Coins and Amber and more. Ruined stilt houses. Black-Forest-type chest (10%, or 75% in one layout) guarded by a one-time Wraith (or a Draugr in that layout).",
    "stats": {
     "max_per_world": 225,
     "creatures": [
@@ -23459,7 +23459,7 @@
   "Fuling Outpost": {
    "type": "structure",
    "lane": "Plains",
-   "summary": "Fuling Outpost is a ruin found in the Plains. Guarded by Fuling. Its chests can hold Barley, Black Metal Scrap, Needle and Coins and more. A Vegvisir here points to Yagluth's altar. Restored outpost (StoneTower1) always has a Fuling Totem; top-floor Plains chest 50%.",
+   "summary": "Fuling Outpost is a ruin found in the Plains. Guarded by Fuling. Its chests can hold Barley, Black Metal Scrap, Needle and Coins and more. A Vegvisir here points to Yagluth's altar. The restored outpost always has a Fuling Totem; the top-floor Plains chest is 50%.",
    "stats": {
     "max_per_world": 100,
     "creatures": [
@@ -23591,7 +23591,7 @@
   "Infested Citadel": {
    "type": "structure",
    "lane": "Mistlands",
-   "summary": "Infested Citadel is a dungeon found in the Mistlands. Guarded by Seeker and The Queen. Needs: Dvergr Vault opens with  Sealbreaker crafted at Galdr Table. The Queen's arena (5 per world). Exterior lower floor has pickable Dvergr Tankards and Lanterns.",
+   "summary": "Infested Citadel is a dungeon found in the Mistlands. Guarded by Seeker and The Queen. Needs: Dvergr Vault opens with Sealbreaker crafted at Galdr Table. The Queen's arena (5 per world). Exterior lower floor has pickable Dvergr Tankards and Lanterns.",
    "stats": {
     "max_per_world": 5,
     "layout": "1 fixed hall, no rooms added",
@@ -23725,7 +23725,7 @@
   "Ancient Armour Site": {
    "type": "structure",
    "lane": "Mistlands",
-   "summary": "Ancient Armour Site is a resource found in the Mistlands. Needs: Black Metal Pickaxe to mine. Giant helmet with swords stuck in the ground (Mistlands_Swords1–3, 33 each per world).",
+   "summary": "Ancient Armour Site is a resource found in the Mistlands. Needs: Black Metal Pickaxe to mine. Giant helmet with swords stuck in the ground. Three sites per world, 33 swords at each.",
    "wiki": "https://valheim.fandom.com/wiki/Ancient_Armor",
    "wiki_match": "group page",
    "sources": [
@@ -23991,7 +23991,7 @@
   "Mörkhalla": {
    "type": "structure",
    "lane": "Deep North",
-   "summary": "Mörkhalla is a dungeon found in the Deep North. Guarded by Captive Fuling, Imprisoned Dvergr, Krigen and Hexen. Its chests can hold Ancient Coin, Draumyx, Grimvarn and Solryth and more. Needs: Gates of Mörkhalla opens with  Intricate Key (used up) dropped by Hexen 10% · made at Frost Foundry. Largest dungeon; Ancient Chests and Jotun's Chests, Captive Fulings, Imprisoned Dvergr, Krigen, Hexen. Breaking the Malicious Ice at the bottom starts a Jotun Invasion.",
+   "summary": "Mörkhalla is a dungeon found in the Deep North. Guarded by Captive Fuling, Imprisoned Dvergr, Krigen and Hexen. Its chests can hold Ancient Coin, Draumyx, Grimvarn and Solryth and more. Needs: Gates of Mörkhalla opens with Intricate Key (used up) dropped by Hexen 10% · made at Frost Foundry. Largest dungeon; Ancient Chests and Jotun's Chests, Captive Fulings, Imprisoned Dvergr, Krigen, Hexen. Breaking the Malicious Ice at the bottom starts a Jotun Invasion.",
    "stats": {
     "max_per_world": 40,
     "layout": "up to 6 rooms, entrance included",
