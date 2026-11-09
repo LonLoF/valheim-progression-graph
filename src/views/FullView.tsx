@@ -8,6 +8,11 @@ import {
 } from "../graph";
 import { DetailExtras } from "../details";
 import { handleSearchKey } from "../keys";
+import { sortedItems } from "../order";
+import { useAppUrl } from "../urlState";
+import { useViewport } from "../viewport";
+import { DetailTabs, FarmRank, FoodBadge, FoodFilters, NextBetter, PanelActions, passesFood } from "../widgets";
+import type { FoodRole } from "../graph";
 
 function groupShown(gi: number[], closedGroup: boolean, sel: number | null, up: Set<number>, down: Set<number>): number[] {
   return closedGroup ? gi.filter((i) => i === sel || up.has(i) || down.has(i)) : gi;
@@ -38,11 +43,13 @@ const BRUNE = ["ᚠ", "ᚢ", "ᚦ", "ᚺ", "ᛃ", "ᛈ", "ᚲ", "ᛁ", "ᛚ"];
 
 export default function App() {
   const theme = useGrokTheme();
-  const [q, setQ] = useState("");
+  const { state: url, commit, back } = useAppUrl();
+  const q = url.q;
+  const sel = url.item;
+  const depth = url.chain ? "all" : "1";
+  const [food, setFood] = useState<FoodRole | "all">("all");
   const [hidden, setHidden] = useState<string[]>([]);
   const [closed, setClosed] = useState<string[]>(DEF_CLOSED);
-  const [depth, setDepth] = useState("1");
-  const [sel, setSel] = useState<number | null>(null);
   // Read the real viewport on the first paint so a phone does not draw the
   // desktop lanes and then jump.
   const [width, setWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1000));
@@ -55,8 +62,11 @@ export default function App() {
   const chips = useRef<Map<number, HTMLElement>>(new Map());
   const qRef = useRef(q);
   const resultIdsRef = useRef<number[]>([]);
+  const selectRef = useRef<(index: number | null) => void>(() => {});
+  const setQRef = useRef<(value: string) => void>(() => {});
   qRef.current = q;
-  const wide = width >= 760;
+  const viewport = useViewport();
+  const wide = !viewport.portrait && width >= 760;
   const KC: Record<string, string> = KINDC;
   const upC = theme.text.primary;
   const downC = theme.text.secondary;
@@ -66,11 +76,15 @@ export default function App() {
   const ql = q.trim().toLowerCase();
 
   const visible = useMemo(() => D.map((r: N, i: number) => {
-    if (i === sel || upSet.has(i) || downSet.has(i)) return true;
+    const linked = sel !== null && (i === sel || upSet.has(i) || downSet.has(i));
+    // A selection with an empty query keeps only the chain, so the lanes fit the screen.
+    if (sel !== null && !ql) return linked;
+    if (linked) return true;
+    if (!passesFood(i, food)) return false;
     if (hidden.indexOf(r.t) >= 0) return false;
     if (ql && r.n.toLowerCase().indexOf(ql) < 0) return false;
     return true;
-  }), [ql, hidden, sel, upSet, downSet]);
+  }), [ql, hidden, sel, upSet, downSet, food]);
   const visCount = visible.filter((v: boolean) => v).length;
   const resultIds = useMemo(() => {
     const ids: number[] = [];
@@ -81,7 +95,8 @@ export default function App() {
         const gi = idxs.filter((i) => D[i].t === g);
         if (!gi.length) return;
         const shown = groupShown(gi, closed.indexOf(g) >= 0 && !ql, sel, upSet, downSet);
-        ids.push(...(ql ? shown.filter((i) => D[i].n.toLowerCase().includes(ql)) : shown));
+        const matched = ql ? shown.filter((i) => D[i].n.toLowerCase().includes(ql)) : shown;
+        ids.push(...sortedItems(matched));
       });
     }
     return ids;
@@ -92,9 +107,9 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       handleSearchKey(e, {
         getQuery: () => qRef.current,
-        clearQuery: () => setQ(""),
-        closePanel: () => setSel(null),
-        openIndex: (i: number) => setSel(i),
+        clearQuery: () => setQRef.current(""),
+        closePanel: () => selectRef.current(null),
+        openIndex: (i: number) => selectRef.current(i),
         getResultIds: () => resultIdsRef.current,
       });
     };
@@ -152,9 +167,27 @@ export default function App() {
 
   useEffect(() => {
     if (sel !== null && panelRef.current) panelRef.current.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    if (sel == null) return;
+    const chip = document.querySelector(`[data-vh-id="${sel}"]`);
+    chip?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, [sel]);
+  useEffect(() => {
+    document.body.classList.toggle("vh-selection", sel !== null);
+    document.documentElement.classList.toggle("vh-selection", sel !== null);
+    return () => {
+      document.body.classList.remove("vh-selection");
+      document.documentElement.classList.remove("vh-selection");
+    };
   }, [sel]);
 
-  const pick = (i: number) => setSel((s: number | null) => (s === i ? null : i));
+  const setQ = (value: string) => commit({ q: value }, "replace");
+  const selectItem = (i: number | null) => {
+    if (i == null) commit({ item: null }, "push");
+    else commit({ item: i, biome: D[i].l }, "push");
+  };
+  selectRef.current = selectItem;
+  setQRef.current = setQ;
+  const pick = (i: number) => selectItem(sel === i ? null : i);
   const toggle = (arr: string[], k: string): string[] => (arr.indexOf(k) >= 0 ? arr.filter((x: string) => x !== k) : [...arr, k]);
 
   const muted = { ...theme.font.label, fontFamily: BODY, color: INK.mid };
@@ -189,11 +222,11 @@ export default function App() {
           fontWeight: r.t === "B" || r.t === "M" || r.t === "T" || isSel ? 700 : 400,
           transition: theme.motion.hover, position: "relative", zIndex: 1, maxWidth: "100%",
         }}
-      >{r.n}{r.v === 0 ? " ?" : ""}</button>
+          >{r.n}{r.v === 0 ? " ?" : ""}<FoodBadge index={i} /></button>
     );
   };
   const link = (i: number, extra?: string, c?: string, level?: string) => (ok(i) ?
-    <button type="button" key={"k" + i + (extra || "")} className="vh-btn vh-chip" onClick={() => setSel(i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${c || "#6e5232"}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
+    <button type="button" key={"k" + i + (extra || "")} className="vh-btn vh-chip" data-vh-jump="" data-vh-name={D[i].n} onClick={() => selectItem(i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${c || "#6e5232"}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
       {extra ? extra + " " : ""}{D[i].n}{level ? ` (${level})` : ""} <span style={{ color: "#cdb98f" }}>· {LANES[D[i].l]}</span>
     </button> : null
   );
@@ -204,7 +237,7 @@ export default function App() {
     </div>
   );
   const wrapL = (els: ReactNode[]) => <ul className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>{els.map((el, n) => (el ? <li key={n}>{el}</li> : null))}</ul>;
-  const ul = (i: number) => (ok(i) ? <button type="button" className="vh-btn" onClick={() => setSel(i)} style={{ fontFamily: BODY, fontSize: "13px", lineHeight: "18px", textDecoration: "underline", cursor: "pointer", color: "#6a3211", background: "transparent", border: 0, padding: 0 }}>{D[i].n}</button> : null);
+  const ul = (i: number) => (ok(i) ? <button type="button" className="vh-btn" data-vh-jump="" data-vh-name={D[i].n} onClick={() => selectItem(i)} style={{ fontFamily: BODY, fontSize: "13px", lineHeight: "18px", textDecoration: "underline", cursor: "pointer", color: "#6a3211", background: "transparent", border: 0, padding: 0 }}>{D[i].n}</button> : null);
   const TN: Record<string, string> = { H: "Haldor", h: "Hildir", W: "Bog Witch" };
 
   const srcRows = (r: N): ReactNode[] => r.src.map((t: string, k: number) => {
@@ -257,8 +290,11 @@ export default function App() {
             <div data-vh-title="" style={{ fontFamily: RUNE, fontSize: "22px", lineHeight: "28px", fontWeight: 700, letterSpacing: "0.02em", color: INK.dark }}>{r.n}</div>
             <div style={parchMeta}>{LANES[r.l]} · {GL[r.t]}{r.sub ? ` · ${SUB_EN[r.sub] || r.sub}` : ""}{r.eats.length ? " · tameable" : ""}</div>
           </div>
-          <button type="button" className="vh-btn vh-chip" onClick={() => setSel(null)} style={pill(false)}>Close ✕</button>
+          <PanelActions onBack={back} onClose={() => selectItem(null)} />
         </div>
+        <DetailTabs index={sel} onOpen={selectItem}>
+        <NextBetter index={sel} onOpen={selectItem} />
+        <FarmRank index={sel} onOpen={selectItem} />
         {cre && r.rec.length > 0 && sec("Summoning (altar offering)", wrapL(r.rec.map((x: number[]) => link(x[0], `${x[1]}×`, KC.o))))}
         {!cre && !built && (r.rec.length > 0 || r.st.length > 0) && sec(
           `Crafted ${r.st[0] === -1 ? "by hand (inventory)" : `at ${stTxt || "—"}`}${r.lvl > 1 ? ` (station level ${r.lvl})` : ""}${r.y > 1 ? ` · makes ${r.y}` : ""}`,
@@ -296,8 +332,9 @@ export default function App() {
         })))}
         {raw.length > 0 && sec("All raw sources in the chain", <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18" }}>{raw.map((n: number) => `${D[n].n} (${LANES[D[n].l]})`).join(", ")}</div>)}
         {r.note && <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", marginTop: 10 }}>{r.note}</div>}
-        <DetailExtras index={sel} onOpen={setSel} />
+        <DetailExtras index={sel} onOpen={selectItem} />
         <div style={{ ...parchMeta, marginTop: 10 }}>{r.v === 2 ? "Verified: valheim.tools, 28 Oct 2026" : r.v === 1 ? "Source: valheim.source.gs (Valheim 1.0.20), read 28 Oct 2026" : "Unverified – CSV or general game knowledge only"}</div>
+        </DetailTabs>
       </div>
     );
   };
@@ -315,7 +352,7 @@ export default function App() {
           const gi = idxs.filter((i: number) => D[i].t === g);
           if (!gi.length) return null;
           const isClosed = closed.indexOf(g) >= 0 && !ql;
-          const shown = groupShown(gi, isClosed, sel, upSet, downSet);
+          const shown = sortedItems(groupShown(gi, isClosed, sel, upSet, downSet));
           const listId = `vh-lane-${li}-${g}`;
           return (
             <div key={g} style={{ marginTop: 8 }}>
@@ -338,9 +375,9 @@ export default function App() {
       if (!wide && sel !== null && D[sel].l === li) els.push(panel());
     }
     return (
-      <div id="vh-results" ref={wrapRef} style={{ width: "100%" }}>
-        {wide && sel !== null && <div style={{ marginBottom: 12 }}>{panel()}</div>}
-        <div className="vh-scroll" style={{ overflowX: wide ? "auto" : "visible", width: "100%", maxWidth: "100%", paddingBottom: wide ? 8 : 0, scrollbarColor: "#7a5a36 transparent" }}>
+      <div id="vh-results" className="vh-lanes" ref={wrapRef} style={{ width: "100%" }}>
+        {wide && sel !== null && <div className="vh-panel-slot" style={{ marginBottom: 12 }}>{panel()}</div>}
+        <div className="vh-scroll vh-lane-scroll" style={{ overflowX: wide ? "auto" : "visible", width: "100%", maxWidth: "100%", paddingBottom: wide ? 8 : 0, scrollbarColor: "#7a5a36 transparent" }}>
           <div ref={contentRef} style={{ position: "relative", display: "flex", flexDirection: wide ? "row" : "column", alignItems: wide ? "flex-start" : "stretch", gap: wide ? 30 : 14, width: wide ? "max-content" : "100%" }}>
             {els}
             <svg width={box[0]} height={box[1]} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none", zIndex: 3, overflow: "visible" }}>
@@ -364,35 +401,36 @@ export default function App() {
       sources={["valheim.source.gs (Valheim 1.0.20), read 28 Oct 2026", "valheim.tools (verified 28 Oct 2026)", "Rimmo's CSV (1477 rows), corrected", "Audit 28 Oct 2026: Jotunn datamine, Fandom wiki, valheim.tools browser checks"]}
     >
       <style>{SKIN_CSS}</style>
-      <div style={frame}>
+      <div className="vh-frame" style={frame}>
         {rivet({ top: 4, left: 4 })}{rivet({ top: 4, right: 4 })}{rivet({ bottom: 4, left: 4 })}{rivet({ bottom: 4, right: 4 })}
       <Section heading="Biome flow">
         <Input id="vh-search" label="Search" ariaLabel="Search" type="search" autoComplete="off" controls="vh-results" value={q} onChange={(v: string) => setQ(v)} placeholder="e.g. Bone Fragments, Raspberries, Troll, Haldor" />
-        <div className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+        <FoodFilters value={food} onChange={setFood} />
+        <div className="vh-chips vh-type-row" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
           <span style={muted}>Show types:</span>
           {GROUPS.map(([g, label]: [string, string]) => (
             <button type="button" key={g} className="vh-btn vh-chip" aria-pressed={hidden.indexOf(g) < 0} onClick={() => setHidden((h: string[]) => toggle(h, g))} style={pill(hidden.indexOf(g) < 0)}>{label} {typeCount(g)}</button>
           ))}
         </div>
-        <div className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+        <div className="vh-chips vh-tool-row" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
           <span style={muted}>Groups:</span>
           <button type="button" className="vh-btn vh-chip" onClick={() => setClosed([])} style={pill(false)}>Expand all</button>
           <button type="button" className="vh-btn vh-chip" onClick={() => setClosed(GROUPS.map((g: [string, string]) => g[0]))} style={pill(false)}>Collapse all</button>
           <button type="button" className="vh-btn vh-chip" onClick={() => setClosed(DEF_CLOSED)} style={pill(false)}>Default</button>
           <button type="button" className="vh-btn vh-chip" onClick={() => setHidden([])} style={pill(false)}>All types</button>
         </div>
-        <Segmented options={[{ value: "1", label: "Direct links" }, { value: "all", label: "Whole chain" }]} value={depth} onChange={(v: string) => setDepth(v)} />
+        <Segmented options={[{ value: "1", label: "Direct links" }, { value: "all", label: "Whole chain" }]} value={depth} onChange={(v: string) => commit({ chain: v === "all" }, "replace")} />
         <Legend names={KINDS.map((k: [string, string]) => k[1])} />
-        <Text>{`${visCount} / ${D.length} entries visible. Solid line = source or ingredient of the selected entry; dashed line = what it is used for. Crafted means made from a recipe at a crafting station (or by hand); built means placed with the Hammer using materials, with the named station nearby. Tap a collapsed group header to open it; linked entries always show. "?" = unverified.`}</Text>
+        {sel === null && <Text>{`${visCount} / ${D.length} entries visible. Solid line = source or ingredient of the selected entry; dashed line = what it is used for. Crafted means made from a recipe at a crafting station (or by hand); built means placed with the Hammer using materials, with the named station nearby. Tap a collapsed group header to open it; linked entries always show. "?" = unverified.`}</Text>}
         {flow()}
       </Section>
-      <Section heading="About the data" collapsible defaultOpen={false}>
+      {sel === null && <Section heading="About the data" collapsible defaultOpen={false}>
         <Text>{`Dataset 2026-10-28 v9: ${D.length} entries, including structures (dungeons, villages, ruins and fortresses).`}</Text>
         <Table columns={["Biome", "Entries"]} rows={LANES.map((l: string, i: number) => [l, String(COUNTS[i])])} />
         <Text>{"Biome = the progression tier where you can first reasonably get the thing: creatures by their native biome; drops by the earliest creature; gatherables and ores by biome and the tool they need (e.g. Finewood needs a Bronze Axe → Black Forest); crafted and built things by their latest ingredient or station; trader stock by the trader's biome or its unlock (boss or Hildir's returned chest)."}</Text>
         <Text>{"Sources: valheim.source.gs (Valheim 1.0.20), read 28 Oct 2026; valheim.tools (verified 28 Oct 2026); Rimmo's CSV (1477 rows), corrected; Audit 28 Oct 2026: Jotunn datamine, Fandom wiki, valheim.tools browser checks."}</Text>
         <Callout tone="info" lead="Open points">{"No entries are unverified any more (328 verified on valheim.tools, 770 from valheim.source.gs 1.0.20). Still unknown: Deer White spawn location (rare variant, spawn unconfirmed), the exact source of Ice Skates and Ice Shoes, and Nord Sword upgrade costs (Black Forge 5/6/7). Upgrade costs are not recorded for the other Nord gear. Not shown: Fermenter yields, specific chest/dungeon names and decorative build pieces."}</Callout>
-      </Section>
+      </Section>}
       </div>
     </Page>
   );

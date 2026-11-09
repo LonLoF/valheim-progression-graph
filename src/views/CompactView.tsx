@@ -1,4 +1,5 @@
 import { Page, useGrokTheme, useState, useMemo, useRef, useEffect } from "grok/canvas";
+import type { ReactNode } from "grok/canvas";
 
 import {
   D, type N, b, ok, LANES, LANE_SUB, GROUPS, GL, SUB_EN,
@@ -8,6 +9,11 @@ import {
 } from "../graph";
 import { DetailExtras } from "../details";
 import { handleSearchKey } from "../keys";
+import { sortedItems } from "../order";
+import { useAppUrl } from "../urlState";
+import { useViewport } from "../viewport";
+import { DetailTabs, FarmRank, FoodBadge, FoodFilters, NextBetter, PanelActions, passesFood } from "../widgets";
+import type { FoodRole } from "../graph";
 
 type Cat = [string, string, string, string];
 const CATS: Cat[] = [["cre", "🐺", "Creatures & Bosses", "Creatures"], ["str", "🏰", "Structures", "Structures"], ["trd", "🪙", "Traders", "Traders"], ["raw", "🪨", "Raw materials (gathered / mined / wood)", "Raw"], ["drp", "🦴", "Creature drops & trophies", "Drops"], ["ref", "⚗️", "Refined & crafted materials", "Refined"], ["food", "🍖", "Food, Meads & Fish", "Food"], ["wpn", "⚔️", "Weapons & Shields", "Weapons"], ["ammo", "🏹", "Ammo & Bait", "Ammo"], ["arm", "🛡️", "Armor & Accessories", "Armor"], ["tool", "🔨", "Tools", "Tools"], ["stn", "⚒️", "Stations & upgrades", "Stations"], ["bld", "🏠", "Building, boats & storage", "Building"], ["val", "💎", "Valuables", "Valuables"], ["misc", "📦", "Misc (keys, chests, saddles…)", "Misc"]];
@@ -36,10 +42,6 @@ const catOf = (i: number): string => {
 };
 const CAT: string[] = D.map((_r: N, i: number) => catOf(i));
 type Rel = { i: number; label: string; k: string; level?: string };
-const CHAIN_KEY = "vh-compact-depth";
-const readWholeChain = (): boolean => {
-  try { return globalThis.localStorage?.getItem(CHAIN_KEY) === "all"; } catch { return false; }
-};
 const stepTitle = (d: number): string => (d === 1 ? "1 step" : `${d} steps`);
 const groupIds = (groups: [string, Rel[]][]): Set<number> => {
   const s = new Set<number>();
@@ -98,12 +100,13 @@ const CATC = ["#d9a44e", "#8fae6b", "#7fa6c4", "#c8774c", "#a98bc9", "#d6c08f", 
 
 export default function App() {
   const theme = useGrokTheme();
-  const [lane, setLane] = useState(0);
+  const { state: url, commit, back } = useAppUrl();
+  const viewport = useViewport();
+  const q = url.q;
+  const sel = url.item;
+  const whole = url.chain;
+  const [food, setFood] = useState<FoodRole | "all">("all");
   const [types, setTypes] = useState<string[]>([]);
-  const [q, setQ] = useState("");
-  const [sel, setSel] = useState<number | null>(null);
-  const [hist, setHist] = useState<number[]>([]);
-  const [whole, setWhole] = useState(readWholeChain);
   // Read the real viewport on the first paint. A desktop-sized guess flips
   // the phone layout after mount and shifts the whole list.
   const [vh, setVh] = useState(() => (typeof window !== "undefined" ? window.innerHeight : 700));
@@ -114,7 +117,11 @@ export default function App() {
   const qRef = useRef(q);
   const resultIdsRef = useRef<number[]>([]);
   const openRef = useRef<(i: number) => void>(() => {});
+  const setQRef = useRef<(value: string) => void>(() => {});
+  const closeRef = useRef<() => void>(() => {});
+  const setLaneRef = useRef<(next: number | ((current: number) => number)) => void>(() => {});
   qRef.current = q;
+  const lane = url.biome != null ? url.biome : (sel != null ? D[sel].l : 0);
   const cat = CATC;
   const KC: Record<string, string> = KINDC;
   const B = BIOME[lane];
@@ -126,31 +133,33 @@ export default function App() {
     return () => window.removeEventListener("resize", upd);
   }, []);
   useEffect(() => {
-    try { localStorage.setItem(CHAIN_KEY, whole ? "all" : "1"); } catch { /* private mode */ }
-  }, [whole]);
-  useEffect(() => {
     if (panelRef.current) panelRef.current.scrollTop = 0;
   }, [sel, whole]);
+  useEffect(() => {
+    if (sel == null) return;
+    const chip = document.querySelector(`[data-vh-id="${sel}"]`);
+    chip?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, [sel]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (handleSearchKey(e, {
         getQuery: () => qRef.current,
-        clearQuery: () => setQ(""),
-        closePanel: () => setSel(null),
+        clearQuery: () => setQRef.current(""),
+        closePanel: () => closeRef.current(),
         openIndex: (i: number) => openRef.current(i),
         getResultIds: () => resultIdsRef.current,
       })) return;
       const tag = (e.target as HTMLElement | null)?.tagName || "";
       if (tag === "INPUT" || tag === "TEXTAREA") return;
       if (tag === "BUTTON" && (e.key === "ArrowLeft" || e.key === "ArrowRight")) return;
-      if (e.key === "ArrowRight") setLane((l: number) => Math.min(8, l + 1));
-      if (e.key === "ArrowLeft") setLane((l: number) => Math.max(0, l - 1));
+      if (e.key === "ArrowRight") setLaneRef.current((l: number) => Math.min(8, l + 1));
+      if (e.key === "ArrowLeft") setLaneRef.current((l: number) => Math.max(0, l - 1));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const wide = w >= 820;
+  const wide = !viewport.portrait && w >= 820;
   const boxH = Math.max(360, vh - (wide ? 318 : 356));
   const ql = q.trim().toLowerCase();
   const inLane = useMemo(() => D.map((_r: N, i: number) => i).filter((i: number) => D[i].l === lane), [lane]);
@@ -159,31 +168,33 @@ export default function App() {
   const upSet = useMemo(() => (sel === null ? new Set<number>() : whole ? new Set<number>(upChain.map((h: ChainHop) => h.i)) : new Set<number>(UPS[sel])), [sel, whole, upChain]);
   const downSet = useMemo(() => (sel === null ? new Set<number>() : whole ? new Set<number>(downChain.map((h: ChainHop) => h.i)) : new Set<number>(DOWNS[sel])), [sel, whole, downChain]);
   const [open, setOpen] = useState<Record<string, boolean>>({});
-  const base = ql ? D.map((_r: N, i: number) => i).filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : inLane;
+  const named = ql ? D.map((_r: N, i: number) => i).filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : inLane;
+  const searchCount = ql ? named.length : 0;
+  const base = named.filter((i: number) => passesFood(i, food));
   const present = CATS.filter((c: Cat) => base.some((i: number) => CAT[i] === c[0]));
   const items = base.filter((i: number) => !types.length || types.indexOf(CAT[i]) >= 0);
   const forced = types.length > 0 || ql !== "";
-  const sections: [Cat, number[]][] = CATS.map((c: Cat): [Cat, number[]] => [c, items.filter((i: number) => CAT[i] === c[0])]).filter((x: [Cat, number[]]) => x[1].length > 0);
+  const sections: [Cat, number[]][] = CATS.map((c: Cat): [Cat, number[]] => [c, sortedItems(items.filter((i: number) => CAT[i] === c[0]))]).filter((x: [Cat, number[]]) => x[1].length > 0);
   const catOpen = (key: string, idx: number): boolean => forced || (open[key] !== undefined ? open[key] : (wide || idx < 3));
   resultIdsRef.current = sections.flatMap(([c, list]: [Cat, number[]], idx: number) => {
     const shown = catOpen(c[0], idx) ? list : list.filter((i: number) => i === sel || upSet.has(i) || downSet.has(i));
     return ql ? shown.filter((i: number) => D[i].n.toLowerCase().indexOf(ql) >= 0) : shown;
   });
 
-  const go = (i: number) => {
-    if (!ok(i)) return;
-    if (sel !== null && sel !== i) setHist((h: number[]) => [...h.slice(-19), sel]);
-    setSel(i);
-    setLane(D[i].l);
+  const setQ = (value: string) => commit({ q: value }, "replace");
+  const setLane = (next: number | ((current: number) => number)) => {
+    const value = typeof next === "function" ? next(lane) : next;
+    commit({ biome: Math.max(0, Math.min(LANES.length - 1, value)) }, "replace");
   };
+  const selectItem = (i: number | null) => {
+    if (i == null) commit({ item: null }, "push");
+    else commit({ item: i, biome: D[i].l }, "push");
+  };
+  const go = (i: number) => { if (ok(i)) selectItem(i); };
   openRef.current = go;
-  const back = () => {
-    if (!hist.length) { setSel(null); return; }
-    const p = hist[hist.length - 1];
-    setHist((h: number[]) => h.slice(0, -1));
-    setSel(p);
-    setLane(D[p].l);
-  };
+  setQRef.current = setQ;
+  closeRef.current = () => selectItem(null);
+  setLaneRef.current = setLane;
   const toggleType = (g: string) => setTypes((t: string[]) => (t.indexOf(g) >= 0 ? t.filter((x: string) => x !== g) : [...t, g]));
 
   const muted = { ...theme.font.label, fontFamily: BODY, color: INK.lo };
@@ -254,7 +265,7 @@ export default function App() {
   };
 
   const relChip = (x: Rel, n: number) => (
-    <button type="button" key={x.i + "-" + n} className="vh-btn vh-chip" onClick={() => go(x.i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${KC[x.k]}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
+    <button type="button" key={x.i + "-" + n} className="vh-btn vh-chip" data-vh-jump="" data-vh-name={D[x.i].n} onClick={() => go(x.i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${KC[x.k]}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
       {x.label ? <span style={{ color: "#cdb98f" }}>{x.label}</span> : null}<span>{D[x.i].n}{x.level ? ` (${x.level})` : ""}</span>{D[x.i].l !== lane ? <span style={{ color: "#cdb98f" }}>· {LANES[D[x.i].l]}</span> : null}
     </button>
   );
@@ -264,8 +275,9 @@ export default function App() {
       <ul className="vh-chips" style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>{list.map((x: Rel, n: number) => <li key={x.i + "-" + n}>{relChip(x, n)}</li>)}</ul>
     </div>
   ));
-  const relBlock = (title: string, groups: [string, Rel[]][]) => (
-    <div style={{ flex: "1 1 260px", minWidth: 0 }}>
+  const relBlock = (title: string, groups: [string, Rel[]][], head?: ReactNode) => (
+    <div className={title.indexOf("Leads") >= 0 ? "vh-to" : "vh-from"} style={{ flex: "1 1 260px", minWidth: 0 }}>
+      {head}
       <div style={{ fontFamily: RUNE, fontSize: "15px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.04em", color: "#6a3211", marginBottom: 4, borderBottom: "1px solid rgba(106,50,17,0.35)", paddingBottom: 2 }}>{title}</div>
       {groups.length === 0 && <div style={pm}>—</div>}
       {relGroups(groups, false)}
@@ -299,29 +311,31 @@ export default function App() {
             <div style={pm}>{LANES[r.l]} · {GL[r.t]}{r.sub ? ` · ${SUB_EN[r.sub] || r.sub}` : ""}{r.eats.length ? " · tameable" : ""} · {r.v === 2 ? "verified (valheim.tools)" : r.v === 1 ? "valheim.source.gs" : "unverified"}</div>
             {whole && <div style={{ fontFamily: RUNE, fontSize: "13px", lineHeight: "18px", fontWeight: 700, letterSpacing: "0.03em", color: "#6a3211", marginTop: 4 }}>Whole chain · {upChain.length} upstream · {downChain.length} downstream</div>}
           </div>
-          <div className="vh-chips" style={{ display: "flex", gap: 6 }}>
-            <button type="button" className="vh-btn vh-chip" onClick={back} style={pill(false)}>← Back</button>
-            <button type="button" className="vh-btn vh-chip" onClick={() => { setSel(null); setHist([]); }} style={pill(false)}>Close ✕</button>
-          </div>
+          <PanelActions onBack={back} onClose={() => selectItem(null)} />
         </div>
         <div style={{ marginTop: 6 }}>{runeRule("rgba(106,50,17,0.55)", BRUNE[r.l] + " ᛟ " + BRUNE[r.l])}</div>
+        <DetailTabs index={sel} onOpen={go}>
+        <NextBetter index={sel} onOpen={go} />
         {(src.length > 0 || vv || r.note) && (
           <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", marginTop: 6 }}>
             {[...src, ...(vv ? [`Sells to any trader for ${vv.slice(1)} Coins`] : []), ...(r.note ? [r.note] : [])].join(" · ")}
           </div>
         )}
         {r.eats.length > 0 && <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", marginTop: 4 }}>Tame with: {r.eats.filter(ok).map((e: number) => D[e].n).join(", ")}</div>}
-        <DetailExtras index={sel as number} onOpen={go} />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 10 }}>
-          {relBlock("← Comes from", from)}
-          {relBlock("Leads to →", to)}
-        </div>
-        {whole && (
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 6 }}>
-            {chainBlock("Upstream chain", furtherGroups(upChain, groupIds(from)), from.length ? "Nothing else upstream." : "No upstream links.")}
-            {chainBlock("Downstream chain", furtherGroups(downChain, groupIds(to)), to.length ? "Nothing else downstream." : "No downstream links.")}
+        <div className={wide ? "vh-focus-stack" : "vh-focus-stack vh-focus-narrow"}>
+          <div className="vh-extras"><DetailExtras index={sel as number} onOpen={go} /></div>
+          <div className="vh-rel-row" style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 10 }}>
+            {relBlock("← Comes from", from, <FarmRank index={sel} onOpen={go} />)}
+            {relBlock("Leads to →", to)}
           </div>
-        )}
+          {whole && (
+            <div className="vh-chain" style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 6 }}>
+              {chainBlock("Upstream chain", furtherGroups(upChain, groupIds(from)), from.length ? "Nothing else upstream." : "No upstream links.")}
+              {chainBlock("Downstream chain", furtherGroups(downChain, groupIds(to)), to.length ? "Nothing else downstream." : "No downstream links.")}
+            </div>
+          )}
+        </div>
+        </DetailTabs>
       </div>
     );
   };
@@ -332,8 +346,8 @@ export default function App() {
       const rel = upSet.has(i) || downSet.has(i);
       const inResults = !ql || D[i].n.toLowerCase().indexOf(ql) >= 0;
       return (
-        <button type="button" className="vh-btn vh-chip" data-vh-result={inResults ? "" : undefined} data-vh-id={inResults ? i : undefined} data-vh-name={inResults ? D[i].n : undefined} aria-pressed={on} onClick={() => (on ? setSel(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
-          {D[i].n}{D[i].v === 0 ? " ?" : ""}{ql && D[i].l !== lane ? <span style={{ color: "#bfa983" }}> · {LANES[D[i].l]}</span> : null}
+        <button type="button" className="vh-btn vh-chip" data-vh-result={inResults ? "" : undefined} data-vh-id={inResults ? i : undefined} data-vh-name={inResults ? D[i].n : undefined} aria-pressed={on} onClick={() => (on ? selectItem(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
+          {D[i].n}{D[i].v === 0 ? " ?" : ""}<FoodBadge index={i} />{ql && D[i].l !== lane ? <span style={{ color: "#bfa983" }}> · {LANES[D[i].l]}</span> : null}
         </button>
       );
     };
@@ -387,28 +401,45 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button type="button" className="vh-btn vh-chip" aria-label="Previous biome" aria-disabled={lane === 0} onClick={() => setLane((l: number) => Math.max(0, l - 1))} style={arrow(lane > 0)}>◀</button>
           <div style={{ flex: 1, textAlign: "center" as const, minWidth: 0 }}>
-            <div style={{ fontFamily: RUNE, fontSize: wide ? "24px" : "20px", lineHeight: wide ? "30px" : "26px", fontWeight: 700, letterSpacing: "0.06em", color: INK.hi, textShadow: `0 0 14px ${B[2]}66, 0 2px 3px #000` }}>
-              <span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginRight: 8 }}>{BRUNE[lane]}</span>{lane < 8 ? `${lane + 1}. ` : ""}{LANES[lane]}<span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginLeft: 8 }}>{BRUNE[lane]}</span>
-            </div>
-            <div style={{ ...muted, color: INK.mid }}>{LANE_SUB[lane]} · {COUNTS[lane]} entries</div>
+            {ql ? (
+              <div data-vh-search-head="" style={{ fontFamily: RUNE, fontSize: wide ? "22px" : "18px", lineHeight: wide ? "28px" : "24px", fontWeight: 700, letterSpacing: "0.04em", color: INK.hi, textShadow: "0 2px 3px #000" }}>
+                Search: {searchCount} results in all biomes
+              </div>
+            ) : (
+              <>
+                <div style={{ fontFamily: RUNE, fontSize: wide ? "24px" : "20px", lineHeight: wide ? "30px" : "26px", fontWeight: 700, letterSpacing: "0.06em", color: INK.hi, textShadow: `0 0 14px ${B[2]}66, 0 2px 3px #000` }}>
+                  <span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginRight: 8 }}>{BRUNE[lane]}</span>{lane < 8 ? `${lane + 1}. ` : ""}{LANES[lane]}<span style={{ fontFamily: RUNIC, fontWeight: 400, color: B[2], marginLeft: 8 }}>{BRUNE[lane]}</span>
+                </div>
+                <div style={{ ...muted, color: INK.mid }}>{LANE_SUB[lane]} · {COUNTS[lane]} entries</div>
+              </>
+            )}
           </div>
           <button type="button" className="vh-btn vh-chip" aria-label="Next biome" aria-disabled={lane === 8} onClick={() => setLane((l: number) => Math.min(8, l + 1))} style={arrow(lane < 8)}>▶</button>
         </div>
         {runeRule("rgba(232,176,79,0.65)", "ᚠᚢᚦᚨᚱᚲ")}
+        {viewport.phone && (
+          <div className="vh-biome-scroll" role="group" aria-label="Biomes">
+            {LANES.map((l: string, i: number) => <button type="button" key={l} className={"vh-btn vh-chip vh-iron" + (i === lane ? " vh-iron-on" : "")} aria-pressed={i === lane} data-vh-biome={i} onClick={() => setLane(i)}>{l}</button>)}
+          </div>
+        )}
         {wide && (
           <div className="vh-chips" role="group" aria-label="Biomes" style={{ display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
             {LANES.map((l: string, i: number) => <button type="button" key={l} className="vh-btn vh-chip" aria-pressed={i === lane} onClick={() => setLane(i)} style={pill(i === lane)}>{l}</button>)}
           </div>
         )}
+        <div className="vh-cat-wrap">
         <div className="vh-scroll vh-chips" style={{ display: "flex", gap: 5, overflowX: "auto", paddingBottom: 3, alignItems: "center", scrollbarColor: "#7a5a36 transparent" }}>
           <input id="vh-search" className="vh-in" type="search" aria-label="Search all biomes" autoComplete="off" aria-controls="vh-results" value={q} onChange={(e: { target: { value: string } }) => setQ(e.target.value)} placeholder="Search all biomes" style={{ ...theme.font.label, fontFamily: BODY, fontSize: "14px", padding: "5px 9px", borderRadius: 4, border: "1px solid #7a5a36", background: "#120d09", color: INK.hi, boxShadow: "inset 0 2px 4px rgba(0,0,0,0.8)", minWidth: 140, flex: "0 0 auto" }} />
           <button type="button" className="vh-btn vh-chip" aria-pressed={types.length === 0} onClick={() => setTypes([])} style={pill(types.length === 0)}>All</button>
           {present.map((c: Cat) => <button type="button" key={c[0]} className="vh-btn vh-chip" aria-pressed={types.indexOf(c[0]) >= 0} onClick={() => toggleType(c[0])} style={pill(types.indexOf(c[0]) >= 0)}>{c[1]} {c[3]}</button>)}
         </div>
+        <span className="vh-cat-hint" aria-hidden="true">›</span>
+        </div>
+        <FoodFilters value={food} onChange={setFood} />
         <div role="radiogroup" aria-label="How far to follow links" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }} onTouchStart={(e: { stopPropagation: () => void }) => e.stopPropagation()} onTouchEnd={(e: { stopPropagation: () => void }) => e.stopPropagation()}>
           <span style={{ ...muted, color: INK.mid }}>Links</span>
-          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={!whole} onClick={() => setWhole(false)} style={chainBtn(!whole)}>Direct links</button>
-          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={whole} onClick={() => setWhole(true)} style={chainBtn(whole)}>Whole chain</button>
+          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={!whole} onClick={() => commit({ chain: false }, "replace")} style={chainBtn(!whole)}>Direct links</button>
+          <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={whole} onClick={() => commit({ chain: true }, "replace")} style={chainBtn(whole)}>Whole chain</button>
           <span style={{ ...muted, flex: "1 1 180px" }}>{whole ? "Every step required, and everything it unlocks." : "Only the next connection."}</span>
         </div>
         <div style={{ display: "flex", flexDirection: wide ? "row" : "column", gap: 8, height: boxH }}>
