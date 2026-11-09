@@ -1075,7 +1075,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Black Forest → Meadows (low-chance chest drop counts as reachable: 0.2% per roll in Abandoned House, Abandoned Village, Draugr Village, Viking Graveyard chests).",
+   "note": "Listed in Meadows: can be found in Abandoned House, Abandoned Village, Draugr Village and Viking Graveyard chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Bronze Atgeir",
@@ -1294,7 +1294,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Black Forest → Meadows (low-chance chest drop counts as reachable: 0.2% per roll in Abandoned House, Abandoned Village, Draugr Village, Viking Graveyard chests).",
+   "note": "Listed in Meadows: can be found in Abandoned House, Abandoned Village, Draugr Village and Viking Graveyard chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Bone Tower Shield",
@@ -16322,7 +16322,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Black Forest (low-chance chest drop counts as reachable: 0.2% per roll in Burial Chambers, Contested Tower, Greydwarf Ruins, Greydwarf Tower, Skeleton Tower, Smouldering Tomb, Troll Cave chests).",
+   "note": "Listed in Black Forest: can be found in Burial Chambers, Contested Tower, Greydwarf Ruins, Greydwarf Tower, Skeleton Tower, Smouldering Tomb and Troll Cave chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Ancient Bark Spear",
@@ -16539,7 +16539,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Black Forest (low-chance chest drop counts as reachable: 0.2% per roll in Burial Chambers, Contested Tower, Greydwarf Ruins, Greydwarf Tower, Skeleton Tower, Smouldering Tomb, Troll Cave chests).",
+   "note": "Listed in Black Forest: can be found in Burial Chambers, Contested Tower, Greydwarf Ruins, Greydwarf Tower, Skeleton Tower, Smouldering Tomb and Troll Cave chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Banded Shield",
@@ -23465,7 +23465,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Meadows (spawns in Meadows Draugr Villages (WoodVillage1, world-gen location present from the start, no boss gate); structure spawns count).",
+   "note": "Listed in Meadows: spawns in Meadows Draugr Villages (present from the start, no boss required).",
    "used_in": [],
    "audit": {
     "run": "2026-10-28",
@@ -23506,7 +23506,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Meadows (spawns in Meadows Draugr Villages (WoodVillage1, world-gen location present from the start, no boss gate); structure spawns count).",
+   "note": "Listed in Meadows: spawns in Meadows Draugr Villages (present from the start, no boss required).",
    "used_in": [],
    "audit": {
     "run": "2026-10-28",
@@ -24532,7 +24532,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Meadows (dropped by Draugr / Draugr Elite, which now are Meadows (Draugr Village)).",
+   "note": "Listed in Meadows: dropped by Draugr and Draugr Elite in Draugr Villages.",
    "used_in": [
     {
      "target": "Sausages",
@@ -27229,7 +27229,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Mountain → Swamp (low-chance chest drop counts as reachable: 0.1% per roll in Sunken Crypts, Swamp Grave, Swamp Runestone Tower chests).",
+   "note": "Listed in Swamp: can be found in Sunken Crypts, Swamp Grave and Swamp Runestone Tower chests (0.1% per roll).",
    "used_in": [
     {
      "target": "Abyssal Razor",
@@ -27395,7 +27395,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Mountain → Swamp (low-chance chest drop counts as reachable: 0.1% per roll in Sunken Crypts, Swamp Grave, Swamp Runestone Tower chests).",
+   "note": "Listed in Swamp: can be found in Sunken Crypts, Swamp Grave and Swamp Runestone Tower chests (0.1% per roll).",
    "used_in": [
     {
      "target": "Drake Helmet",
@@ -30225,7 +30225,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.tools",
-   "note": "valheim.tools: Workbench lvl 3 (Wood 8, Obsidian 4, Feathers 2, Ooze 2 → 20); also in Swamp ruin and grave chests (11% per roll, 10–15); Swamp chest loot also confirmed by the user",
+   "note": "Crafted at the Workbench (level 3) from Wood 8, Obsidian 4, Feathers 2 and Ooze 2, making 20. Also found in Swamp ruin and grave chests (11% per roll, 10–15).",
    "used_in": [
     {
      "target": "Obliterator",
@@ -31068,7 +31068,7 @@
    "sources": [],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Meadows (Draugr Elite drop (10%); Draugr Elite now Meadows).",
+   "note": "Listed in Meadows: dropped by Draugr Elite (10%).",
    "used_in": [
     {
      "target": "Iron Sledge",
@@ -31107,7 +31107,7 @@
    "sources": [],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Swamp → Meadows (Draugr drop (10%); Draugr now Meadows).",
+   "note": "Listed in Meadows: dropped by Draugr (10%).",
    "used_in": [
     {
      "target": "Obliterator",
@@ -32326,7 +32326,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Plains → Mountain (low-chance chest drop counts as reachable: 0.2% per roll in Abandoned Cabin, Frost Caves, Howling Cavern, Inverted Tower (Mountain), Mountain Tower chests).",
+   "note": "Listed in Mountain: can be found in Abandoned Cabin, Frost Caves, Howling Cavern, Inverted Tower (Mountain) and Mountain Tower chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Black Metal Atgeir",
@@ -32517,7 +32517,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Plains → Mountain (low-chance chest drop counts as reachable: 0.2% per roll in Abandoned Cabin, Frost Caves, Howling Cavern, Inverted Tower (Mountain), Mountain Tower chests).",
+   "note": "Listed in Mountain: can be found in Abandoned Cabin, Frost Caves, Howling Cavern, Inverted Tower (Mountain) and Mountain Tower chests (0.2% per roll).",
    "used_in": [
     {
      "target": "Black Metal Shield",
@@ -33122,7 +33122,7 @@
      "tool": null
     },
     {
-     "note": "v9 correction: the v8 claim 'Frost Core Hangers in Mountain frost caves' is not supported. The valheimdb 1.0.20 datamine lists Frostcore only as a pickable in Winding Tunnels (TheHole01, Deep North) and not in any Frost Caves/Howling Cavern room. Frysling drop (Deep North) is from valheim.tools and unconfirmed by valheimdb.",
+     "note": "",
      "audit_source": "https://valheimdb.com/items/frostcore"
     },
     {
@@ -33138,7 +33138,7 @@
     "valheim.tools",
     "https://valheimdb.com/items/frostcore"
    ],
-   "note": "Earliest source: Winding Tunnels (Deep North) pickable. Used for the Frigid Kiln (10) and Frost Foundry (10). v9 owner decision: lane Mountain → Deep North (datamine: only source is the Winding Tunnels pickable (Deep North); Mountain frost-cave source not found).",
+   "note": "Earliest source: Winding Tunnels (Deep North) pickable. Used for the Frigid Kiln (10) and Frost Foundry (10). Listed in Deep North: the Winding Tunnels pickable is the only confirmed source; it is not found in Mountain frost caves. A Frysling drop is unconfirmed.",
    "used_in": [
     {
      "target": "Frigid Kiln",
@@ -37938,7 +37938,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.tools",
-   "note": "v9 owner decision: lane Mountain → Deep North (built with 10 Frostcore, which is now Deep North).",
+   "note": "Listed in Deep North: built with 10 Frostcore.",
    "fuel": [
     "Liquid Frost"
    ],
@@ -38981,7 +38981,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Mistlands → Plains (low-chance chest drop counts as reachable: 0.3% per roll in Fuling Outpost, Fuling Ruin, Fuling Village, Sealed Tower chests).",
+   "note": "Listed in Plains: can be found in Fuling Outpost, Fuling Ruin, Fuling Village and Sealed Tower chests (0.3% per roll).",
    "used_in": [
     {
      "target": "Arbalest",
@@ -39221,7 +39221,7 @@
    ],
    "tame_food": [],
    "verified": "valheim.source.gs",
-   "note": "v9 owner decision: lane Mistlands → Plains (low-chance chest drop counts as reachable: 0.3% per roll in Fuling Outpost, Fuling Ruin, Fuling Village, Sealed Tower chests).",
+   "note": "Listed in Plains: can be found in Fuling Outpost, Fuling Ruin, Fuling Village and Sealed Tower chests (0.3% per roll).",
    "used_in": [
     {
      "target": "Carapace Breastplate",

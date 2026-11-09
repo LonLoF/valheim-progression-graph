@@ -289,8 +289,8 @@
   },
   "Bronze Battle Idol": {
    "type": "material",
-   "lane": "Black Forest",
-   "summary": "Bronze Battle Idol is a Black Forest-tier material. Found in Meadows and Black Forest.",
+   "lane": "Meadows",
+   "summary": "Bronze Battle Idol is reachable in Meadows (normally Black Forest-tier). Found in Meadows and Black Forest.",
    "stats": {
     "weight": 0.5,
     "stack": 20,
@@ -305,8 +305,8 @@
   },
   "Bronze Protection Idol": {
    "type": "material",
-   "lane": "Black Forest",
-   "summary": "Bronze Protection Idol is a Black Forest-tier material. Found in Meadows and Black Forest.",
+   "lane": "Meadows",
+   "summary": "Bronze Protection Idol is reachable in Meadows (normally Black Forest-tier). Found in Meadows and Black Forest.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -3116,8 +3116,8 @@
   },
   "Iron Battle Idol": {
    "type": "material",
-   "lane": "Swamp",
-   "summary": "Iron Battle Idol is a Swamp-tier material. Found in Black Forest and Swamp.",
+   "lane": "Black Forest",
+   "summary": "Iron Battle Idol is reachable in Black Forest (normally Swamp-tier). Found in Black Forest and Swamp.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -3132,8 +3132,8 @@
   },
   "Iron Protection Idol": {
    "type": "material",
-   "lane": "Swamp",
-   "summary": "Iron Protection Idol is a Swamp-tier material. Found in Black Forest and Swamp.",
+   "lane": "Black Forest",
+   "summary": "Iron Protection Idol is reachable in Black Forest (normally Swamp-tier). Found in Black Forest and Swamp.",
    "stats": {
     "weight": 0.5,
     "stack": 20,
@@ -5329,8 +5329,8 @@
   },
   "Draugr": {
    "type": "creature",
-   "lane": "Swamp",
-   "summary": "Draugr is a creature of the Swamp. It has 100 health and deals slash and pierce damage. Resistant to fire; immune to poison. Drops Entrails and Draugr Trophy.",
+   "lane": "Meadows",
+   "summary": "Draugr is reachable in Meadows (normally Swamp-tier). It has 100 health and deals slash and pierce damage. Resistant to fire; immune to poison. Drops Entrails and Draugr Trophy.",
    "stats": {
     "health": 100,
     "health_stars": "200 at 1★ · 300 at 2★",
@@ -5347,7 +5347,7 @@
      "pierce"
     ],
     "attacks": "Axe: 48 Slash, 15 Chop; Bow: 48 Pierce",
-    "location": "Swamp"
+    "location": "Swamp; also Meadows Draugr Villages"
    },
    "wiki": "https://valheim.fandom.com/wiki/Draugr",
    "datamine": "https://valheim.source.gs/creatures/draugr/",
@@ -5358,8 +5358,8 @@
   },
   "Draugr Elite": {
    "type": "creature",
-   "lane": "Swamp",
-   "summary": "Draugr Elite is a creature of the Swamp. It has 200 health and deals slash damage. Resistant to fire; immune to poison. Drops Entrails and Draugr Elite Trophy.",
+   "lane": "Meadows",
+   "summary": "Draugr Elite is reachable in Meadows (normally Swamp-tier). It has 200 health and deals slash damage. Resistant to fire; immune to poison. Drops Entrails and Draugr Elite Trophy.",
    "stats": {
     "health": 200,
     "health_stars": "400 at 1★ · 600 at 2★",
@@ -5375,7 +5375,7 @@
      "slash"
     ],
     "attacks": "Sword: 58 Slash",
-    "location": "Swamp"
+    "location": "Swamp; also Meadows Draugr Villages"
    },
    "wiki": "https://valheim.fandom.com/wiki/Draugr_Elite",
    "datamine": "https://valheim.source.gs/creatures/draugr-elite/",
@@ -5640,8 +5640,8 @@
   },
   "Entrails": {
    "type": "material",
-   "lane": "Swamp",
-   "summary": "Entrails is a Swamp-tier material. Dropped by Draugr and Draugr Elite. Gathered from Meat Pile. Used to make Sausages.",
+   "lane": "Meadows",
+   "summary": "Entrails is reachable in Meadows (normally Swamp-tier). Dropped by Draugr and Draugr Elite. Gathered from Meat Pile. Used to make Sausages.",
    "stats": {
     "weight": 0.5,
     "stack": 50,
@@ -5985,8 +5985,8 @@
   },
   "Silver Battle Idol": {
    "type": "material",
-   "lane": "Mountain",
-   "summary": "Silver Battle Idol is a Mountain-tier material. Found in Swamp and Mountain.",
+   "lane": "Swamp",
+   "summary": "Silver Battle Idol is reachable in Swamp (normally Mountain-tier). Found in Swamp and Mountain.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -5999,8 +5999,8 @@
   },
   "Silver Protection Idol": {
    "type": "material",
-   "lane": "Mountain",
-   "summary": "Silver Protection Idol is a Mountain-tier material. Found in Swamp and Mountain.",
+   "lane": "Swamp",
+   "summary": "Silver Protection Idol is reachable in Swamp (normally Mountain-tier). Found in Swamp and Mountain.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -7227,8 +7227,8 @@
   },
   "Draugr Elite Trophy": {
    "type": "trophy",
-   "lane": "Swamp",
-   "summary": "Draugr Elite Trophy is a Swamp-tier trophy. Dropped by Draugr Elite. Used to make Iron Sledge.",
+   "lane": "Meadows",
+   "summary": "Draugr Elite Trophy is reachable in Meadows (normally Swamp-tier). Dropped by Draugr Elite. Used to make Iron Sledge.",
    "stats": {
     "weight": 1,
     "stack": 20
@@ -7243,8 +7243,8 @@
   },
   "Draugr Trophy": {
    "type": "trophy",
-   "lane": "Swamp",
-   "summary": "Draugr Trophy is a Swamp-tier trophy. Dropped by Draugr.",
+   "lane": "Meadows",
+   "summary": "Draugr Trophy is reachable in Meadows (normally Swamp-tier). Dropped by Draugr.",
    "stats": {
     "weight": 1,
     "stack": 20
@@ -7914,8 +7914,8 @@
   },
   "Black Metal Battle Idol": {
    "type": "material",
-   "lane": "Plains",
-   "summary": "Black Metal Battle Idol is a Plains-tier material. Found in Mountain and Plains.",
+   "lane": "Mountain",
+   "summary": "Black Metal Battle Idol is reachable in Mountain (normally Plains-tier). Found in Mountain and Plains.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -7930,8 +7930,8 @@
   },
   "Black Metal Protection Idol": {
    "type": "material",
-   "lane": "Plains",
-   "summary": "Black Metal Protection Idol is a Plains-tier material. Found in Mountain and Plains.",
+   "lane": "Mountain",
+   "summary": "Black Metal Protection Idol is reachable in Mountain (normally Plains-tier). Found in Mountain and Plains.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -8027,8 +8027,8 @@
   },
   "Frostcore": {
    "type": "material",
-   "lane": "Mountain",
-   "summary": "Frostcore is a Mountain-tier material. Dropped by Frysling. Gathered from Frost Core Hanger. Used to make Frigid Kiln and Frost Foundry.",
+   "lane": "Deep North",
+   "summary": "Frostcore is reachable in Deep North (normally Mountain-tier). Dropped by Frysling. Gathered from Frost Core Hanger. Used to make Frigid Kiln and Frost Foundry.",
    "stats": {
     "weight": 1,
     "stack": 20
@@ -9371,8 +9371,8 @@
   },
   "Frost Foundry": {
    "type": "station",
-   "lane": "Mountain",
-   "summary": "Frost Foundry is a Mountain-tier buildable piece. Built with the Hammer from Iron, Stone and Frostcore near a Workbench. Fuel: Liquid Frost.",
+   "lane": "Deep North",
+   "summary": "Frost Foundry is reachable in Deep North (normally Mountain-tier). Built with the Hammer from Iron, Stone and Frostcore near a Workbench. Fuel: Liquid Frost.",
    "stats": {
     "health": 500,
     "material": "Stone",
@@ -9935,8 +9935,8 @@
   },
   "Black Marble Battle Idol": {
    "type": "material",
-   "lane": "Mistlands",
-   "summary": "Black Marble Battle Idol is a Mistlands-tier material. Found in Plains, Mistlands and Ashlands.",
+   "lane": "Plains",
+   "summary": "Black Marble Battle Idol is reachable in Plains (normally Mistlands-tier). Found in Plains, Mistlands and Ashlands.",
    "stats": {
     "weight": 0.5,
     "stack": 20
@@ -9951,8 +9951,8 @@
   },
   "Black Marble Protection Idol": {
    "type": "material",
-   "lane": "Mistlands",
-   "summary": "Black Marble Protection Idol is a Mistlands-tier material. Found in Plains, Mistlands and Ashlands.",
+   "lane": "Plains",
+   "summary": "Black Marble Protection Idol is reachable in Plains (normally Mistlands-tier). Found in Plains, Mistlands and Ashlands.",
    "stats": {
     "weight": 0.5,
     "stack": 20
