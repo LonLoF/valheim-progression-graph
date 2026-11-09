@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 import { D, FINDS, STRUCTS, WIKI, find, ok } from "./graph";
 
-const BODY = "'Alegreya', 'Palatino Linotype', Palatino, Georgia, serif";
-const RUNE = "'Cinzel', 'Palatino Linotype', Palatino, Georgia, serif";
+const BODY = "'Alegreya', 'Alegreya Fallback', 'Alegreya System', 'Palatino Linotype', Palatino, Georgia, serif";
+const RUNE = "'Cinzel', 'Cinzel Fallback', 'Cinzel System', 'Palatino Linotype', Palatino, Georgia, serif";
 
 const h = { fontFamily: RUNE, fontSize: "15px", lineHeight: "20px", fontWeight: 700, letterSpacing: "0.03em", color: "#6a3211", margin: "12px 0 4px" };
 const meta: CSSProperties = { fontFamily: BODY, fontSize: "13px", lineHeight: "18px", color: "#5a4128" };

@@ -4,7 +4,7 @@ import {
   D, type N, b, ok, LANES, LANE_SUB, GROUPS, GL, SUB_EN,
   isCre, isBuilt, HAMMER, COINS, TRIDX, KINDS, UPS, EK, EXV,
   DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, COUNTS, KINDC, isStructEdge, xl,
-  walkChain, type ChainHop,
+  walkChain, type ChainHop, splitUpgradeLabel,
 } from "../graph";
 import { DetailExtras } from "../details";
 
@@ -34,7 +34,7 @@ const catOf = (i: number): string => {
   return "misc";
 };
 const CAT: string[] = D.map((_r: N, i: number) => catOf(i));
-type Rel = { i: number; label: string; k: string };
+type Rel = { i: number; label: string; k: string; level?: string };
 const CHAIN_KEY = "vh-compact-depth";
 const readWholeChain = (): boolean => {
   try { return globalThis.localStorage?.getItem(CHAIN_KEY) === "all"; } catch { return false; }
@@ -73,12 +73,11 @@ const furtherGroups = (hops: ChainHop[], shown: Set<number>): [string, Rel[]][] 
 };
 
 // ᚠ Valheim skin: a self-painted dark wood hall with its own ink, so it reads the same on light and dark hosts.
-const RUNE = "'Cinzel', 'Norse', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, serif";
-const BODY = "'Alegreya', 'IM Fell English', 'Palatino Linotype', 'Book Antiqua', Georgia, serif";
+const RUNE = "'Cinzel', 'Cinzel Fallback', 'Cinzel System', 'Norse', 'Trajan Pro', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif";
+const BODY = "'Alegreya', 'Alegreya Fallback', 'Alegreya System', 'IM Fell English', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif";
 const RUNIC = "'Noto Sans Runic', 'Segoe UI Historic', 'Segoe UI Symbol', serif";
 const INK = { hi: "#f3e6c8", mid: "#d8c49c", lo: "#b3a084", dark: "#2a1b0e", amber: "#e8b04f" };
-const SKIN_CSS = "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Alegreya:wght@400;700&family=Noto+Sans+Runic&display=swap');"
-  + ".vh-in::placeholder{color:#a8957a;opacity:1}.vh-scroll::-webkit-scrollbar{width:8px;height:6px}.vh-scroll::-webkit-scrollbar-thumb{background:#6e5232;border-radius:4px}.vh-scroll::-webkit-scrollbar-track{background:transparent}";
+const SKIN_CSS = ".vh-in::placeholder{color:#a8957a;opacity:1}.vh-scroll::-webkit-scrollbar{width:8px;height:6px}.vh-scroll::-webkit-scrollbar-thumb{background:#6e5232;border-radius:4px}.vh-scroll::-webkit-scrollbar-track{background:transparent}";
 const NOISE = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.20 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 const GRAIN = "repeating-linear-gradient(91deg, rgba(0,0,0,0.10) 0px, rgba(0,0,0,0.10) 2px, rgba(255,230,190,0.018) 2px, rgba(255,230,190,0.018) 6px, rgba(0,0,0,0.05) 6px, rgba(0,0,0,0.05) 11px)";
 // Per biome: [top, bottom, glow/accent]
@@ -104,8 +103,10 @@ export default function App() {
   const [sel, setSel] = useState<number | null>(null);
   const [hist, setHist] = useState<number[]>([]);
   const [whole, setWhole] = useState(readWholeChain);
-  const [vh, setVh] = useState(700);
-  const [w, setW] = useState(1000);
+  // Read the real viewport on the first paint. A desktop-sized guess flips
+  // the phone layout after mount and shifts the whole list.
+  const [vh, setVh] = useState(() => (typeof window !== "undefined" ? window.innerHeight : 700));
+  const [w, setW] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1000));
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const touch = useRef<number | null>(null);
@@ -217,16 +218,25 @@ export default function App() {
     const craft = rest.filter((u: number) => (EK.get(s + ">" + u) || "o") === "c");
     const build = rest.filter((u: number) => (EK.get(s + ">" + u) || "o") === "b");
     const oth = rest.filter((u: number) => craft.indexOf(u) < 0 && build.indexOf(u) < 0 && !isStructEdge(s, u));
-    const qty = (u: number): string => { const x = D[u].rec.find((y: number[]) => y[0] === s); return x ? `${x[1]}×` : D[u].st.indexOf(s) >= 0 ? "here" : EXV.get(s + ">" + u) || ""; };
-    push(to, r.t === "S" ? "Crafted here / with it" : "Used to craft", craft.map((u: number) => ({ i: u, label: qty(u), k: "c" })));
-    push(to, r.t === "S" ? "Built near it / with it" : "Used to build", build.map((u: number) => ({ i: u, label: qty(u), k: "b" })));
+    const useText = (u: number): { label: string; level: string } => {
+      const x = D[u].rec.find((y: number[]) => y[0] === s);
+      if (x) return { label: `${x[1]}×`, level: "" };
+      if (D[u].st.indexOf(s) >= 0) return { label: "here", level: "" };
+      const raw = EXV.get(s + ">" + u) || "";
+      const up = splitUpgradeLabel(raw);
+      if (up) return { label: up.prefix, level: up.level };
+      return { label: raw, level: "" };
+    };
+    const asUse = (u: number, k: string): Rel => { const q = useText(u); return { i: u, label: q.label, k, level: q.level }; };
+    push(to, r.t === "S" ? "Crafted here / with it" : "Used to craft", craft.map((u: number) => asUse(u, "c")));
+    push(to, r.t === "S" ? "Built near it / with it" : "Used to build", build.map((u: number) => asUse(u, "b")));
     push(to, "Other uses", oth.map((u: number) => ({ i: u, label: EXV.get(s + ">" + u) || "", k: EK.get(s + ">" + u) || "o" })));
     return { from, to };
   };
 
   const relChip = (x: Rel, n: number) => (
     <div key={x.i + "-" + n} onClick={() => go(x.i)} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", display: "inline-flex", gap: 4, alignItems: "baseline", padding: "3px 8px", borderRadius: 4, border: `2px solid ${KC[x.k]}`, background: "linear-gradient(180deg, #4a3522 0%, #2e2015 100%)", color: INK.hi, boxShadow: "0 1px 2px rgba(0,0,0,0.45)" }}>
-      {x.label ? <span style={{ color: "#cdb98f" }}>{x.label}</span> : null}{D[x.i].n}{D[x.i].l !== lane ? <span style={{ color: "#cdb98f" }}>· {LANES[D[x.i].l]}</span> : null}
+      {x.label ? <span style={{ color: "#cdb98f" }}>{x.label}</span> : null}<span>{D[x.i].n}{x.level ? ` (${x.level})` : ""}</span>{D[x.i].l !== lane ? <span style={{ color: "#cdb98f" }}>· {LANES[D[x.i].l]}</span> : null}
     </div>
   );
   const relGroups = (groups: [string, Rel[]][], withCount: boolean) => groups.map(([t, list]: [string, Rel[]]) => (
