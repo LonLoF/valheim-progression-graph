@@ -121,7 +121,8 @@ export function indexForSlug(slug: string): number {
 
 export function readUrl(): UrlState {
   const params = new URLSearchParams(location.search);
-  const itemSlug = params.get("item") || "";
+  const pathItem = location.pathname.match(/\/i\/([^/]+)\/?$/)?.[1] || "";
+  const itemSlug = params.get("item") || (params.has("item") ? "" : decodeURIComponent(pathItem));
   const itemHit = itemSlug ? indexForSlug(itemSlug) : -1;
   const biomeSlug = params.get("biome") || "";
   const biomeHit = biomeSlug ? biomeToIndex.get(biomeSlug.toLowerCase()) : undefined;

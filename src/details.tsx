@@ -1,5 +1,16 @@
-import type { CSSProperties, ReactNode } from "react";
-import { D, FINDS, STRUCTS, WIKI, find, ok } from "./graph";
+import { useEffect, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { D, FINDS, STRUCTS, WIKI, detailGeneration, ensureLane, find, ok, subscribeDetails } from "./graph";
+
+function useDetailGeneration(): number {
+  return useSyncExternalStore(subscribeDetails, detailGeneration);
+}
+
+export function useItemDetails(index: number | null): void {
+  useDetailGeneration();
+  useEffect(() => {
+    if (index !== null) void ensureLane(D[index].l);
+  }, [index]);
+}
 
 const BODY = "'Alegreya', 'Alegreya Fallback', 'Alegreya System', 'Palatino Linotype', Palatino, Georgia, serif";
 const RUNE = "'Cinzel', 'Cinzel Fallback', 'Cinzel System', 'Palatino Linotype', Palatino, Georgia, serif";
@@ -34,6 +45,8 @@ const viaLabel = (via: string): string => {
 };
 
 export function DetailExtras({ index, onOpen }: { index: number; onOpen: (i: number) => void }) {
+  useDetailGeneration();
+  useEffect(() => { void ensureLane(D[index].l); }, [index]);
   const wiki = WIKI[index];
   const finds = FINDS[index];
   const structure = STRUCTS[index];
@@ -60,6 +73,12 @@ export function DetailExtras({ index, onOpen }: { index: number; onOpen: (i: num
         <div style={{ marginTop: 6 }}>
           <a href={wiki.wiki} target="_blank" rel="noopener noreferrer" style={{ fontFamily: RUNE, fontSize: "14px", color: "#8a3e12", fontWeight: 700 }}>
             {wiki.mentioned ? "Related wiki page" : "Valheim Wiki"}
+          </a>
+        </div>
+      ) : wiki?.more ? (
+        <div style={{ marginTop: 6 }}>
+          <a href={wiki.more} target="_blank" rel="noopener noreferrer" data-vh-more="" style={{ fontFamily: RUNE, fontSize: "14px", color: "#8a3e12", fontWeight: 700 }}>
+            More info
           </a>
         </div>
       ) : null}

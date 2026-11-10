@@ -6,7 +6,7 @@ import {
   isCre, isBuilt, HAMMER, COINS, TRIDX, KINDS, UPS, EK, EXV, xl,
   DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, closure, COUNTS, KINDC, isStructEdge, splitUpgradeLabel,
 } from "../graph";
-import { DetailExtras } from "../details";
+import { DetailExtras, useItemDetails } from "../details";
 import { handleSearchKey } from "../keys";
 import { sortedItems } from "../order";
 import { PlayerBar } from "../playerTools";
@@ -46,6 +46,7 @@ const BRUNE = ["ᚠ", "ᚢ", "ᚦ", "ᚺ", "ᛃ", "ᛈ", "ᚲ", "ᛁ", "ᛚ"];
 export default function App() {
   const theme = useGrokTheme();
   const { state: url, commit, back } = useAppUrl();
+  useItemDetails(url.item);
   const progress = useProgress();
   const marks = useMemo(() => evaluateProgress(progress), [progress]);
   const q = url.q;

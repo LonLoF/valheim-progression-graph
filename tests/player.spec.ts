@@ -89,6 +89,7 @@ test.describe("compact phone navigation", () => {
 
 test("creatures list bosses before the rest", async ({ page }) => {
   await page.goto("/compact/");
+  await expect(page.locator("#vh-cat-cre [data-vh-name]").first()).toBeVisible();
   const names = await page.locator("#vh-cat-cre [data-vh-name]").allTextContents();
   expect(names[0]).toBe("Eikthyr");
   const boar = names.indexOf("Boar");
@@ -127,6 +128,38 @@ test("a selected chain fits 1280×800 and 1920×1080 without page scrolling", as
     expect(fit.scroll, `${size.width}x${size.height}`).toBeLessThanOrEqual(fit.inner + 2);
     await expect(page.locator("[data-vh-name='Iron']")).toBeVisible();
   }
+});
+
+test("a pre-rendered item page opens that item", async ({ page }) => {
+  await page.goto("/i/burial-chambers/");
+  await expect(page).toHaveURL(/[?&]item=burial-chambers/);
+  await expect(page).toHaveTitle("Burial Chambers · Valheim Progression");
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "Burial Chambers · Valheim Progression");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://lonlof.github.io/valheim-progression-graph/i/burial-chambers/");
+  await expect(page.locator("[data-vh-title]")).toHaveText("Burial Chambers");
+  await expect(page.getByText(/Chest loot/)).toBeVisible();
+  await page.goBack();
+  await expect(page.locator("[data-vh-title]")).toHaveCount(0);
+});
+
+test("an item without a wiki page links to more info", async ({ page }) => {
+  await page.goto("/?item=baby-seal");
+  await expect(page.locator("[data-vh-title]")).toHaveText("Baby Seal");
+  const more = page.locator("[data-vh-more]");
+  await expect(more).toHaveText("More info");
+  await expect(more).toHaveAttribute("href", /valheimdb\.com\/creatures\/baby-seal/);
+});
+
+test("iron whole chain is on screen quickly", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "timed on the desktop project");
+  const started = Date.now();
+  await page.goto("/?item=iron&mode=chain");
+  await expect(page.locator("[data-vh-title]")).toHaveText("Iron");
+  await expect(page.getByRole("radio", { name: "Whole chain" })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByText("All raw sources in the chain")).toBeVisible();
+  const ms = Date.now() - started;
+  console.log(`iron whole chain ${ms} ms`);
+  expect(ms, "whole chain after the data split").toBeLessThan(300);
 });
 
 test("where to farm, plan, and the next step of a ladder", async ({ page }) => {

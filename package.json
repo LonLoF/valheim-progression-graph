@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "node scripts/check-summary-tiers.mjs && vite build",
+    "dev": "node scripts/emit-data.mjs && vite",
+    "build": "node scripts/check-summary-tiers.mjs && node scripts/emit-data.mjs && vite build && node scripts/emit-pages.mjs && node scripts/report-bundle.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "test": "playwright test"
   },

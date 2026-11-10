@@ -61,6 +61,7 @@ test.describe("full graph", () => {
   });
 
   test("search is a labelled search field with a gold focus ring", async ({ page }) => {
+    await expect(page.locator("#vh-search")).toBeVisible();
     await page.keyboard.press("Tab");
     await expect(page.getByRole("link", { name: "Compact view" })).toBeFocused();
     await page.keyboard.press("Tab");

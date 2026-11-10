@@ -7,7 +7,7 @@ import {
   DROPPERS, SELLS, GATES, UPGR, VALS, DOWNS, COUNTS, KINDC, isStructEdge, xl,
   walkChain, type ChainHop, splitUpgradeLabel,
 } from "../graph";
-import { DetailExtras } from "../details";
+import { DetailExtras, useItemDetails } from "../details";
 import { handleSearchKey } from "../keys";
 import { sortedItems } from "../order";
 import { PlayerBar } from "../playerTools";
@@ -103,6 +103,7 @@ const CATC = ["#d9a44e", "#8fae6b", "#7fa6c4", "#c8774c", "#a98bc9", "#d6c08f", 
 export default function App() {
   const theme = useGrokTheme();
   const { state: url, commit, back } = useAppUrl();
+  useItemDetails(url.item);
   const progress = useProgress();
   const marks = useMemo(() => evaluateProgress(progress), [progress]);
   const viewport = useViewport();
