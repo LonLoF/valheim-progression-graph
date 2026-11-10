@@ -10,6 +10,8 @@ import {
 import { DetailExtras } from "../details";
 import { handleSearchKey } from "../keys";
 import { sortedItems } from "../order";
+import { PlayerBar } from "../playerTools";
+import { evaluateProgress, useProgress } from "../progress";
 import { useAppUrl } from "../urlState";
 import { useViewport } from "../viewport";
 import { DetailTabs, FarmRank, FoodBadge, FoodFilters, NextBetter, PanelActions, passesFood } from "../widgets";
@@ -101,6 +103,8 @@ const CATC = ["#d9a44e", "#8fae6b", "#7fa6c4", "#c8774c", "#a98bc9", "#d6c08f", 
 export default function App() {
   const theme = useGrokTheme();
   const { state: url, commit, back } = useAppUrl();
+  const progress = useProgress();
+  const marks = useMemo(() => evaluateProgress(progress), [progress]);
   const viewport = useViewport();
   const q = url.q;
   const sel = url.item;
@@ -314,7 +318,7 @@ export default function App() {
           <PanelActions onBack={back} onClose={() => selectItem(null)} />
         </div>
         <div style={{ marginTop: 6 }}>{runeRule("rgba(106,50,17,0.55)", BRUNE[r.l] + " ᛟ " + BRUNE[r.l])}</div>
-        <DetailTabs index={sel} onOpen={go}>
+        <DetailTabs index={sel} onOpen={go} plan={url.plan} onPlan={(plan) => commit({ plan }, "replace")}>
         <NextBetter index={sel} onOpen={go} />
         {(src.length > 0 || vv || r.note) && (
           <div style={{ ...theme.font.body2, fontFamily: BODY, color: "#3b2a18", marginTop: 6 }}>
@@ -345,8 +349,11 @@ export default function App() {
       const on = sel === i;
       const rel = upSet.has(i) || downSet.has(i);
       const inResults = !ql || D[i].n.toLowerCase().indexOf(ql) >= 0;
+      const mark = marks[i];
+      const showGate = !!mark?.gated;
+      const showCraft = !!mark?.craftable;
       return (
-        <button type="button" className="vh-btn vh-chip" data-vh-result={inResults ? "" : undefined} data-vh-id={inResults ? i : undefined} data-vh-name={inResults ? D[i].n : undefined} aria-pressed={on} onClick={() => (on ? selectItem(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
+        <button type="button" className={"vh-btn vh-chip" + (showGate ? " vh-gated" : "") + (showCraft ? " vh-craftable" : "")} data-vh-result={inResults ? "" : undefined} data-vh-id={inResults ? i : undefined} data-vh-name={inResults ? D[i].n : undefined} data-vh-gated={showGate ? "" : undefined} data-vh-craftable={showCraft ? "" : undefined} data-vh-owned={mark?.owned ? "" : undefined} aria-pressed={on} onClick={() => (on ? selectItem(null) : go(i))} style={{ ...theme.font.label, fontFamily: BODY, fontSize: "13px", cursor: "pointer", padding: "4px 9px", borderRadius: 4, border: `${on || rel ? 2 : 1}px solid ${on ? "#ffb25e" : rel ? "#d9a44e" : "#6e5232"}`, background: on ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, opacity: showGate && !on ? 0.42 : 1, boxShadow: on ? "0 0 10px rgba(255,140,50,0.55)" : showCraft ? "0 0 10px rgba(232,176,79,0.8), inset 0 0 0 1px #e8b04f" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)", fontWeight: "BMT".indexOf(D[i].t) >= 0 ? 700 : 400 }}>
           {D[i].n}{D[i].v === 0 ? " ?" : ""}<FoodBadge index={i} />{ql && D[i].l !== lane ? <span style={{ color: "#bfa983" }}> · {LANES[D[i].l]}</span> : null}
         </button>
       );
@@ -436,6 +443,7 @@ export default function App() {
         <span className="vh-cat-hint" aria-hidden="true">›</span>
         </div>
         <FoodFilters value={food} onChange={setFood} />
+        <PlayerBar plan={url.plan} onPlan={(plan) => commit({ plan }, "replace")} />
         <div role="radiogroup" aria-label="How far to follow links" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }} onTouchStart={(e: { stopPropagation: () => void }) => e.stopPropagation()} onTouchEnd={(e: { stopPropagation: () => void }) => e.stopPropagation()}>
           <span style={{ ...muted, color: INK.mid }}>Links</span>
           <button type="button" className="vh-btn vh-chip" role="radio" aria-checked={!whole} onClick={() => commit({ chain: false }, "replace")} style={chainBtn(!whole)}>Direct links</button>

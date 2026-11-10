@@ -9,6 +9,8 @@ import {
 import { DetailExtras } from "../details";
 import { handleSearchKey } from "../keys";
 import { sortedItems } from "../order";
+import { PlayerBar } from "../playerTools";
+import { evaluateProgress, useProgress } from "../progress";
 import { useAppUrl } from "../urlState";
 import { useViewport } from "../viewport";
 import { DetailTabs, FarmRank, FoodBadge, FoodFilters, NextBetter, PanelActions, passesFood } from "../widgets";
@@ -44,6 +46,8 @@ const BRUNE = ["ᚠ", "ᚢ", "ᚦ", "ᚺ", "ᛃ", "ᛈ", "ᚲ", "ᛁ", "ᛚ"];
 export default function App() {
   const theme = useGrokTheme();
   const { state: url, commit, back } = useAppUrl();
+  const progress = useProgress();
+  const marks = useMemo(() => evaluateProgress(progress), [progress]);
   const q = url.q;
   const sel = url.item;
   const depth = url.chain ? "all" : "1";
@@ -203,22 +207,28 @@ export default function App() {
     const dim = sel !== null && !isSel && !isUp && !isDown;
     const color = isSel ? "#ffb25e" : sel !== null && depth === "1" && isUp ? ek(i, sel) : sel !== null && depth === "1" && isDown ? ek(sel, i) : isUp || isDown ? "#d9a44e" : "#6e5232";
     const inResults = !ql || r.n.toLowerCase().includes(ql);
+    const mark = marks[i];
+    const showGate = !!mark?.gated;
+    const showCraft = !!mark?.craftable;
     return (
       <button
         type="button"
         key={"c" + i}
-        className="vh-btn vh-chip"
+        className={"vh-btn vh-chip" + (showGate ? " vh-gated" : "") + (showCraft ? " vh-craftable" : "")}
         data-vh-result={inResults ? "" : undefined}
         data-vh-id={inResults ? i : undefined}
         data-vh-name={inResults ? r.n : undefined}
+        data-vh-gated={showGate ? "" : undefined}
+        data-vh-craftable={showCraft ? "" : undefined}
+        data-vh-owned={mark?.owned ? "" : undefined}
         aria-pressed={isSel}
         ref={(el: HTMLButtonElement | null) => { if (el) chips.current.set(i, el); else chips.current.delete(i); }}
         onClick={() => pick(i)}
         style={{
           ...theme.font.label, fontFamily: BODY, fontSize: "13px", display: "inline-flex", alignItems: "center", padding: "4px 9px", borderRadius: 4, cursor: "pointer",
           border: `${isSel || isUp || isDown ? 2 : 1}px ${isDown && !isUp ? "dashed" : "solid"} ${color}`,
-          background: isSel ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, opacity: dim ? 0.3 : 1,
-          boxShadow: isSel ? "0 0 10px rgba(255,140,50,0.55)" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)",
+          background: isSel ? "linear-gradient(180deg, #7a3a14 0%, #4a210b 100%)" : "linear-gradient(180deg, #45321f 0%, #2b1e13 100%)", color: INK.hi, opacity: showGate && !isSel ? 0.42 : dim ? 0.3 : 1,
+          boxShadow: isSel ? "0 0 10px rgba(255,140,50,0.55)" : showCraft ? "0 0 10px rgba(232,176,79,0.8), inset 0 0 0 1px #e8b04f" : "inset 0 1px 0 rgba(255,225,170,0.10), 0 1px 2px rgba(0,0,0,0.6)",
           fontWeight: r.t === "B" || r.t === "M" || r.t === "T" || isSel ? 700 : 400,
           transition: theme.motion.hover, position: "relative", zIndex: 1, maxWidth: "100%",
         }}
@@ -292,7 +302,7 @@ export default function App() {
           </div>
           <PanelActions onBack={back} onClose={() => selectItem(null)} />
         </div>
-        <DetailTabs index={sel} onOpen={selectItem}>
+        <DetailTabs index={sel} onOpen={selectItem} plan={url.plan} onPlan={(plan) => commit({ plan }, "replace")}>
         <NextBetter index={sel} onOpen={selectItem} />
         <FarmRank index={sel} onOpen={selectItem} />
         {cre && r.rec.length > 0 && sec("Summoning (altar offering)", wrapL(r.rec.map((x: number[]) => link(x[0], `${x[1]}×`, KC.o))))}
@@ -406,6 +416,7 @@ export default function App() {
       <Section heading="Biome flow">
         <Input id="vh-search" label="Search" ariaLabel="Search" type="search" autoComplete="off" controls="vh-results" value={q} onChange={(v: string) => setQ(v)} placeholder="e.g. Bone Fragments, Raspberries, Troll, Haldor" />
         <FoodFilters value={food} onChange={setFood} />
+        <PlayerBar plan={url.plan} onPlan={(plan) => commit({ plan }, "replace")} />
         <div className="vh-chips vh-type-row" style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
           <span style={muted}>Show types:</span>
           {GROUPS.map(([g, label]: [string, string]) => (

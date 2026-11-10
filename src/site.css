@@ -328,6 +328,64 @@ ul.vh-chips > li {
   font-size: 13px;
 }
 
+.vh-player {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vh-editor {
+  border: 1px solid #5c4329;
+  border-radius: 6px;
+  padding: 10px;
+  background: rgba(12, 9, 6, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 220, 160, 0.08);
+}
+
+.vh-editor-note {
+  margin: 0 0 8px;
+  color: #d8c49c;
+  font-family: "Alegreya", "Alegreya Fallback", "Alegreya System", Palatino, Georgia, serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.vh-json {
+  display: block;
+  width: 100%;
+  min-height: 72px;
+  margin-top: 4px;
+}
+
+.vh-station-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.vh-station-list > li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: #f3e6c8;
+  font-family: "Alegreya", "Alegreya Fallback", "Alegreya System", Palatino, Georgia, serif;
+}
+
+.vh-gated {
+  filter: saturate(0.65);
+}
+
+.vh-craftable {
+  outline: 1px solid rgba(232, 176, 79, 0.85);
+  outline-offset: 1px;
+}
+
 .vh-plan-qty input,
 .vh-plan-qty select {
   min-width: 72px;
@@ -506,6 +564,8 @@ ul.vh-chips > li {
   }
 
   body.vh-selection .vh-panel-slot {
+    position: relative;
+    z-index: 5;
     flex: 0 1 auto;
     max-height: min(440px, 52vh);
     overflow: auto;

@@ -32,13 +32,21 @@ export type Plan = {
   rawGroups: { lane: number; raws: PlanRaw[] }[];
 };
 
+export type PlanPin = { index: number; qty: number };
+
+export type CombinedPlan = {
+  pins: PlanPin[];
+  alt: boolean;
+  groups: PlanGroup[];
+  rawGroups: { lane: number; raws: PlanRaw[] }[];
+};
+
 function recipeFor(index: number, alt: boolean): CraftRecipe | null {
   if (alt && ALTS[index]?.length) return ALTS[index][0];
   return PRIMARY[index];
 }
 
-export function buildPlan(root: number, qty: number, alt: boolean): Plan {
-  const count = Math.max(1, Math.floor(qty) || 1);
+function explode(roots: readonly PlanPin[], alt: boolean): { steps: PlanStep[]; raws: PlanRaw[] } {
   const nodes = new Map<number, { qty: number; expanded: number }>();
   const stack = new Set<number>();
 
@@ -60,7 +68,7 @@ export function buildPlan(root: number, qty: number, alt: boolean): Plan {
     stack.delete(index);
   };
 
-  bump(root, count);
+  roots.forEach((pin) => bump(pin.index, pin.qty));
 
   const steps: PlanStep[] = [];
   const raws: PlanRaw[] = [];
@@ -86,7 +94,10 @@ export function buildPlan(root: number, qty: number, alt: boolean): Plan {
 
   steps.sort((a, b) => a.lane - b.lane || a.level - b.level || D[a.index].n.localeCompare(D[b.index].n, "en"));
   raws.sort((a, b) => a.lane - b.lane || D[a.index].n.localeCompare(D[b.index].n, "en"));
+  return { steps, raws };
+}
 
+function groupParts(steps: PlanStep[], raws: PlanRaw[]): { groups: PlanGroup[]; rawGroups: CombinedPlan["rawGroups"] } {
   const groups: PlanGroup[] = [];
   steps.forEach((step) => {
     const stationName = step.station >= 0 && ok(step.station) ? D[step.station].n : "By hand";
@@ -103,7 +114,58 @@ export function buildPlan(root: number, qty: number, alt: boolean): Plan {
     else rawGroups.push({ lane: raw.lane, raws: [raw] });
   });
 
-  return { root, qty: count, alt, groups, rawGroups };
+  return { groups, rawGroups };
+}
+
+export function buildPlan(root: number, qty: number, alt: boolean): Plan {
+  const count = Math.max(1, Math.floor(qty) || 1);
+  const exploded = explode([{ index: root, qty: count }], alt);
+  return { root, qty: count, alt, ...groupParts(exploded.steps, exploded.raws) };
+}
+
+export function buildCombinedPlan(pins: readonly PlanPin[], alt: boolean): CombinedPlan {
+  const exploded = explode(pins, alt);
+  return { pins: pins.map((pin) => ({ index: pin.index, qty: pin.qty })), alt, ...groupParts(exploded.steps, exploded.raws) };
+}
+
+export function combinedToText(plan: CombinedPlan): string {
+  const lines = ["Plan"];
+  plan.pins.forEach((pin) => lines.push(`${D[pin.index].n} × ${pin.qty}`));
+  lines.push("");
+  if (!plan.groups.length) lines.push("Nothing to craft. These are gathered or dropped.");
+  plan.groups.forEach((group) => {
+    lines.push(group.title);
+    group.steps.forEach((step) => lines.push(`  ${D[step.index].n} × ${step.output}`));
+    lines.push("");
+  });
+  if (plan.rawGroups.length) {
+    lines.push("Raw materials");
+    plan.rawGroups.forEach((group) => {
+      lines.push(LANES[group.lane]);
+      group.raws.forEach((raw) => lines.push(`  ${D[raw.index].n} × ${raw.qty} — ${raw.best}`));
+    });
+  }
+  return lines.join("\n").trim();
+}
+
+export function combinedToDiscord(plan: CombinedPlan): string {
+  const lines = ["**Valheim plan**"];
+  plan.pins.forEach((pin) => lines.push(`**${D[pin.index].n}** × ${pin.qty}`));
+  if (plan.groups.length) {
+    lines.push("", "**Craft**");
+    plan.groups.forEach((group) => {
+      lines.push(group.title);
+      group.steps.forEach((step) => lines.push(`• ${D[step.index].n} × ${step.output}`));
+    });
+  }
+  if (plan.rawGroups.length) {
+    lines.push("", "**Raw**");
+    plan.rawGroups.forEach((group) => {
+      lines.push(LANES[group.lane]);
+      group.raws.forEach((raw) => lines.push(`• ${D[raw.index].n} × ${raw.qty}`));
+    });
+  }
+  return lines.join("\n").trim();
 }
 
 export function planToText(plan: Plan): string {
