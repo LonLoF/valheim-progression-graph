@@ -6,7 +6,13 @@ export type UrlState = {
   biome: number | null;
   q: string;
   chain: boolean;
+  plan: string;
 };
+
+export type PlanPin = { index: number; qty: number };
+
+const PINS_KEY = "vpg.pins.v1";
+const PLAN_QTY_MAX = 9999;
 
 const CHAIN_KEY = "vh-compact-depth";
 
@@ -54,6 +60,59 @@ export function slugFor(index: number): string {
   return indexToSlug[index] || "";
 }
 
+export function parsePlan(text: string): PlanPin[] {
+  const order: number[] = [];
+  const qty = new Map<number, number>();
+  for (const part of text.split(",")) {
+    const match = part.trim().match(/^([a-z0-9-]+)\s*(?::\s*(\d+))?$/i);
+    if (!match) continue;
+    const index = indexForSlug(match[1]);
+    if (index < 0) continue;
+    const count = match[2] ? Number(match[2]) : 1;
+    if (!Number.isFinite(count) || count < 1) continue;
+    const next = Math.min(PLAN_QTY_MAX, Math.floor(count));
+    if (!qty.has(index)) order.push(index);
+    qty.set(index, Math.min(PLAN_QTY_MAX, (qty.get(index) || 0) + next));
+  }
+  return order.map((index) => ({ index, qty: qty.get(index) || 1 }));
+}
+
+export function formatPlan(pins: readonly PlanPin[]): string {
+  return pins
+    .filter((pin) => pin.qty > 0 && indexToSlug[pin.index])
+    .map((pin) => `${indexToSlug[pin.index]}:${Math.min(PLAN_QTY_MAX, Math.floor(pin.qty))}`)
+    .join(",");
+}
+
+export function upsertPin(pins: readonly PlanPin[], index: number, qty: number): PlanPin[] {
+  const count = Math.min(PLAN_QTY_MAX, Math.max(1, Math.floor(qty) || 1));
+  if (!pins.some((pin) => pin.index === index)) return [...pins, { index, qty: count }];
+  return pins.map((pin) => (pin.index === index ? { index, qty: count } : pin));
+}
+
+export function removePin(pins: readonly PlanPin[], index: number): PlanPin[] {
+  return pins.filter((pin) => pin.index !== index);
+}
+
+function loadPlanString(): string {
+  try {
+    const raw = localStorage.getItem(PINS_KEY);
+    if (!raw) return "";
+    const parsed = JSON.parse(raw) as { v?: unknown; plan?: unknown };
+    if (parsed?.v !== 1 || typeof parsed.plan !== "string") return "";
+    return formatPlan(parsePlan(parsed.plan));
+  } catch {
+    return "";
+  }
+}
+
+function persistPlan(plan: string): void {
+  try {
+    if (!plan) localStorage.removeItem(PINS_KEY);
+    else localStorage.setItem(PINS_KEY, JSON.stringify({ v: 1, plan }));
+  } catch { /* private mode */ }
+}
+
 export function indexForSlug(slug: string): number {
   if (!slug) return -1;
   const hit = slugToIndex.get(slug.trim().toLowerCase());
@@ -67,11 +126,14 @@ export function readUrl(): UrlState {
   const biomeSlug = params.get("biome") || "";
   const biomeHit = biomeSlug ? biomeToIndex.get(biomeSlug.toLowerCase()) : undefined;
   const chain = params.has("mode") ? params.get("mode") === "chain" : storedChain();
+  const plan = formatPlan(parsePlan(params.has("plan") ? (params.get("plan") || "") : loadPlanString()));
+  if (params.has("plan")) persistPlan(plan);
   return {
     item: itemHit >= 0 ? itemHit : null,
     biome: biomeHit == null ? null : biomeHit,
     q: params.get("q") || "",
     chain,
+    plan,
   };
 }
 
@@ -81,6 +143,7 @@ export function hrefFor(state: UrlState, pathname = location.pathname): string {
   if (state.biome != null && state.biome >= 0 && state.biome < LANES.length) params.set("biome", slugify(LANES[state.biome]));
   if (state.q.trim()) params.set("q", state.q);
   if (state.chain) params.set("mode", "chain");
+  if (state.plan) params.set("plan", state.plan);
   const qs = params.toString();
   return pathname + (qs ? `?${qs}` : "") + location.hash;
 }
@@ -93,7 +156,7 @@ export function syncViewLinks(): void {
 }
 
 let booted = false;
-let cached: UrlState = { item: null, biome: null, q: "", chain: false };
+let cached: UrlState = { item: null, biome: null, q: "", chain: false, plan: "" };
 
 /** Seed history so the first Back from a deep link stays on this view. */
 export function bootUrl(): UrlState {
@@ -125,7 +188,7 @@ if (typeof window !== "undefined") {
 }
 
 function sameState(a: UrlState, b: UrlState): boolean {
-  return a.item === b.item && a.biome === b.biome && a.q === b.q && a.chain === b.chain;
+  return a.item === b.item && a.biome === b.biome && a.q === b.q && a.chain === b.chain && a.plan === b.plan;
 }
 
 export function commitUrl(next: UrlState, method: "push" | "replace"): void {
@@ -135,6 +198,7 @@ export function commitUrl(next: UrlState, method: "push" | "replace"): void {
   if (method === "push") history.pushState(next, "", url);
   else history.replaceState(next, "", url);
   rememberChain(next.chain);
+  persistPlan(next.plan);
   syncViewLinks();
 }
 

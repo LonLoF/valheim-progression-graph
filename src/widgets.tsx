@@ -3,7 +3,8 @@ import { D, FOOD_ROLE, LANES, ok, type FoodRole } from "./graph";
 import { earliestLane, farmSources, sourceDetail } from "./farm";
 import { biomeName, laddersFor, nextBetter, qualitySteps } from "./ladders";
 import { buildPlan, hasAltRecipe, planToText } from "./plan";
-import { copyText } from "./urlState";
+import { ItemFlags } from "./playerTools";
+import { copyText, formatPlan, parsePlan, upsertPin } from "./urlState";
 
 const ROLES: FoodRole[] = ["Health", "Stamina", "Eitr", "Balanced"];
 
@@ -111,7 +112,7 @@ export function NextBetter({ index, onOpen }: { index: number; onOpen: (i: numbe
   );
 }
 
-function PlanPanel({ index, onOpen }: { index: number; onOpen: (i: number) => void }) {
+function PlanPanel({ index, onOpen, shared, onPlan }: { index: number; onOpen: (i: number) => void; shared: string; onPlan: (plan: string) => void }) {
   const [qty, setQty] = useState(1);
   const [alt, setAlt] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -141,6 +142,7 @@ function PlanPanel({ index, onOpen }: { index: number; onOpen: (i: number) => vo
           />
         </label>
         <button type="button" className={"vh-btn vh-chip vh-iron" + (alt ? " vh-iron-on" : "")} aria-pressed={alt} disabled={!altOk} onClick={() => setAlt((on) => !on)}>Alt recipes</button>
+        <button type="button" className="vh-btn vh-chip vh-iron" onClick={() => onPlan(formatPlan(upsertPin(parsePlan(shared), index, qty)))}>Pin × {qty}</button>
         <button type="button" className="vh-btn vh-chip vh-iron" onClick={() => { void copyText(text).then((okCopy) => { if (okCopy) setCopied(true); }); }}>Copy as text</button>
         {copied ? <span className="vh-toast" role="status">Copied</span> : null}
       </div>
@@ -209,7 +211,7 @@ function PathPanel({ index, onOpen }: { index: number; onOpen: (i: number) => vo
   );
 }
 
-export function DetailTabs({ index, onOpen, children }: { index: number; onOpen: (i: number) => void; children: ReactNode }) {
+export function DetailTabs({ index, onOpen, plan, onPlan, children }: { index: number; onOpen: (i: number) => void; plan: string; onPlan: (plan: string) => void; children: ReactNode }) {
   const [tab, setTab] = useState<"item" | "plan" | "path">("item");
   useEffect(() => setTab("item"), [index]);
   const tabs = [
@@ -231,8 +233,9 @@ export function DetailTabs({ index, onOpen, children }: { index: number; onOpen:
           >{label}</button>
         ))}
       </div>
+      <ItemFlags index={index} plan={plan} onPlan={onPlan} />
       {tab === "item" ? children : null}
-      {tab === "plan" ? <PlanPanel index={index} onOpen={onOpen} /> : null}
+      {tab === "plan" ? <PlanPanel index={index} onOpen={onOpen} shared={plan} onPlan={onPlan} /> : null}
       {tab === "path" ? <PathPanel index={index} onOpen={onOpen} /> : null}
     </div>
   );
