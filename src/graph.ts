@@ -2,10 +2,8 @@
  * Dataset 2026-10-28 v9. Builds the same index graph the views already draw
  * (recipes, drops, traders, upgrades) and attaches structure and wiki fields.
  */
-import rawData from "./data/data_v9.json";
-import wikiFile from "./data/wiki_info.json";
-import { includeBiomeFoundIn, joinClauses, upgradeStationLabel, upgradeUseLabel } from "../scripts/public-text.mjs";
-import { classifyFood, type FoodRole } from "./foodRole";
+import { includeBiomeFoundIn, upgradeStationLabel, upgradeUseLabel } from "../scripts/public-text.mjs";
+import type { FoodRole } from "./foodRole";
 
 export { splitUpgradeLabel } from "../scripts/public-text.mjs";
 
@@ -53,6 +51,7 @@ export type WikiInfo = {
   stats: [string, string][];
   wiki?: string;
   mentioned: boolean;
+  more?: string;
 };
 
 type RawItem = {
@@ -75,6 +74,7 @@ type RawItem = {
   forge_of_potential?: { idol: string; amount: number; when?: string }[];
   fuel?: string[];
   aliases?: string[];
+  food_role?: "Eitr" | "Health" | "Stamina" | "Balanced" | null;
   spawns?: { creature: string; in_dataset?: boolean; where?: string[] }[];
   chests?: { container?: string; rolls?: string; loot?: { item: string; amount?: string; chance_per_roll?: string; chance_per_chest?: string; chance?: string; in_dataset?: boolean }[] }[];
   pickables?: { item: string; in_dataset?: boolean; where?: string[] }[];
@@ -90,14 +90,6 @@ const TYPE: Record<string, string> = {
   food: "f", mead: "d", fish: "h", trophy: "r", misc: "x", structure: "Z",
 };
 const TRADER: Record<string, string> = { Haldor: "H", Hildir: "h", "Bog Witch": "W" };
-
-const data = rawData as { version: string; game: string; lanes: string[]; items: RawItem[] };
-const wikiEntries = (wikiFile as { entries: Record<string, { summary?: string; stats?: Record<string, unknown>; wiki?: string; wiki_match?: string }> }).entries;
-
-export const DATA_VERSION = data.version;
-export const GAME = data.game;
-const dataDate = /^(\d{4}-\d{2}-\d{2})/.exec(data.version)?.[1] ?? data.version;
-export const VERSION_BADGE = `${data.game} · data ${dataDate}`;
 export const LANES = ["Meadows", "Black Forest", "Swamp", "Mountain", "Plains", "Mistlands", "Ashlands", "Deep North", "Ocean"];
 export const LANE_SUB = ["Boss: Eikthyr", "Boss: The Elder", "Boss: Bonemass", "Boss: Moder", "Boss: Yagluth", "Boss: The Queen", "Boss: Fader", "Boss: Kall Fimbulbringer", "Side lane"];
 export const GROUPS: [string, string][] = [["B", "Bosses"], ["M", "Minibosses"], ["C", "Creatures"], ["Z", "Structures"], ["T", "Traders"], ["m", "Materials"], ["S", "Stations & buildings"], ["E", "Station upgrades"], ["t", "Tools"], ["w", "Weapons"], ["s", "Shields"], ["o", "Ammo & bait"], ["a", "Armor & accessories"], ["f", "Food"], ["d", "Meads"], ["h", "Fish"], ["r", "Trophies"], ["x", "Other (valuables, keys, misc)"]];
@@ -107,11 +99,217 @@ export const SUB_EN: Record<string, string> = { "1": "one-handed", "2": "two-han
 export const DEF_CLOSED = ["w", "s", "o", "a", "f", "d", "h", "r", "x", "E"];
 export const KINDS: [string, string][] = [["c", "Crafted at a station"], ["b", "Built with the Hammer"], ["t", "Trade (coins)"], ["g", "Unlocks (boss / chest)"], ["d", "Creature drop"], ["o", "Gather tool, bait, key, offering, fuel, ammo"], ["q", "Found in a structure"], ["p", "Spawns at a structure"]];
 
-const items = data.items;
+export let DATA_VERSION = "";
+export let GAME = "";
+export let VERSION_BADGE = "";
+export let D: N[] = [];
+export let HAMMER = -1;
+export let COINS = -1;
+export let TRIDX: Record<string, number> = { H: -1, h: -1, W: -1 };
+export let UPS: number[][] = [];
+export let DROPPERS: [number, string, string][][] = [];
+export let SELLS: [number, string, number][][] = [];
+export let GATES: number[][] = [];
+export let UPGR: number[][] = [];
+export let VALS: [number, string][] = [];
+export let DOWNS: number[][] = [];
+export let COUNTS: number[] = [];
+export let FINDS: Find[][] = [];
+export let STRUCTS: (StructInfo | null)[] = [];
+export let WIKI: WikiInfo[] = [];
+export let FOOD_ROLE: (FoodRole | null)[] = [];
+export let ALIASES: [string, number][] = [];
+export let PRIMARY: (CraftRecipe | null)[] = [];
+export let ALTS: CraftRecipe[][] = [];
+export let QUALITIES: QualityStep[][] = [];
+
 const indexOf = new Map<string, number>();
-items.forEach((it, i) => { if (!indexOf.has(it.name)) indexOf.set(it.name, i); });
 const findName = (n: string): number => indexOf.get(n) ?? -1;
-const id36 = (i: number): string => i.toString(36);
+export const b = (x: string): number => parseInt(x, 36);
+export const ok = (i: number): boolean => i >= 0 && i < D.length && !isNaN(i);
+export const isCre = (i: number): boolean => "BMC".indexOf(D[i].t) >= 0;
+export const isBuilt = (i: number): boolean => D[i].t === "S" || D[i].t === "E";
+export const find = (n: string): number => findName(n);
+export const KINDC: Record<string, string> = { c: "#f0a640", b: "#7fb2d9", t: "#9fcf6e", g: "#c79bf0", d: "#e8685a", o: "#cdbf9f", q: "#e6d3a3", p: "#8fb59a" };
+export const EK = new Map<string, string>();
+export const EXV = new Map<string, string>();
+export const xl = (t: string): string => {
+  const c = t[0], p = t.slice(1).split("~");
+  if (c === "u") return `Quality ${p[0]} · ${p[1] && ok(b(p[1])) ? D[b(p[1])].n + (p[3] ? ` lvl ${p[3]}` : "") : "by hand"}${p[2] ? "" : " · cost not recorded"}`;
+  if (c === "p") return `Forge of Potential · past quality ${p[0]}`;
+  return p[0];
+};
+
+export function dataFileUrl(file: string): string {
+  let path = location.pathname.replace(/index\.html$/, "");
+  path = path.replace(/\/compact\/?$/, "/").replace(/\/i\/[^/]+\/?$/, "/");
+  if (!path.endsWith("/")) path += "/";
+  return new URL(`data/${file}`, `${location.origin}${path}`).href;
+}
+
+let detailGen = 0;
+const detailListeners = new Set<() => void>();
+export function subscribeDetails(listener: () => void): () => void {
+  detailListeners.add(listener);
+  return () => detailListeners.delete(listener);
+}
+export function detailGeneration(): number {
+  return detailGen;
+}
+
+const lanesLoaded = new Set<number>();
+export async function ensureLane(lane: number): Promise<void> {
+  if (lanesLoaded.has(lane) || lane < 0) return;
+  lanesLoaded.add(lane);
+  const res = await fetch(dataFileUrl(`lane-${lane}.json`));
+  if (!res.ok) return;
+  const rows = await res.json() as Record<string, {
+    summary?: string;
+    stats?: [string, string][];
+    wiki?: string;
+    mentioned?: boolean;
+    more?: string;
+    struct?: StructInfo | null;
+    note?: string;
+    gather?: string[];
+    xsrc?: string[];
+    finds?: Find[];
+  }>;
+  let changed = false;
+  for (const [key, row] of Object.entries(rows)) {
+    const i = Number(key);
+    if (!ok(i)) continue;
+    WIKI[i] = {
+      summary: row.summary || "",
+      stats: row.stats || [],
+      wiki: row.wiki,
+      mentioned: !!row.mentioned,
+      more: row.more,
+    };
+    if (row.struct) STRUCTS[i] = row.struct;
+    if (row.note) D[i].note = row.note;
+    if (row.gather?.length) {
+      let g = 0;
+      D[i].src = D[i].src.map((token) => {
+        if (token[0] !== "g") return token;
+        const objs = row.gather?.[g++] || "";
+        const at = token.indexOf("@");
+        return `g${objs}${at >= 0 ? token.slice(at) : ""}`;
+      });
+    }
+    if (row.xsrc) row.xsrc.forEach((line) => { if (D[i].src.indexOf(line) < 0) D[i].src.push(line); });
+    if (row.finds) FINDS[i] = row.finds;
+    changed = true;
+  }
+  if (changed) {
+    detailGen += 1;
+    detailListeners.forEach((fn) => fn());
+  }
+}
+
+export async function loadGraph(): Promise<void> {
+  if (D.length) return;
+  const res = await fetch(dataFileUrl("index.json"));
+  if (!res.ok) throw new Error("Could not load the progression index");
+  const data = await res.json() as Dense;
+  install(data);
+}
+
+const TYPE_NAME: Record<string, string> = {
+  B: "boss", M: "miniboss", C: "creature", T: "trader", m: "material", S: "station",
+  E: "station_upgrade", t: "tool", w: "weapon", s: "shield", o: "ammo", a: "armor",
+  f: "food", d: "mead", h: "fish", r: "trophy", x: "misc", Z: "structure",
+};
+const ROLE_NAME: Record<string, RawItem["food_role"]> = { E: "Eitr", H: "Health", S: "Stamina", B: "Balanced" };
+
+type Dense = { v: string; g: string; names: string[]; roles: string; items: unknown[][] };
+
+function expand(data: Dense): RawItem[] {
+  const name = (i: number): string => (i >= 0 && i < data.names.length ? data.names[i] : "");
+  const pairs = (list: unknown): [string, number][] => (Array.isArray(list) ? list : [])
+    .map((pair) => {
+      const [i, q] = pair as [number, number];
+      return [name(i), q] as [string, number];
+    })
+    .filter((pair) => pair[0]);
+  return data.items.map((row, index) => {
+    const crafted = row[5] as [number[], number, number, number, [number, number][]] | 0;
+    const built = row[6] as [number[], number, [number, number][]] | 0;
+    const sources: Record<string, unknown>[] = [];
+    for (const part of (row[10] as unknown[]) || []) {
+      const p = part as unknown[];
+      const kind = p[0];
+      if (kind === "g") sources.push({ gathered_from: [], tool: name(Number(p[1])) || undefined });
+      if (kind === "f") sources.push({ found_in: (p[1] as number[]).map((n) => LANES[n]).filter(Boolean) });
+      if (kind === "t") sources.push({ bought_from: p[1], price_coins: p[2], available_after: name(Number(p[3])) || undefined });
+      if (kind === "v") sources.push({ sells_to_any_trader_for_coins: p[1] });
+      if (kind === "l" && name(Number(p[1]))) sources.push({ laid_by: name(Number(p[1])) });
+      if (kind === "k" && name(Number(p[1]))) sources.push({ key: name(Number(p[1])) });
+      if (kind === "b" && name(Number(p[1]))) sources.push({ bait: name(Number(p[1])) });
+      if (kind === "e" && name(Number(p[1]))) sources.push({ upgrades_station: name(Number(p[1])) });
+      if (kind === "q") {
+        const structure = typeof p[1] === "number" ? name(p[1]) : String(p[1] || "");
+        if (structure) sources.push({ found_in_structure: structure, via: p[2] || "" });
+      }
+    }
+    const role = ROLE_NAME[data.roles[index]] ?? null;
+    return {
+      name: data.names[index],
+      lane: LANES[Number(row[0])] || LANES[0],
+      type: TYPE_NAME[String(row[1])] || "misc",
+      sub: row[2] ? String(row[2]) : undefined,
+      console_only: row[3] ? true : undefined,
+      verified: Number(row[4]) === 2 ? "valheim.tools" : Number(row[4]) === 1 ? "valheim.source.gs" : undefined,
+      crafted: crafted ? {
+        at: [...(crafted[1] ? ["by hand"] : []), ...crafted[0].map((id) => name(id)).filter(Boolean)],
+        station_level: crafted[2],
+        yields: crafted[3],
+        ingredients: pairs(crafted[4]),
+      } : undefined,
+      built: built ? {
+        near_station: built[0].map((id) => name(id)).filter(Boolean),
+        station_level: built[1],
+        materials: pairs(built[2]),
+      } : undefined,
+      summon_offering: row[7] ? pairs(row[7]) : undefined,
+      drops: ((row[8] as unknown[]) || []).map((d) => {
+        const [i, amount, chance] = d as [number, string | number, string | number];
+        return [name(i), amount, chance];
+      }),
+      sources,
+      tame_food: ((row[9] as number[]) || []).map((id) => name(id)).filter(Boolean),
+      upgrades: ((row[11] as unknown[]) || []).map((u) => {
+        const [quality, station, level, ingredients] = u as [number, number, number, [number, number][]];
+        return { quality, station: station >= 0 ? name(station) : "by hand", station_level: level || undefined, ingredients: pairs(ingredients) };
+      }),
+      alt_recipes: ((row[12] as unknown[]) || []).map((a) => {
+        const [at, level, yields, ingredients] = a as [number[], number, number, [number, number][]];
+        return { at: at.map((id) => name(id)).filter(Boolean), station_level: level, yields, ingredients: pairs(ingredients) };
+      }),
+      forge_of_potential: ((row[13] as unknown[]) || []).map((f) => {
+        const [quality, idol, amount] = f as [number, number, number];
+        return { idol: name(idol), amount, when: `quality ${quality}` };
+      }),
+      fuel: ((row[14] as number[]) || []).map((id) => name(id)).filter(Boolean),
+      used_in: ((row[15] as unknown[]) || []).map((u) => {
+        const [relation, target] = u as [string, number];
+        return { relation, target: name(target), in_dataset: true };
+      }).filter((u) => u.target),
+      aliases: Array.isArray(row[16]) ? row[16] as string[] : undefined,
+      food_role: role,
+    };
+  });
+}
+
+function install(data: Dense) {
+  const items = expand(data);
+  DATA_VERSION = data.v;
+  GAME = data.g;
+  const dataDate = /^(\d{4}-\d{2}-\d{2})/.exec(data.v)?.[1] ?? data.v;
+  VERSION_BADGE = `${data.g} · data ${dataDate}`;
+  indexOf.clear();
+  items.forEach((it, i) => { if (!indexOf.has(it.name)) indexOf.set(it.name, i); });
+  const id36 = (i: number): string => i.toString(36);
 const laneOf = (name: string): number => Math.max(0, LANES.indexOf(name));
 
 const verified = (v: RawItem["verified"]): number => {
@@ -130,9 +328,7 @@ const stations = (at?: string[]): string => (at || [])
   .filter((s) => s && !s.startsWith("-"))
   .join(">");
 
-export const b = (x: string): number => parseInt(x, 36);
-
-export const D: N[] = items.map((it) => {
+D = items.map((it) => {
   const crafted = it.crafted;
   const built = it.built;
   const byHand = !!crafted && (crafted.at || []).indexOf("by hand") >= 0;
@@ -208,35 +404,23 @@ export const D: N[] = items.map((it) => {
   };
 });
 
-export const ok = (i: number): boolean => i >= 0 && i < D.length && !isNaN(i);
-export const isCre = (i: number): boolean => "BMC".indexOf(D[i].t) >= 0;
-export const isBuilt = (i: number): boolean => D[i].t === "S" || D[i].t === "E";
-export const find = (n: string): number => findName(n);
-export const HAMMER = find("Hammer");
-export const COINS = find("Coins");
-export const TRIDX: Record<string, number> = { H: find("Haldor"), h: find("Hildir"), W: find("Bog Witch") };
+HAMMER = find("Hammer");
+COINS = find("Coins");
+TRIDX = { H: find("Haldor"), h: find("Hildir"), W: find("Bog Witch") };
 
-export const KINDC: Record<string, string> = { c: "#f0a640", b: "#7fb2d9", t: "#9fcf6e", g: "#c79bf0", d: "#e8685a", o: "#cdbf9f", q: "#e6d3a3", p: "#8fb59a" };
-
-export const UPS: number[][] = D.map(() => []);
-export const EK = new Map<string, string>();
-export const EXV = new Map<string, string>();
-export const xl = (t: string): string => {
-  const c = t[0], p = t.slice(1).split("~");
-  if (c === "u") return `Quality ${p[0]} · ${p[1] && ok(b(p[1])) ? D[b(p[1])].n + (p[3] ? ` lvl ${p[3]}` : "") : "by hand"}${p[2] ? "" : " · cost not recorded"}`;
-  if (c === "p") return `Forge of Potential · past quality ${p[0]}`;
-  return p[0];
-};
+UPS = D.map(() => []);
+EK.clear();
+EXV.clear();
 const add = (to: number, from: number, k: string) => {
   if (!ok(to) || !ok(from) || to === from) return;
   if (UPS[to].indexOf(from) < 0) UPS[to].push(from);
   if (!EK.has(from + ">" + to)) EK.set(from + ">" + to, k);
 };
-export const DROPPERS: [number, string, string][][] = D.map(() => []);
-export const SELLS: [number, string, number][][] = D.map(() => []);
-export const GATES: number[][] = D.map(() => []);
-export const UPGR: number[][] = D.map(() => []);
-export const VALS: [number, string][] = [];
+DROPPERS = D.map(() => []);
+SELLS = D.map(() => []);
+GATES = D.map(() => []);
+UPGR = D.map(() => []);
+VALS = [];
 
 D.forEach((r, i) => {
   const raw = items[i];
@@ -309,8 +493,76 @@ D.forEach((r, i) => {
   });
 });
 Object.keys(TRIDX).forEach((k) => add(TRIDX[k], COINS, "t"));
-export const DOWNS: number[][] = D.map(() => []);
+DOWNS = D.map(() => []);
 UPS.forEach((u, i) => u.forEach((j) => { if (DOWNS[j].indexOf(i) < 0) DOWNS[j].push(i); }));
+COUNTS = LANES.map((_x, li) => D.filter((r) => r.l === li).length);
+
+FINDS = items.map((it) => (it.sources || []).filter((s) => s.found_in_structure).map((s) => ({
+  structure: String(s.found_in_structure),
+  via: String(s.via || ""),
+  container: s.container ? String(s.container) : undefined,
+  amount: s.amount ? String(s.amount) : undefined,
+  chance: s.chance ? String(s.chance) : undefined,
+  index: findName(String(s.found_in_structure)),
+})));
+
+STRUCTS = items.map(() => null);
+WIKI = items.map(() => ({ summary: "", stats: [], mentioned: false }));
+FOOD_ROLE = items.map((it) => it.food_role ?? null);
+ALIASES = [];
+items.forEach((it, i) => {
+  (it.aliases || []).forEach((alias) => {
+    const name = String(alias || "").trim();
+    if (name) ALIASES.push([name, i]);
+  });
+});
+
+function recipeFrom(at: string[] | undefined, ingredients: [string, number][] | undefined, level?: number, yields?: number): CraftRecipe | null {
+  const list: [number, number][] = [];
+  (ingredients || []).forEach(([n, q]) => {
+    const i = findName(n);
+    if (i >= 0 && q > 0) list.push([i, q]);
+  });
+  if (!list.length) return null;
+  let station = -1;
+  for (const n of at || []) {
+    if (n === "by hand" || n === "By hand") { station = -1; break; }
+    const i = findName(n);
+    if (i >= 0) { station = i; break; }
+  }
+  return { ingredients: list, station, level: level || 1, yields: yields && yields > 0 ? yields : 1 };
+}
+
+PRIMARY = items.map((it) => {
+  if (it.crafted) return recipeFrom(it.crafted.at, it.crafted.ingredients, it.crafted.station_level, it.crafted.yields);
+  if (it.built) return recipeFrom(it.built.near_station, it.built.materials, it.built.station_level, 1);
+  if (it.summon_offering) return recipeFrom(undefined, it.summon_offering, 1, 1);
+  return null;
+});
+
+ALTS = items.map((it) => (it.alt_recipes || [])
+  .map((alt) => recipeFrom(alt.at, alt.ingredients, alt.station_level, alt.yields))
+  .filter((r): r is CraftRecipe => r !== null));
+
+QUALITIES = items.map((it) => (it.upgrades || []).map((u) => {
+  const named = u.station && u.station !== "by hand" && u.station !== "By hand" ? findName(u.station) : -1;
+  return { quality: u.quality, station: named, level: u.station_level || 1 };
+}));
+}
+
+export type { FoodRole };
+export type CraftRecipe = {
+  ingredients: [number, number][];
+  station: number;
+  level: number;
+  yields: number;
+};
+export type QualityStep = { quality: number; station: number; level: number };
+
+export const isStructEdge = (from: number, to: number): boolean => {
+  const k = EK.get(from + ">" + to);
+  return k === "q" || k === "p";
+};
 
 export function closure(start: number, g: number[][]): Set<number> {
   const seen = new Set<number>();
@@ -347,106 +599,3 @@ export function walkChain(start: number, dir: "up" | "down"): ChainHop[] {
   }
   return out;
 }
-export const COUNTS = LANES.map((_x, li) => D.filter((r) => r.l === li).length);
-
-const whereOf = (w?: string[]): string => joinClauses(w);
-const lootOf = (rows?: { item: string; amount?: string; chance_per_roll?: string; chance_per_chest?: string; chance?: string; in_dataset?: boolean }[]): Loot[] => (rows || []).map((r) => {
-  const roll = r.chance_per_roll || r.chance || "";
-  const chest = r.chance_per_chest && r.chance_per_chest !== roll ? `${r.chance_per_chest} per chest` : "";
-  const chance = [roll && (r.chance_per_roll ? `${roll} per roll` : roll), chest].filter(Boolean).join(" · ");
-  return { item: r.item, amount: r.amount || "", chance, inDataset: r.in_dataset !== false && findName(r.item) >= 0 };
-});
-
-export const FINDS: Find[][] = items.map((it) => (it.sources || []).filter((s) => s.found_in_structure).map((s) => ({
-  structure: String(s.found_in_structure),
-  via: String(s.via || ""),
-  container: s.container ? String(s.container) : undefined,
-  amount: s.amount ? String(s.amount) : undefined,
-  chance: s.chance ? String(s.chance) : undefined,
-  index: findName(String(s.found_in_structure)),
-})));
-
-export const STRUCTS: (StructInfo | null)[] = items.map((it) => {
-  if (it.type !== "structure") return null;
-  return {
-    spawns: (it.spawns || []).map((s) => ({ item: s.creature, inDataset: !!s.in_dataset && findName(s.creature) >= 0, where: whereOf(s.where) })),
-    chests: (it.chests || []).map((c) => ({ container: c.container || "Chest", rolls: c.rolls || "", loot: lootOf(c.loot) })),
-    pickables: (it.pickables || []).map((p) => ({ item: p.item, inDataset: !!p.in_dataset && findName(p.item) >= 0, where: whereOf(p.where) })),
-    breakables: (it.containers || []).map((c) => ({ container: c.container || "Container", rolls: c.where || c.rolls || "", loot: lootOf(c.loot) })),
-    requirements: (it.requirements || []).filter((x) => x && x !== "None"),
-    vegvisir: it.vegvisir || [],
-    miniboss: (it.miniboss_drops || []).map((m) => ({ miniboss: m.miniboss || "", drops: m.drops || "" })),
-  };
-});
-
-const labelStat = (k: string): string => k.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-const showStat = (v: unknown): string => {
-  if (v == null || v === "") return "";
-  if (Array.isArray(v)) return v.map(showStat).filter(Boolean).join(", ");
-  if (typeof v === "object") return Object.entries(v as Record<string, unknown>).map(([k, val]) => `${labelStat(k)} ${showStat(val)}`).join("; ");
-  return String(v);
-};
-
-export const WIKI: WikiInfo[] = items.map((it) => {
-  const e = wikiEntries[it.name] || {};
-  const stats: [string, string][] = [];
-  Object.entries(e.stats || {}).forEach(([k, v]) => { const s = showStat(v); if (s) stats.push([labelStat(k), s]); });
-  return { summary: e.summary || "", stats, wiki: e.wiki || undefined, mentioned: e.wiki_match === "mentioned" };
-});
-
-export type { FoodRole };
-export const FOOD_ROLE: (FoodRole | null)[] = items.map((it) => classifyFood(it.type, wikiEntries[it.name]?.stats as Record<string, unknown> | undefined));
-
-/** Alternate names from the dataset. The item's own name is not repeated here. */
-export const ALIASES: [string, number][] = [];
-items.forEach((it, i) => {
-  (it.aliases || []).forEach((alias) => {
-    const name = String(alias || "").trim();
-    if (name) ALIASES.push([name, i]);
-  });
-});
-
-export type CraftRecipe = {
-  ingredients: [number, number][];
-  station: number;
-  level: number;
-  yields: number;
-};
-
-function recipeFrom(at: string[] | undefined, ingredients: [string, number][] | undefined, level?: number, yields?: number): CraftRecipe | null {
-  const list: [number, number][] = [];
-  (ingredients || []).forEach(([n, q]) => {
-    const i = findName(n);
-    if (i >= 0 && q > 0) list.push([i, q]);
-  });
-  if (!list.length) return null;
-  let station = -1;
-  for (const n of at || []) {
-    if (n === "by hand" || n === "By hand") { station = -1; break; }
-    const i = findName(n);
-    if (i >= 0) { station = i; break; }
-  }
-  return { ingredients: list, station, level: level || 1, yields: yields && yields > 0 ? yields : 1 };
-}
-
-export const PRIMARY: (CraftRecipe | null)[] = items.map((it) => {
-  if (it.crafted) return recipeFrom(it.crafted.at, it.crafted.ingredients, it.crafted.station_level, it.crafted.yields);
-  if (it.built) return recipeFrom(it.built.near_station, it.built.materials, it.built.station_level, 1);
-  if (it.summon_offering) return recipeFrom(undefined, it.summon_offering, 1, 1);
-  return null;
-});
-
-export const ALTS: CraftRecipe[][] = items.map((it) => (it.alt_recipes || [])
-  .map((alt) => recipeFrom(alt.at, alt.ingredients, alt.station_level, alt.yields))
-  .filter((r): r is CraftRecipe => r !== null));
-
-export type QualityStep = { quality: number; station: number; level: number };
-export const QUALITIES: QualityStep[][] = items.map((it) => (it.upgrades || []).map((u) => {
-  const named = u.station && u.station !== "by hand" && u.station !== "By hand" ? findName(u.station) : -1;
-  return { quality: u.quality, station: named, level: u.station_level || 1 };
-}));
-
-export const isStructEdge = (from: number, to: number): boolean => {
-  const k = EK.get(from + ">" + to);
-  return k === "q" || k === "p";
-};

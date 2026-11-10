@@ -1,10 +1,16 @@
 import { createRoot } from "react-dom/client";
-import App from "./views/FullView";
-import { bootUrl } from "./urlState";
-import { mountVersionBadge } from "./versionBadge";
+import { loadGraph } from "./graph";
 
-bootUrl();
-mountVersionBadge();
 const root = document.getElementById("root");
 if (!root) throw new Error("Missing #root");
-createRoot(root).render(<App />);
+
+loadGraph().then(async () => {
+  const { bootUrl } = await import("./urlState");
+  const { mountVersionBadge } = await import("./versionBadge");
+  const { default: App } = await import("./views/FullView");
+  bootUrl();
+  mountVersionBadge();
+  createRoot(root).render(<App />);
+}).catch(() => {
+  root.textContent = "The progression data could not be loaded.";
+});
